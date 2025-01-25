@@ -6,7 +6,7 @@ This app is used for overviewing your Tesla car's information like battery perce
 
 The only control feature works is turning of the AC in your car. The other controls have not been implemented yet. To use control feature, you need to write code for end-to-end encription.
 
-## Screen shots
+## Screenshots
 <img width="1919" alt="4" src="https://github.com/user-attachments/assets/c7c316dd-1dbf-4aea-8bf8-9fb4c0164919" />
 <img width="1919" alt="3" src="https://github.com/user-attachments/assets/6db9e534-c2e8-413e-879f-9a926f0014af" />
 
