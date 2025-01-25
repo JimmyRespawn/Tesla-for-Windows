@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>Link for Tesla</value>
+  </data>
+  <data name="Climate.Text" xml:space="preserve">
+    <value>Climate</value>
+  </data>
+  <data name="Schedule.Text" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="Drivers.Text" xml:space="preserve">
+    <value>Drivers</value>
+  </data>
+  <data name="Upgrades.Text" xml:space="preserve">
+    <value>Upgrades</value>
+  </data>
+  <data name="Service.Text" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Software.Text" xml:space="preserve">
+    <value>Software:</value>
+  </data>
+  <data name="ReleaseNotes.Content" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="Interior.Text" xml:space="preserve">
+    <value>Interior</value>
+  </data>
+  <data name="ChargeLimit.Text" xml:space="preserve">
+    <value>Charge limit:</value>
+  </data>
+  <data name="ChargePort.Text" xml:space="preserve">
+    <value>Charge Port</value>
+  </data>
+  <data name="KWHAdded.Text" xml:space="preserve">
+    <value>kWh added during last charging session</value>
+  </data>
+  <data name="SuperCharger.Text" xml:space="preserve">
+    <value>Super Charger</value>
+  </data>
+  <data name="Destination.Text" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="Locked.Text" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="Unlocked.Text" xml:space="preserve">
+    <value>Unlocked</value>
+  </data>
+  <data name="MyTesla.Content" xml:space="preserve">
+    <value>My Tesla</value>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Appearance.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="CheckforUpdate.Text" xml:space="preserve">
+    <value>Check for update</value>
+  </data>
+  <data name="Version.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Subscribe.Text" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="SubscribeTip.Text" xml:space="preserve">
+    <value>Recurring charge every month.</value>
+  </data>
+  <data name="WhatsInPlus.Text" xml:space="preserve">
+    <value>What's in Plus?</value>
+  </data>
+  <data name="Auto.Content" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Light.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Navigate.PlaceholderText" xml:space="preserve">
+    <value>Navigate</value>
+  </data>
+  <data name="AppNames.Text" xml:space="preserve">
+    <value>Link for Tesla</value>
+  </data>
+  <data name="Location.Text" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Account.Text" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="DestinationLocation.PlaceholderText" xml:space="preserve">
+    <value>Destination charger location</value>
+  </data>
+  <data name="Disclaimer.Text" xml:space="preserve">
+    <value>Disclaimer</value>
+  </data>
+  <data name="DisclaimerBeta.Text" xml:space="preserve">
+    <value>This app is in beta. You might experience glitches. The app may ask you to log in again in a future release.</value>
+  </data>
+  <data name="DisclaimerTip.Text" xml:space="preserve">
+    <value>This product is not affliated with Tesla, Inc.</value>
+  </data>
+  <data name="EmailDeveloper.Text" xml:space="preserve">
+    <value>Email developer</value>
+  </data>
+  <data name="ExperienceMode.Text" xml:space="preserve">
+    <value>Experience mode</value>
+  </data>
+  <data name="ExperienceModeTip.Text" xml:space="preserve">
+    <value>Explore functions without logging in. Ideal for testers and hobbyists.</value>
+  </data>
+  <data name="Kilometer.Content" xml:space="preserve">
+    <value>Kilometer</value>
+  </data>
+  <data name="LengthUnit.Text" xml:space="preserve">
+    <value>Length unit</value>
+  </data>
+  <data name="Login.Text" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginTip.Text" xml:space="preserve">
+    <value>Exit experience mode and login account.</value>
+  </data>
+  <data name="LoginTitle.PrimaryButtonText" xml:space="preserve">
+    <value>Experience the app</value>
+  </data>
+  <data name="LoginTitle.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LoginTitle.Title" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LogoDesignedby.Text" xml:space="preserve">
+    <value>Logo designed by</value>
+  </data>
+  <data name="Logout.Text" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="LogoutTip.Text" xml:space="preserve">
+    <value>Signout account and revoke the token.</value>
+  </data>
+  <data name="MadeBy.Text" xml:space="preserve">
+    <value>Made by</value>
+  </data>
+  <data name="Mile.Content" xml:space="preserve">
+    <value>Mile</value>
+  </data>
+  <data name="Region.Text" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="RegionCN.Content" xml:space="preserve">
+    <value>Mainland China</value>
+  </data>
+  <data name="RegionEU.Content" xml:space="preserve">
+    <value>Europe, Middle East &amp; Africa</value>
+  </data>
+  <data name="RegionNA.Content" xml:space="preserve">
+    <value>North America &amp; Asia-Pacific</value>
+  </data>
+  <data name="ReleaseNotesCD.PrimaryButtonText" xml:space="preserve">
+    <value>Release Videos</value>
+  </data>
+  <data name="ReleaseNotesCD.SecondaryButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ReleaseNotesCD.Title" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="ResetApp.Content" xml:space="preserve">
+    <value>Reset app</value>
+  </data>
+  <data name="StartLocation.PlaceholderText" xml:space="preserve">
+    <value>Start location</value>
+  </data>
+</root>

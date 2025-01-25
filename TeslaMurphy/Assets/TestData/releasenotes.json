@@ -1,0 +1,29 @@
+﻿{
+  "response": {
+    "release_notes": [
+      {
+        "title": "Minor Fixes",
+        "description": "This release contains minor fixes and improvements",
+        "customer_version": "2024.20.9",
+        "icon": "release_notes_icon",
+        "show_in_history": false,
+        "image_url": "https://vehicle-files.prd.cnn1.vn.cloud.tesla.cn/mothership_files/prd/release_notes/minor-fixes-image.png?__gda__=exp=1727421341~acl=/mothership_files/prd/release_notes/minor-fixes-image.png~hmac=949adedb2b874fdf6438056a95c181ff6c04d318c78ad421456416258474b042",
+        "light_image_url": "https://vehicle-files.prd.cnn1.vn.cloud.tesla.cn/mothership_files/prd/release_notes/minor-fixes-light-image.png?__gda__=exp=1727421341~acl=/mothership_files/prd/release_notes/minor-fixes-light-image.png~hmac=c0bdb3566c37de8df95774ce772ca76cad08819a3b2fcaddf855232cd566986e",
+        "is_fallback": true
+      },
+      {
+        "title": "Autopilot Suspension",
+        "subtitle": " ",
+        "description": "For maximum safety and accountability, use of Autopilot features will be suspended if improper usage is detected. Improper usage is when you, or another driver of your vehicle, receive five \"Autopilot Strikeouts\". An Autopilot Strikeout is when the Autopilot system forcefully disengages for the remainder of a trip after the driver receives several audio and visual warnings for inattentiveness. Driver-initiated disengagements do not count as improper usage and are expected from the driver. Keep your hands on the wheel and remain attentive at all times. Use of any hand-held devices while using Autopilot is not allowed.",
+        "customer_version": "2024.20.3",
+        "icon": "autopilot_icon",
+        "show_in_history": true,
+        "image_url": "https://vehicle-files.prd.cnn1.vn.cloud.tesla.cn/release_notes/ef7a6caec088d94de643809b1f386740?__gda__=exp=1727421341~acl=/release_notes/ef7a6caec088d94de643809b1f386740~hmac=27c8a1a0ce52362623a71a4142ecfd8624f093df34528a90f1fcac31299ad8f2",
+        "light_image_url": "https://vehicle-files.prd.cnn1.vn.cloud.tesla.cn/release_notes/63e4578ff17c6b50f9a1e96876f38e23?__gda__=exp=1727421341~acl=/release_notes/63e4578ff17c6b50f9a1e96876f38e23~hmac=f6d8c921b69d6c1539ea325e603b0a151c885a5d3140617d974073bb87f51653"
+      }
+    ],
+    "deployed_version": "2024.20.9",
+    "staged_version": null,
+    "release_notes_version": "2024.20.9"
+  }
+}

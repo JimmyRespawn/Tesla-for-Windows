@@ -1,0 +1,100 @@
+﻿<ContentDialog
+    x:Class="TeslaMurphy.Controls.ClimateContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TeslaMurphy.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Climate"
+    Loaded="ContentDialog_Loaded"
+    SecondaryButtonText="Close"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+    <StackPanel>
+        <Grid>
+            <Image
+                Grid.Row="1"
+                MaxWidth="240"
+                Margin="24,12"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Source="/Assets/Images/TelsaBirdViewPhoto.webp" />
+        </Grid>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="Interior" />
+            <TextBlock
+                x:Name="InteriorTemperatureTextBlock"
+                Margin="4,0,0,0"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}" />
+            <TextBlock
+                Margin="4,0"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="·" />
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="Exterior" />
+            <TextBlock
+                x:Name="ExteriorTemperatureTextBlock"
+                Margin="4,0,0,0"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}" />
+        </StackPanel>
+        <Grid Margin="0,24,-116,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center" Text="AC mode" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                MaxLines="2"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="Air conditioning status in the cabin" />
+            <ToggleSwitch
+                x:Name="ACModeSwitch"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                IsEnabled="False"
+                OffContent=""
+                OnContent="" />
+        </Grid>
+        <Grid Margin="0,24,-116,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center" Text="AC auto mode" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                MaxLines="2"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="If on, the temperature will adjust itself when it's working" />
+            <ToggleSwitch
+                x:Name="AutoACModeSwitch"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="4,0,0,0"
+                IsEnabled="False"
+                OffContent=""
+                OnContent="" />
+        </Grid>
+    </StackPanel>
+</ContentDialog>

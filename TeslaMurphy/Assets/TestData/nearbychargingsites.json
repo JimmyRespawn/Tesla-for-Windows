@@ -1,0 +1,58 @@
+﻿{
+  "response": {
+    "congestion_sync_time_utc_secs": 1693588513,
+    "destination_charging": [
+      {
+        "location": {
+          "lat": 37.409314,
+          "long": -122.123068
+        },
+        "name": "Hilton Garden Inn Palo Alto",
+        "type": "destination",
+        "distance_miles": 1.35024,
+        "amenities": "restrooms,wifi,lodging"
+      },
+      {
+        "location": {
+          "lat": 37.407771,
+          "long": -122.120076
+        },
+        "name": "Dinah's Garden Hotel & Poolside Restaurant",
+        "type": "destination",
+        "distance_miles": 1.534213,
+        "amenities": "restrooms,restaurant,wifi,cafe,lodging"
+      }
+    ],
+    "superchargers": [
+      {
+        "location": {
+          "lat": 37.399071,
+          "long": -122.111216
+        },
+        "name": "Los Altos, CA",
+        "type": "supercharger",
+        "distance_miles": 2.202902,
+        "available_stalls": 12,
+        "total_stalls": 16,
+        "site_closed": false,
+        "amenities": "restrooms,restaurant,wifi,cafe,shopping",
+        "billing_info": ""
+      },
+      {
+        "location": {
+          "lat": 37.441734,
+          "long": -122.170202
+        },
+        "name": "Palo Alto, CA - Stanford Shopping Center",
+        "type": "supercharger",
+        "distance_miles": 2.339135,
+        "available_stalls": 11,
+        "total_stalls": 20,
+        "site_closed": false,
+        "amenities": "restrooms,restaurant,wifi,cafe,shopping",
+        "billing_info": ""
+      }
+    ],
+    "timestamp": 1693588576552
+  }
+}

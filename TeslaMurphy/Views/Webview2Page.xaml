@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="TeslaMurphy.Views.Webview2Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TeslaMurphy.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource LayerFillColorDefaultBrush}"
+    mc:Ignorable="d">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <DrillInNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <muxc:ProgressBar
+            x:Name="LoadingBar"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            IsIndeterminate="False" />
+        <muxc:WebView2
+            x:Name="GetWebView2"
+            Grid.Row="1"
+            NavigationCompleted="GetWebView2_NavigationCompleted" />
+    </Grid>
+</Page>

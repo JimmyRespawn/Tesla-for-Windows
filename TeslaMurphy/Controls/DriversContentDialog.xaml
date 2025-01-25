@@ -1,0 +1,51 @@
+﻿<ContentDialog
+    x:Class="TeslaMurphy.Controls.DriversContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TeslaMurphy.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:TeslaMurphy.Models"
+    Title="Drivers"
+    Loaded="ContentDialog_Loaded"
+    SecondaryButtonText="Close"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+    <ListView
+        x:Name="DriversListView"
+        Margin="-16,12,-24,12"
+        IsItemClickEnabled="False"
+        SelectionMode="Single">
+        <ListView.Header>
+            <StackPanel x:Name="NullPlaceHolderPanel" Visibility="Collapsed">
+                <FontIcon
+                    Margin="0,0,0,12"
+                    FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                    FontSize="36"
+                    Glyph="&#xE748;" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontWeight="Normal"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="No other drivers logged for this car." />
+            </StackPanel>
+        </ListView.Header>
+        <ListView.ItemContainerStyle>
+            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="0,0,24,0" />
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="models:Driver">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,4,0"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Text="{x:Bind driver_first_name}" />
+                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind driver_last_name}" />
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentDialog>

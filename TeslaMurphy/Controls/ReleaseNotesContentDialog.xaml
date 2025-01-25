@@ -1,0 +1,53 @@
+﻿<ContentDialog
+    x:Class="TeslaMurphy.Controls.ReleaseNotesContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TeslaMurphy.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:TeslaMurphy.Models"
+    x:Uid="ReleaseNotesCD"
+    Title="Release Notes"
+    Loaded="ContentDialog_Loaded"
+    PrimaryButtonText="Release Videos"
+    SecondaryButtonText="Close"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+    <!--<ContentDialog.Resources>
+        <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </ContentDialog.Resources>-->
+    <ListView
+        x:Name="ListNotesListView"
+        Margin="-16,0,-24,12"
+        IsItemClickEnabled="False"
+        SelectionMode="Single">
+        <ListView.ItemContainerStyle>
+            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="0,0,8,0" />
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="models:ReleaseNote">
+                <StackPanel Padding="0,12,0,16">
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind customer_version}" />
+                    <TextBlock
+                        Margin="0,8,0,16"
+                        FontWeight="SemiBold"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind title}" />
+                    <Grid Width="480" CornerRadius="8">
+                        <Image Source="{x:Bind image_url}" />
+                    </Grid>
+                    <Grid Width="480" CornerRadius="8">
+                        <Image Source="{x:Bind light_image_url}" />
+                    </Grid>
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind description}" />
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentDialog>

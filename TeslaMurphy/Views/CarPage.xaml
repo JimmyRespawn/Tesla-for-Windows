@@ -1,0 +1,840 @@
+﻿<Page
+    x:Class="TeslaMurphy.Views.CarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TeslaMurphy.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vm="using:TeslaMurphy.ViewModels"
+    mc:Ignorable="d">
+    <Page.DataContext>
+        <vm:CarPageViewModel />
+    </Page.DataContext>
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <DrillInNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SettingsButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer
+            x:Name="RootScrollViewer"
+            VerticalAlignment="Stretch"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Hidden"
+            VerticalScrollMode="Enabled">
+            <RelativePanel>
+                <Grid
+                    x:Name="MapGrid"
+                    Margin="12"
+                    CornerRadius="8"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="False"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.RightOf="CarInfoGrid">
+                    <!--  Replace Bing MapToken if you want to make this public  -->
+                    <Maps:MapControl
+                        x:Name="TeslaChargingMap"
+                        MaxHeight="852"
+                        Margin="0,0,-2,0"
+                        VerticalAlignment="Stretch"
+                        ColorScheme="{Binding MapColorScheme}"
+                        MapServiceToken="" />
+                    <StackPanel
+                        Margin="16,16,120,16"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                        <Grid
+                            MinWidth="240"
+                            Margin="0,0,0,8"
+                            Padding="8"
+                            Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                            CornerRadius="8"
+                            Visibility="Visible">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBox
+                                x:Name="UserLocationTextBox"
+                                x:Uid="StartLocation"
+                                Grid.Column="1"
+                                Height="32"
+                                HorizontalAlignment="Stretch"
+                                Background="Transparent"
+                                IsEnabled="True"
+                                IsSpellCheckEnabled="False"
+                                KeyDown="UserLocationTextBox_KeyDown"
+                                PlaceholderText="Start location" />
+                            <ComboBox
+                                x:Name="DestinationComboBox"
+                                x:Uid="DestinationLocation"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Height="32"
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Stretch"
+                                Background="Transparent"
+                                ItemsSource="{Binding MapIcons}"
+                                PlaceholderText="Destination charger location"
+                                SelectionChanged="DestinationComboBox_SelectionChanged"
+                                Visibility="Collapsed">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Title}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                        <ListView
+                            x:Name="UserLocationsListView"
+                            MinWidth="240"
+                            HorizontalAlignment="Stretch"
+                            Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                            CornerRadius="8"
+                            IsItemClickEnabled="True"
+                            ItemClick="UserLocationsListView_ItemClick"
+                            ItemsSource="{Binding UserMapLocations}">
+                            <ListView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="4,0,4,0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="0,8,8,8">
+                                        <TextBlock FontSize="14" Text="{Binding Address.FormattedAddress}" />
+                                        <!--<TextBlock FontSize="12" Text="{Binding Point.Position.Longitude}" />
+                                        <TextBlock FontSize="12" Text="{Binding Point.Position.Latitude}" />-->
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0,8,16,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                        <Button
+                            x:Name="HideMapGridButton"
+                            Width="42"
+                            Height="42"
+                            Margin="0,8,0,0"
+                            Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                            Click="HideMapGridButton_Click"
+                            Content="&#xEA49;"
+                            CornerRadius="8"
+                            FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                            Visibility="Collapsed" />
+                        <Button
+                            x:Name="GetChargerSitesButton"
+                            Width="42"
+                            Height="42"
+                            Margin="0,8,0,0"
+                            Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                            Click="RefreshButton_Click"
+                            CornerRadius="8"
+                            FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons">
+                            <!--  GetChargerSitesButton_Click  -->
+                            <Button.Content>
+                                <Grid>
+                                    <TextBlock FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Text="&#xE81A;" />
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Grid
+                    x:Name="CarInfoGrid"
+                    MinWidth="468"
+                    Margin="12"
+                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    CornerRadius="8"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True">
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition IsStaggeringEnabled="True" />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Padding="12">
+                        <muxc:DropDownButton
+                            x:Name="CarDropDownButton"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="CarDropDownButton_Click">
+                            <muxc:DropDownButton.Content>
+                                <TextBlock x:Name="DropDownIcon" Text="{Binding CarData.vehicle_config.car_type, FallbackValue=Model 3, Converter={StaticResource CarModelToNameConverter}}" />
+                            </muxc:DropDownButton.Content>
+                            <muxc:DropDownButton.Flyout>
+                                <MenuFlyout x:Name="CarMenuFlyout" Placement="Bottom">
+                                    <!--<muxc:RadioMenuFlyoutItem
+                                        GroupName="CarGroup"
+                                        IsChecked="True"
+                                        Tag="vinnumber"
+                                        Text="Model 3">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEA5E;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </muxc:RadioMenuFlyoutItem>-->
+                                </MenuFlyout>
+                            </muxc:DropDownButton.Flyout>
+                        </muxc:DropDownButton>
+                        <Button
+                            x:Name="TopRigtInfoButton"
+                            Margin="8,0,0,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="TopRigtInfoButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="BatteryPercentageTextBlock" Text="{Binding CarData.charge_state.battery_level, FallbackValue=100, TargetNullValue=0}" />
+                                <TextBlock x:Name="BatteryPercentageDanweiTextBlock" Text="%" />
+                                <TextBlock
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                    FontSize="16"
+                                    Text="{Binding CarData.charge_state.battery_level, FallbackValue=&#xEBAA;, TargetNullValue=&#xEBA0;, Converter={StaticResource BatteryStateToIconConverter}}" />
+                                <TextBlock
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                    Text="&#xE945;"
+                                    Visibility="{Binding CarData.charge_state.charging_state, FallbackValue=Collapsed, Converter={StaticResource ChargeStateVisibilityConverter}}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    <Image
+                        Grid.Row="1"
+                        MaxWidth="420"
+                        Margin="24,12"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Source="{Binding CarData.vehicle_config.car_type, FallbackValue=/Assets/Images/model3pearlwhite.webp, Converter={StaticResource CarModelToImageConverter}}" />
+                    <Grid
+                        Name="MultiControlPanel"
+                        Grid.Row="2"
+                        Margin="24,0"
+                        HorizontalAlignment="Center"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <CommandBar VerticalContentAlignment="Center" DefaultLabelPosition="Right">
+                            <AppBarButton
+                                Width="40"
+                                IsEnabled="False"
+                                LabelPosition="Collapsed">
+                                <AppBarButton.Icon>
+                                    <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="{Binding CarData.vehicle_state.locked, FallbackValue=&#xE72E;, TargetNullValue=&#xE72E;, Converter={StaticResource LockStateToIconConverter}}" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+                            <AppBarToggleButton
+                                x:Name="ACAppBarButton"
+                                Width="40"
+                                Margin="16,0,0,0"
+                                Click="ACAppBarButton_Click"
+                                IsChecked="{Binding CarData.climate_state.is_climate_on}"
+                                IsEnabled="{Binding CarData.climate_state.is_climate_on}"
+                                LabelPosition="Collapsed">
+                                <AppBarToggleButton.Icon>
+                                    <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE967;" />
+                                </AppBarToggleButton.Icon>
+                            </AppBarToggleButton>
+                            <AppBarToggleButton
+                                x:Name="ChargeInfoAppBarToggleButton"
+                                Width="40"
+                                Margin="16,0,0,0"
+                                Click="ChargeInfoAppBarToggleButton_Click"
+                                IsChecked="True"
+                                LabelPosition="Collapsed">
+                                <AppBarToggleButton.Icon>
+                                    <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE945;" />
+                                </AppBarToggleButton.Icon>
+                            </AppBarToggleButton>
+                            <AppBarButton
+                                x:Name="RefreshButton"
+                                Width="40"
+                                Margin="16,0,0,0"
+                                Click="RefreshButton_Click"
+                                LabelPosition="Collapsed">
+                                <AppBarButton.Icon>
+                                    <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE72C;" />
+                                </AppBarButton.Icon>
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="{Binding CarData.charge_state.timestamp, Converter={StaticResource UpdateTimestampToDesConverter}}" />
+                                </ToolTipService.ToolTip>
+                            </AppBarButton>
+                        </CommandBar>
+                    </Grid>
+                    <StackPanel
+                        x:Name="ChargeInfoStackPanel"
+                        Grid.Row="3"
+                        Margin="16,8"
+                        Padding="8"
+                        Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                        CornerRadius="8"
+                        Visibility="Visible">
+                        <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
+                            <TextBlock x:Uid="ChargeLimit" Text="Charge limit:" />
+                            <TextBlock Margin="4,0,0,0" Text="{Binding CarData.charge_state.charge_limit_soc, FallbackValue=100, TargetNullValue=100}" />
+                            <TextBlock Text="%" />
+                            <TextBlock
+                                Margin="4,0,0,0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="· Charging"
+                                Visibility="{Binding CarData.charge_state.charging_state, FallbackValue=Collapsed, Converter={StaticResource ChargeStateVisibilityConverter}}" />
+                        </StackPanel>
+                        <StackPanel Margin="4,4,0,0" Orientation="Horizontal">
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding CarData.charge_state.charge_energy_added, FallbackValue=0, TargetNullValue=0}" />
+                            <TextBlock
+                                x:Uid="KWHAdded"
+                                Margin="4,0,0,0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="kWh added during last charging session" />
+                        </StackPanel>
+                        <ProgressBar
+                            Margin="4,16,4,0"
+                            CornerRadius="2"
+                            Value="{Binding CarData.charge_state.battery_level, FallbackValue=100, TargetNullValue=0}" />
+                        <Button Margin="4,24,4,0" HorizontalAlignment="Stretch">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding CarData.charge_state.charge_current_request, FallbackValue=16, TargetNullValue=16}" />
+                                    <TextBlock Text="A" />
+                                </StackPanel>
+                            </Button.Content>
+
+                        </Button>
+                        <HyperlinkButton
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Center"
+                            IsEnabled="False">
+                            <HyperlinkButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Uid="ChargePort" Text="Charge Port" />
+                                    <TextBlock Margin="4,0,0,0" Text="{Binding CarData.charge_state.charge_port_door_open, Converter={StaticResource BooleanToOpenCloseConverter}}" />
+                                </StackPanel>
+                            </HyperlinkButton.Content>
+                        </HyperlinkButton>
+                    </StackPanel>
+                    <StackPanel Grid.Row="4" Padding="12">
+                        <!--  Ads Section  -->
+                        <Button
+                            x:Name="NewXboxLocalAdsBlock"
+                            Margin="0,0,0,4"
+                            AutomationProperties.Name="Listen to music on your device for free. Download right now."
+                            Click="LocalAdsBlock_Click"
+                            Style="{StaticResource SettingButtonStyle}"
+                            Visibility="Collapsed">
+                            <Button.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel
+                                        MinWidth="188"
+                                        Margin="12,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            x:Name="TopAdsTextBlock"
+                                            FontSize="16"
+                                            FontWeight="SemiBold"
+                                            Foreground="#D13646"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="FREE MUSIC"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock
+                                            x:Name="AdsSubTitleTextBlock"
+                                            Margin="0,2,0,0"
+                                            HorizontalAlignment="Left"
+                                            MaxLines="1"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Tag="ms-windows-store://pdp/?ProductId=9P6V0D62D4BQ"
+                                            Text="Advertisement: access to free music"
+                                            TextTrimming="None" />
+                                        <StackPanel
+                                            Margin="0,4,0,0"
+                                            Padding="8,4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Background="#D13646"
+                                            CornerRadius="8"
+                                            Orientation="Horizontal">
+                                            <TextBlock
+                                                FontSize="10"
+                                                FontWeight="SemiBold"
+                                                Foreground="White"
+                                                Text="Download Now" />
+                                            <TextBlock
+                                                Margin="4,0,0,2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                                FontSize="8"
+                                                FontWeight="Bold"
+                                                Foreground="White"
+                                                Text="&#xE76C;" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <TextBlock
+                                        x:Name="AdsIconTextblock"
+                                        Grid.Column="1"
+                                        Margin="24,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="48"
+                                        FontWeight="Bold"
+                                        Opacity="0.8"
+                                        Text="&#xF61F;">
+                                        <TextBlock.Foreground>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Offset="0.0" Color="#D13646" />
+                                                <GradientStop Offset="1.0" Color="#9A50C5" />
+                                            </LinearGradientBrush>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                    <Grid
+                                        Name="CloseAdsGrid"
+                                        Grid.Column="2"
+                                        Margin="4,4,4,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        CornerRadius="4"
+                                        Visibility="Visible">
+                                        <Button
+                                            Name="CloseAdsButton"
+                                            AutomationProperties.Name="Close advertisement"
+                                            Click="CloseAds_Click"
+                                            Content="&#xE8BB;"
+                                            FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="12" />
+                                    </Grid>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            x:Name="ClimateButton"
+                            Margin="0,0,0,0"
+                            Click="ClimateButton_Click"
+                            Style="{StaticResource SettingButtonStyle}">
+                            <Button.Content>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="16"
+                                        Text="&#xE967;" />
+                                    <!--  EE49  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            x:Uid="Climate"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="Climate"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <StackPanel Margin="0,2,6,0" Orientation="Horizontal">
+                                            <TextBlock
+                                                x:Uid="Interior"
+                                                Margin="0,0,4,0"
+                                                HorizontalAlignment="Left"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                MaxLines="2"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="Interior "
+                                                TextTrimming="CharacterEllipsis" />
+                                            <TextBlock
+                                                HorizontalAlignment="Left"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{Binding CarData.climate_state.inside_temp}"
+                                                TextTrimming="CharacterEllipsis" />
+                                            <TextBlock
+                                                HorizontalAlignment="Left"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="°"
+                                                TextTrimming="CharacterEllipsis" />
+                                            <TextBlock
+                                                HorizontalAlignment="Left"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{Binding CarData.gui_settings.gui_temperature_units}"
+                                                TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="12"
+                                        Text="&#xE70D;"
+                                        Visibility="Visible" />
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            x:Name="LocationButton"
+                            Margin="0,4,0,0"
+                            Click="LocationButton_Click"
+                            Style="{StaticResource SettingButtonStyle}"
+                            Visibility="Collapsed">
+                            <Button.Content>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="16"
+                                        Text="&#xEBE6;" />
+                                    <!--  EE49  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            x:Uid="Location"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="Location"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock
+                                            Margin="0,2,6,0"
+                                            HorizontalAlignment="Left"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            MaxLines="2"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="38;-122."
+                                            TextTrimming="CharacterEllipsis"
+                                            Visibility="Collapsed" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="12"
+                                        Text="&#xE76C;" />
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            x:Name="ScheduleButton"
+                            Margin="0,4,0,0"
+                            Click="ScheduleButton_Click"
+                            Style="{StaticResource SettingButtonStyle}">
+                            <Button.Content>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="16"
+                                        Text="&#xE916;" />
+                                    <!--  EE49  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            x:Uid="Schedule"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="Schedule"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock
+                                            Margin="0,2,6,0"
+                                            HorizontalAlignment="Left"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            MaxLines="2"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="Recurring charge every month."
+                                            TextTrimming="CharacterEllipsis"
+                                            Visibility="Collapsed" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="12"
+                                        Text="&#xE70D;" />
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            x:Name="DriversButton"
+                            Margin="0,4,0,0"
+                            Click="DriversButton_Click"
+                            Style="{StaticResource SettingButtonStyle}">
+                            <Button.Content>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="16"
+                                        Text="&#xEBDA;" />
+                                    <!--  EE49  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            x:Uid="Drivers"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="Drivers"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock
+                                            Margin="0,2,6,0"
+                                            HorizontalAlignment="Left"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            MaxLines="2"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="Recurring charge every month."
+                                            TextTrimming="CharacterEllipsis"
+                                            Visibility="Collapsed" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="12"
+                                        Text="&#xE70D;" />
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            x:Name="ServiceButton"
+                            Margin="0,4,0,0"
+                            Click="ServiceButton_Click"
+                            Style="{StaticResource SettingButtonStyle}">
+                            <Button.Content>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="16"
+                                        Text="&#xE90F;" />
+                                    <!--  EE49  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            x:Uid="Service"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="Service"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock
+                                            Margin="0,2,6,0"
+                                            HorizontalAlignment="Left"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            MaxLines="2"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="Recurring charge every month."
+                                            TextTrimming="CharacterEllipsis"
+                                            Visibility="Collapsed" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="12"
+                                        Text="&#xE70D;" />
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            x:Name="RecentAlertsButton"
+                            Margin="0,4,0,0"
+                            Click="RecentAlertsButton_Click"
+                            Style="{StaticResource SettingButtonStyle}"
+                            Visibility="Collapsed">
+                            <Button.Content>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="16"
+                                        Text="&#xE7BA;" />
+                                    <!--  EE49  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="Alerts"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock
+                                            Margin="0,2,6,0"
+                                            HorizontalAlignment="Left"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            MaxLines="2"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="Recurring charge every month."
+                                            TextTrimming="CharacterEllipsis"
+                                            Visibility="Collapsed" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="12"
+                                        Text="&#xE70D;" />
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Row="5" Margin="12,0,12,12">
+                        <StackPanel
+                            Margin="12,0,0,0"
+                            Orientation="Horizontal"
+                            Visibility="Visible">
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="VIN:" />
+                            <TextBlock
+                                x:Name="VinTextBlock"
+                                Margin="4,0,0,0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="{Binding CarData.vin, FallbackValue=LRW, TargetNullValue=LRW}" />
+                        </StackPanel>
+                        <StackPanel Margin="12,4,0,0" Orientation="Horizontal">
+                            <TextBlock
+                                x:Uid="Software"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="Software:" />
+                            <TextBlock
+                                Margin="4,0,0,0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="{Binding CarData.vehicle_state.car_version, FallbackValue=v12, TargetNullValue=v12}" />
+                        </StackPanel>
+                        <HyperlinkButton
+                            x:Name="ReleaseNotesHyperlinkButton"
+                            x:Uid="ReleaseNotes"
+                            Click="ReleaseNotesHyperlinkButton_Click"
+                            Content="Release Notes" />
+                    </StackPanel>
+                </Grid>
+            </RelativePanel>
+        </ScrollViewer>
+        <muxc:ProgressBar
+            x:Name="PB"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            IsIndeterminate="{Binding IsLoading}" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="940" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="CarInfoGrid.Visibility" Value="Visible" />
+                        <Setter Target="MapGrid.Visibility" Value="Visible" />
+                        <Setter Target="HideMapGridButton.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="AboutPanel.Margin" Value="12,0,16,8" />
+                        <Setter Target="MainPanel.Padding" Value="12,12,0,0" />-->
+
+                        <Setter Target="CarInfoGrid.(RelativePanel.AlignBottomWithPanel)" Value="False" />
+                        <Setter Target="CarInfoGrid.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <!--<Setter Target="CarInfoGrid.(RelativePanel.Above)" Value="MapGrid" />-->
+                        <Setter Target="MapGrid.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <!--<Setter Target="MapGrid.(RelativePanel.AlignTopWithPanel)" Value="False" />-->
+                        <Setter Target="MapGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="CarInfoGrid.Visibility" Value="Visible" />
+                        <Setter Target="HideMapGridButton.Visibility" Value="Collapsed" />
+                        <Setter Target="LocationButton.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

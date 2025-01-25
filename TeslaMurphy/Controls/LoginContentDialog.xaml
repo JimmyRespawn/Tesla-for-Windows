@@ -1,0 +1,127 @@
+﻿<ContentDialog
+    x:Class="TeslaMurphy.Controls.LoginContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TeslaMurphy.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="dialog"
+    x:Uid="LoginTitle"
+    Title="Login"
+    Loaded="dialog_Loaded"
+    PrimaryButtonText="Experience the app"
+    SecondaryButtonText="Cancel"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+    <ScrollViewer Margin="-24,0" VerticalScrollBarVisibility="Hidden">
+        <StackPanel Width="404" Margin="24,0">
+            <Grid Margin="0,24,-116,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Uid="ExperienceMode"
+                    VerticalAlignment="Center"
+                    FontWeight="SemiBold"
+                    Text="Experience mode" />
+                <TextBlock
+                    x:Uid="ExperienceModeTip"
+                    Grid.Row="1"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    MaxLines="2"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="Explore functions without logging in. Ideal for testers and hobbyists." />
+                <ToggleSwitch
+                    x:Name="ExperienceModeToggleSwitch"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    IsOn="True"
+                    IsTabStop="False"
+                    OffContent=""
+                    OnContent=""
+                    Toggled="ExperienceModeToggleSwitch_Toggled" />
+            </Grid>
+            <Grid
+                x:Name="RegionGrid"
+                Margin="0,24,0,0"
+                Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Uid="Region"
+                    Grid.RowSpan="2"
+                    VerticalAlignment="Center"
+                    FontWeight="SemiBold"
+                    Text="Region" />
+                <TextBlock
+                    Grid.Row="1"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    MaxLines="2"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="Supports Tesla cars globally."
+                    Visibility="Collapsed" />
+                <ComboBox
+                    x:Name="RegionComboBox"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    SelectedIndex="0"
+                    SelectionChanged="RegionComboBox_SelectionChanged">
+                    <ComboBoxItem x:Uid="RegionNA" Content="North America &amp; Asia-Pacific" />
+                    <ComboBoxItem x:Uid="RegionEU" Content="Europe, Middle East &amp; Africa" />
+                    <ComboBoxItem x:Uid="RegionCN" Content="Mainland China" />
+                </ComboBox>
+            </Grid>
+            <TextBlock
+                x:Uid="Disclaimer"
+                Margin="0,24,0,0"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Text="Disclaimer" />
+            <Grid
+                x:Name="MarkGrid"
+                Margin="0,12,0,0"
+                Padding="8,8"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Background="#FFF7D5"
+                CornerRadius="4">
+                <TextBlock
+                    Margin="0,2,8,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                    Foreground="Black"
+                    Text="&#xE7BA;" />
+                <TextBlock
+                    x:Name="GDPRTextBlock"
+                    x:Uid="DisclaimerBeta"
+                    Margin="24,0,12,0"
+                    VerticalAlignment="Center"
+                    Foreground="Black"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="This app is in beta. You might experience glitches. The app may ask you to log in again in a future release."
+                    TextWrapping="Wrap" />
+            </Grid>
+            <TextBlock
+                x:Uid="DisclaimerTip"
+                Margin="0,8,0,0"
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="This product is not affliated with Tesla, Inc."
+                TextWrapping="Wrap" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>
