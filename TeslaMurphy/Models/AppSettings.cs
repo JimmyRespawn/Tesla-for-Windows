@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace TeslaMurphy.Models
 {
@@ -11,11 +11,7 @@ namespace TeslaMurphy.Models
         private AppSettings()
         {
             isLogedin = false;
-            //access_token = "";
-            Base_URL = "https://fleet-api.prd.na.vn.cloud.tesla.com";
-            region_URL = "tesla.com";
-            client_id = "";
-            client_secret = "";
+            TeslaMurphy.Services.TeslaConfiguration.ApplyRegion(this, "NA");
             length_unit = 0; // 0 = km, 1 = miles
             IsPro = false;
             isTestMode = false;

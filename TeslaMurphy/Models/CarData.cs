@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace TeslaMurphy.Models
 {
@@ -70,6 +70,9 @@ namespace TeslaMurphy.Models
         public bool fast_charger_present { get; set; }
         public bool preconditioning_enabled { get; set; }
         public bool off_peak_charging_enabled { get; set; }
+        public bool preconditioning_weekdays_only { get; set; }
+        public bool off_peak_charging_weekdays_only { get; set; }
+        public int off_peak_hours_end_time { get; set; }
         //Scheduled charging time
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string scheduled_charging_mode { get; set; }

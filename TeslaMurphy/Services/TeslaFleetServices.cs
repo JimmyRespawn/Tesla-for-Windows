@@ -1,139 +1,58 @@
-﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TeslaMurphy.Models;
 
 namespace TeslaMurphy.Services
 {
-    internal class TeslaFleetServices
+    internal static class TeslaFleetServices
     {
-        public static async Task<string> HttpGetRequestAsync(string base_url, string endpoint, string access_token, CancellationTokenSource cts)
+        public static Task<string> HttpGetRequestAsync(string base_url, string endpoint, string access_token, CancellationTokenSource cts)
+            => HttpService.SendFleetAsync(HttpMethod.Get, base_url, endpoint, access_token, cts?.Token ?? CancellationToken.None);
+
+        public static Task<string> HttpPostRequestAsync(string base_url, string endpoint, string access_token, CancellationTokenSource cts)
+            => HttpService.SendFleetAsync(HttpMethod.Post, base_url, endpoint, access_token, cts?.Token ?? CancellationToken.None);
+
+        public static Task<string> GenerateAuthorizeUriAsync()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage response = await client.GetAsync(base_url + endpoint);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseContent = await response.Content.ReadAsStringAsync();
-                        return responseContent;
-                    }
-                    else
-                    {
-                        string responseContent = await response.Content.ReadAsStringAsync();
-                        return response.StatusCode.ToString();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                    //return $"Exception: {ex.Message}";
-                }
-            }
+            string url = TeslaConfiguration.AuthorizeUrl
+                + "?client_id=" + Uri.EscapeDataString(AppSettings.Instance.Client_id)
+                + "&prompt=login&redirect_uri=" + Uri.EscapeDataString(TeslaConfiguration.RedirectUri)
+                + "&response_type=code&scope=" + Uri.EscapeDataString(TeslaConfiguration.Scope)
+                + "&state=" + Guid.NewGuid().ToString();
+            return Task.FromResult(url);
         }
 
-        public static async Task<string> HttpPostRequestAsync(string base_url, string endpoint, string access_token, CancellationTokenSource cts)
+        public static Task<string> ExchangeCodeAsync(string code)
+        {
+            var settings = AppSettings.Instance;
+            return HttpService.PostFormAsync(TeslaConfiguration.TokenUrl, new[]
+            {
+                new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                new KeyValuePair<string, string>("redirect_uri", TeslaConfiguration.RedirectUri),
+                new KeyValuePair<string, string>("client_id", settings.Client_id),
+                new KeyValuePair<string, string>("client_secret", settings.Client_secret),
+                new KeyValuePair<string, string>("audience", settings.Base_URL),
+                new KeyValuePair<string, string>("scope", TeslaConfiguration.Scope),
+                new KeyValuePair<string, string>("code", code)
+            }, CancellationToken.None);
+        }
+
+        public static async Task<string> RefreshTokenRequestAsync(CancellationTokenSource cts)
         {
             try
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    try
-                    {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        //var postData = new FormUrlEncodedContent(new[]
-                        //{
-                        //    new KeyValuePair<string, string>("Content-Type", "application/json")
-                        //});
-
-                        var response = await client.PostAsync(base_url + endpoint, null);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string responseContent = await response.Content.ReadAsStringAsync();
-                            return responseContent;
-                        }
-                        else
-                        {
-                            string responseContent = await response.Content.ReadAsStringAsync();
-                            return response.StatusCode.ToString();
-                            //return $"Error: {response.StatusCode}";
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        return null;
-                        //return $"Exception: {ex.Message}";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        public static async Task<string> GenerateAuthorizeUriAsync(string requestUrl, string client_id)
-        {
-            //Uri requestUri = new Uri("https://auth.tesla.cn/oauth2/v3/token");
-            try
-            {
-                string state = Guid.NewGuid().ToString();
-                string teslaAuthURL = requestUrl + "?client_id=" + client_id + "&prompt=login"
-                    + "&redirect_uri=" + "http%3A%2F%2Flocalhost%3A8000%2Fcallback"
-                    + "&response_type=code"
-                    + "&scope="
-                    + "openid"
-                    + "%20offline_access"
-                    + "%20user_data"
-                    + "%20vehicle_device_data"
-                    + "%20vehicle_cmds"
-                    + "%20vehicle_charging_cmds"
-                    + "&state=" + state;
-
-                //System.Uri StartUri = new Uri(teslaAuthURL);
-                //System.Uri EndUri = new Uri("teslauwp://localhost:8000/callback");
-                return teslaAuthURL;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public static async Task<string> RefreshTokenRequestAsync(Uri requestUri, string client_id, string refresh_token, CancellationTokenSource cts)
-        {
-            //Uri requestUri = new Uri("https://auth.tesla.cn/oauth2/v3/token");
-            try
-            {
-                var postData = new FormUrlEncodedContent(new[]
+                return await HttpService.PostFormAsync(TeslaConfiguration.TokenUrl, new[]
                 {
                     new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                    new KeyValuePair<string, string>("client_id", client_id),
-                    new KeyValuePair<string, string>("refresh_token", refresh_token)
-                });
-
-                using (var client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    var response = await client.PostAsync(requestUri, postData);
-                    var content = await response.Content.ReadAsStringAsync();
-                    return content;
-                }
+                    new KeyValuePair<string, string>("client_id", AppSettings.Instance.Client_id),
+                    new KeyValuePair<string, string>("refresh_token", AppSettings.Instance.Refresh_token)
+                }, cts?.Token ?? CancellationToken.None);
             }
-            catch
-            {
-                return null;
-            }
+            catch (OperationCanceledException) { return null; }
+            catch (HttpRequestException) { return null; }
         }
     }
 }

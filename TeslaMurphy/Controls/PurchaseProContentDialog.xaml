@@ -8,8 +8,8 @@
     x:Name="dialog"
     Title="Update required"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Update"
-    SecondaryButtonText="Cancel"
+    PrimaryButtonText="UPDATE"
+    SecondaryButtonText="CANCEL"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <TextBlock

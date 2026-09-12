@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using TeslaMurphy.Controls;
 using TeslaMurphy.Helpers;
@@ -111,13 +111,13 @@ namespace TeslaMurphy.Views
 
         private void TwitterButton_Click(object sender, RoutedEventArgs e)
         {
-            UWPGeneralHelper.OpenInDefaultBrowser("https://twitter.com/jimmyrespawn");
+            UWPGeneralHelper.OpenInDefaultBrowser("https://x.com/jimmyrespawn");
         }
 
         private async void ClearCache_Click(object sender, RoutedEventArgs e)
         {
             var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-            bool isClear = await DisplayPopout.dualButton( "Warning!", "All app settings and token will be deleted permanently.", "Ok", "Cancel");
+            bool isClear = await DisplayPopout.dualButton( "Warning!", "All app settings and token will be deleted permanently.", "OK", "CANCEL");
             if (isClear)
             {
                 await Windows.Storage.ApplicationData.Current.ClearAsync();
@@ -147,7 +147,7 @@ namespace TeslaMurphy.Views
                 // to start the updates.
                 //bool isUpdate = await DisplayPopout.dualButton(resourceLoader.GetString("UpdateDTitle"), resourceLoader.GetString("UpdateDContent"),
                 //    resourceLoader.GetString("Yes"), resourceLoader.GetString("No"));
-                bool isUpdate = await DisplayPopout.dualButton("Update available", "Do you wish to update the app right now?", "Ok", "Cancel");
+                bool isUpdate = await DisplayPopout.dualButton("Update available", "Do you wish to update the app right now?", "OK", "CANCEL");
 
                 if (isUpdate)
                 {
@@ -214,7 +214,7 @@ namespace TeslaMurphy.Views
             if (localSettings.Values.ContainsKey("accesstoken"))
             {
                 var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                bool isSignedOut = await DisplayPopout.dualButton("Warning!", "Current signed-in token will be revoked.", "Ok", "Cancel");
+                bool isSignedOut = await DisplayPopout.dualButton("Warning!", "Current signed-in token will be revoked.", "OK", "CANCEL");
                 if (isSignedOut)
                 {
                     //Logout
@@ -244,29 +244,8 @@ namespace TeslaMurphy.Views
                 }
                 else
                 {
-                    int region = dialog.Region;
-                    if (region == 0)
-                    {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.Values["region"] = "NA";
-                        AppSettings.Instance.Client_id = "";//Replace with you own key
-                        AppSettings.Instance.Client_secret = "";//Replace with you own key
-                        AppSettings.Instance.Region_URL = "tesla.com";
-                    }
-                    else if (region == 2)
-                    {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.Values["region"] = "CN";
-                        AppSettings.Instance.Client_id = "";//Replace with you own key
-                        AppSettings.Instance.Client_secret = "";//Replace with you own key
-                        AppSettings.Instance.Region_URL = "tesla.cn";
-                    }
-                    else
-                    {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.Values["region"] = "NA";
-                        AppSettings.Instance.Client_id = "";//Replace with you own key
-                        AppSettings.Instance.Client_secret = "";//Replace with you own key
-                        AppSettings.Instance.Region_URL = "tesla.com";
-                    }
-                    string authRequestUrl = await TeslaFleetServices.GenerateAuthorizeUriAsync("https://auth." + AppSettings.Instance.Region_URL + "/oauth2/v3/authorize", AppSettings.Instance.Client_id);
+                    if (!await TeslaConfiguration.SelectLoginRegionAsync(dialog.Region)) return;
+                    string authRequestUrl = await TeslaFleetServices.GenerateAuthorizeUriAsync();
                     this.Frame.Navigate(typeof(Webview2Page), authRequestUrl);
                 }
             }

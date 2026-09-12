@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="TeslaMurphy.Views.CarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -249,8 +249,10 @@
                         CornerRadius="4">
                         <CommandBar VerticalContentAlignment="Center" DefaultLabelPosition="Right">
                             <AppBarButton
+                                x:Name="LockAppBarButton"
                                 Width="40"
-                                IsEnabled="False"
+                                Click="LockAppBarButton_Click"
+                                Label="Lock / Unlock"
                                 LabelPosition="Collapsed">
                                 <AppBarButton.Icon>
                                     <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="{Binding CarData.vehicle_state.locked, FallbackValue=&#xE72E;, TargetNullValue=&#xE72E;, Converter={StaticResource LockStateToIconConverter}}" />
@@ -262,7 +264,6 @@
                                 Margin="16,0,0,0"
                                 Click="ACAppBarButton_Click"
                                 IsChecked="{Binding CarData.climate_state.is_climate_on}"
-                                IsEnabled="{Binding CarData.climate_state.is_climate_on}"
                                 LabelPosition="Collapsed">
                                 <AppBarToggleButton.Icon>
                                     <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE967;" />

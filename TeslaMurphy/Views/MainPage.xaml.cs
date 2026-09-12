@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.ViewManagement;
@@ -57,34 +57,7 @@ namespace TeslaMurphy.Views
                 AppSettings.Instance.Current_carvin = localSettings.Values["maincarvin"].ToString();
             if (localSettings.Values.ContainsKey("region"))
             {
-                string regionCode = localSettings.Values["region"].ToString();
-                if (regionCode == "NA")
-                {
-                    //North America, Asia Pacific (excluding China)
-                    AppSettings.Instance.Region_URL = "tesla.com";
-                    AppSettings.Instance.Region = 0;
-                    AppSettings.Instance.Base_URL = "https://fleet-api.prd.na.vn.cloud.tesla.com";
-                    AppSettings.Instance.Client_id = ""; //Replace with you own key
-                    AppSettings.Instance.Client_secret = ""; //Replace with you own key
-                }
-                else if(regionCode == "EU")
-                {
-                    //Europe, mid-east, africa
-                    AppSettings.Instance.Region_URL = "tesla.com";
-                    AppSettings.Instance.Region = 1;
-                    AppSettings.Instance.Base_URL = "https://fleet-api.prd.eu.vn.cloud.tesla.com";
-                    AppSettings.Instance.Client_id = "";//Replace with you own key
-                    AppSettings.Instance.Client_secret = "";//Replace with you own key
-                }
-                else
-                {
-                    //Mainland China
-                    AppSettings.Instance.Region_URL = "tesla.cn";
-                    AppSettings.Instance.Region = 2;
-                    AppSettings.Instance.Base_URL = "https://fleet-api.prd.cn.vn.cloud.tesla.cn";
-                    AppSettings.Instance.Client_id = "";//Replace with you own key
-                    AppSettings.Instance.Client_secret = "";//Replace with you own key
-                }
+                TeslaMurphy.Services.TeslaConfiguration.ApplyRegion(AppSettings.Instance, localSettings.Values["region"].ToString());
             }
 
             if (localSettings.Values.ContainsKey("lengthunit"))
@@ -104,7 +77,7 @@ namespace TeslaMurphy.Views
                 }
             }
 
-            if(DateTime.Now.Date < new DateTime(2025, 2, 27))
+            if(DateTime.Now.Date < new DateTime(2027, 2, 27))
                 AppSettings.Instance.IsPro = true;
         }
 
@@ -142,11 +115,6 @@ namespace TeslaMurphy.Views
                     break;
                 case "Xbox":
                     NavigationViewControl.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top;
-                    break;
-                case "Phone":
-                    //Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = StringtoColor.ConvertStringToColor("#848693");
-                    //Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = 1;
-                    //Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = StringtoColor.ConvertStringToColor("#FFFFFF");
                     break;
             }
         }

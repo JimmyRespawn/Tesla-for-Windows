@@ -9,7 +9,7 @@
   <Identity
     Name="47059JimmyLin.LinkforTesla"
     Publisher="CN="
-    Version="0.9.3.0" />
+    Version="0.9.4.0" />
 
   <mp:PhoneIdentity PhoneProductId="00000000-0000-0000-0000-000000000000" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -50,5 +50,6 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
   </Capabilities>
 </Package>

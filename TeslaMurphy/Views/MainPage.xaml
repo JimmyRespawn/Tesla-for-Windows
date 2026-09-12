@@ -153,6 +153,7 @@
                                 <TextBlock
                                     x:Name="ToastTitle"
                                     VerticalAlignment="Center"
+                                    IsTextSelectionEnabled="True"
                                     Text="Channel liked" />
                             </StackPanel>
                         </StackPanel>

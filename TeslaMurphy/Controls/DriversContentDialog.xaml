@@ -8,7 +8,7 @@
     xmlns:models="using:TeslaMurphy.Models"
     Title="Drivers"
     Loaded="ContentDialog_Loaded"
-    SecondaryButtonText="Close"
+    SecondaryButtonText="CLOSE"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ListView

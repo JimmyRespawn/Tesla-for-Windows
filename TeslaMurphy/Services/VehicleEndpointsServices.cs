@@ -1,8 +1,5 @@
-﻿
-
 using System.Threading;
 using System.Threading.Tasks;
-using TeslaMurphy.Models;
 
 namespace TeslaMurphy.Services
 {
@@ -107,6 +104,12 @@ namespace TeslaMurphy.Services
         /// <param name="vehicle_tag">id or vin</param>
         /// <param name="cts">for cancelling the call if needed</param>
         /// <returns>json data</returns>
+        public static Task<string> VehicleLocationGetAsync(string baseUrl, string token, string vin, CancellationTokenSource cts)
+        {
+            string endpoint = "/api/1/vehicles/" + System.Uri.EscapeDataString(vin)
+                + "/vehicle_data?endpoints=location_data";
+            return TeslaFleetServices.HttpGetRequestAsync(baseUrl, endpoint, token, cts);
+        }
         public static async Task<string> VehicleDataGetAsync(string base_url, string access_token, string vehicle_tag, CancellationTokenSource cts)
         {
             try

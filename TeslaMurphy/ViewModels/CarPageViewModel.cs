@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -114,29 +114,8 @@ namespace TeslaMurphy.ViewModels
                 }
                 else
                 {
-                    int region = dialog.Region;
-                    if(region == 0)
-                    {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.Values["region"] = "NA";
-                        AppSettings.Instance.Client_id = "";//Replace with you own key
-                        AppSettings.Instance.Client_secret = "";
-                        AppSettings.Instance.Region_URL = "tesla.com";
-                    }
-                    else if (region == 1)
-                    {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.Values["region"] = "EU";
-                        AppSettings.Instance.Client_id = "";//Replace with you own key
-                        AppSettings.Instance.Client_secret = "";//Replace with you own key
-                        AppSettings.Instance.Region_URL = "tesla.com";
-                    }
-                    else if (region == 2)
-                    {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.Values["region"] = "CN";
-                        AppSettings.Instance.Client_id = "";//Replace with you own key
-                        AppSettings.Instance.Client_secret = "";//Replace with you own key
-                        AppSettings.Instance.Region_URL = "tesla.cn";
-                    }
-                    string authRequestUrl = await TeslaFleetServices.GenerateAuthorizeUriAsync("https://auth." + AppSettings.Instance.Region_URL + "/oauth2/v3/authorize", AppSettings.Instance.Client_id);
+                    if (!await TeslaConfiguration.SelectLoginRegionAsync(dialog.Region)) return null;
+                    string authRequestUrl = await TeslaFleetServices.GenerateAuthorizeUriAsync();
                     return authRequestUrl;
                 }
             }
@@ -319,16 +298,66 @@ namespace TeslaMurphy.ViewModels
             };
         }
 
-        public async Task<bool> TurnOffACAsync(string vehicle_tag)
+        public Task<bool> TurnOffACAsync(string vehicle_tag) => SetClimateAsync(vehicle_tag, false);
+
+        public Task<bool> TurnOnACAsync(string vehicle_tag) => SetClimateAsync(vehicle_tag, true);
+
+        public string VehicleCommandError { get; private set; }
+
+        public Task<bool> SetDoorLockAsync(string vin, bool locked)
+            => ExecuteVehicleCommandAsync(vin, cts => VehicleCommandsServices.SetDoorLockAsync(
+                TeslaConfiguration.CommandBaseUrl, AppSettings.Instance.Access_token, vin, locked, cts));
+
+        private Task<bool> SetClimateAsync(string vehicle_tag, bool turnOn)
+            => ExecuteVehicleCommandAsync(vehicle_tag, cts => turnOn
+                ? VehicleCommandsServices.AutoConditioningOnPostAsync(TeslaConfiguration.CommandBaseUrl, AppSettings.Instance.Access_token, vehicle_tag, cts)
+                : VehicleCommandsServices.AutoConditioningOffPostAsync(TeslaConfiguration.CommandBaseUrl, AppSettings.Instance.Access_token, vehicle_tag, cts));
+
+        private async Task<bool> ExecuteVehicleCommandAsync(string vehicle_tag, Func<CancellationTokenSource, Task<HttpService.CommandResponse>> send)
         {
-            string responseString = await VehicleCommandsServices.AutoConditioningOffPostAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
-            if (!string.IsNullOrEmpty(responseString))
+            VehicleCommandError = "The vehicle did not confirm the command.";
+            if (AppSettings.Instance.IsTestMode || string.IsNullOrWhiteSpace(vehicle_tag)) return false;
+            using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(45)))
             {
-                if (responseString == "Unauthorized")
+                for (int attempt = 0; attempt < 2; attempt++)
                 {
-                    return await RefreshToken();
+                    var response = await send(cts);
+                    if (response.StatusCode == 401 && attempt == 0 && await RefreshToken()) continue;
+                    if (response.TransportError != null)
+                    {
+                        VehicleCommandError = response.TransportError;
+                        return false;
+                    }
+                    string detail = "";
+                    try
+                    {
+                        var json = Newtonsoft.Json.Linq.JObject.Parse(response.Body ?? "");
+                        var result = json["response"] as Newtonsoft.Json.Linq.JObject;
+                        var accepted = result?["result"];
+                        if (response.StatusCode >= 200 && response.StatusCode < 300 &&
+                            accepted?.Type == Newtonsoft.Json.Linq.JTokenType.Boolean && (bool)accepted) return true;
+                        foreach (var field in new[] { result?["reason"], json["error"], json["error_description"] })
+                            if (field?.Type == Newtonsoft.Json.Linq.JTokenType.String && !string.IsNullOrWhiteSpace((string)field))
+                                detail += (detail.Length == 0 ? "" : "\n") + (string)field;
+                    }
+                    catch (Newtonsoft.Json.JsonException) { detail = "The server returned an unexpected command response."; }
+                    // Never include tokens, request headers or the complete response body in the UI.
+                    foreach (string secret in new[] { AppSettings.Instance.Access_token, AppSettings.Instance.Refresh_token, AppSettings.Instance.Client_secret })
+                        if (!string.IsNullOrEmpty(secret)) detail = detail.Replace(secret, "[redacted]");
+                    if (detail.Length > 1000) detail = detail.Substring(0, 1000);
+                    VehicleCommandError = "HTTP " + response.StatusCode + "\n" + detail;
+                    string lower = detail.ToLowerInvariant();
+                    if (lower.Contains("vehicle command protocol") || lower.Contains("signed") || lower.Contains("virtual key"))
+                        VehicleCommandError += "\nThe vehicle requires signed commands. Check the command proxy and virtual key pairing.";
+                    else if (response.StatusCode == 401)
+                        VehicleCommandError += "\nAuthorization expired. Please sign in again.";
+                    else if (response.StatusCode == 403)
+                        VehicleCommandError += "\nAccess denied. Check vehicle permissions and command signing.";
+                    else if (response.StatusCode == 408 || lower.Contains("asleep") || lower.Contains("offline"))
+                        VehicleCommandError += "\nWake the vehicle and try again once it is online.";
+                    return false;
                 }
-                return true;
+
             }
             return false;
         }
@@ -355,6 +384,12 @@ namespace TeslaMurphy.ViewModels
         public async Task<bool> ShowSchedule(ChargeStateData chargeStateData)
         {
             ScheduleContentDialog dialog = new ScheduleContentDialog();
+            string vin = CarData?.vin;
+            if (!string.IsNullOrWhiteSpace(vin))
+                dialog.SaveScheduleAsync = (departure, json) => ExecuteVehicleCommandAsync(vin,
+                    cts => VehicleCommandsServices.SetScheduleAsync(TeslaConfiguration.CommandBaseUrl,
+                        AppSettings.Instance.Access_token, vin, departure, json, cts));
+            dialog.GetCommandError = () => VehicleCommandError;
             dialog.chargeStateData = chargeStateData;
             ContentDialogResult result = await dialog.ShowAsync();
             return true;
@@ -364,7 +399,7 @@ namespace TeslaMurphy.ViewModels
         {
             if (string.IsNullOrEmpty(service))
             {
-                await DisplayPopout.dualButton("Service", "Not in service.", "Ok", "Cancel");
+                await DisplayPopout.dualButton("Service", "Not in service.", "OK", "CANCEL");
             }
             else
             {
@@ -375,7 +410,7 @@ namespace TeslaMurphy.ViewModels
                     stringBuilder.AppendLine("Visit number: " + result.response.service_visit_number);
                 if (result.response.service_etc != null)
                     stringBuilder.AppendLine("Estimated time: " + result.response.service_etc);
-                await DisplayPopout.dualButton("Service", stringBuilder.ToString(), "Ok", "Cancel");
+                await DisplayPopout.dualButton("Service", stringBuilder.ToString(), "OK", "CANCEL");
             }
             return true;
         }
@@ -386,6 +421,10 @@ namespace TeslaMurphy.ViewModels
             {
                 ClimateContentDialog dialog = new ClimateContentDialog();
                 dialog.climateStateData = climateState;
+                string vin = CarData?.vin;
+                if (!string.IsNullOrWhiteSpace(vin))
+                    dialog.ChangeClimateAsync = enabled => enabled ? TurnOnACAsync(vin) : TurnOffACAsync(vin);
+                dialog.GetCommandError = () => VehicleCommandError;
                 ContentDialogResult result = await dialog.ShowAsync();
             }
             return true;
@@ -396,7 +435,7 @@ namespace TeslaMurphy.ViewModels
             try
             {
                 //access_token expired in 8 hours
-                string content = await TeslaFleetServices.RefreshTokenRequestAsync(new Uri("https://auth." + AppSettings.Instance.Region_URL + "/oauth2/v3/token"), AppSettings.Instance.Client_id, AppSettings.Instance.Refresh_token, new CancellationTokenSource());
+                string content = await TeslaFleetServices.RefreshTokenRequestAsync(new CancellationTokenSource());
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(content);
                 string access_token = result.access_token;
                 string refresh_token = result.refresh_token;
@@ -421,6 +460,41 @@ namespace TeslaMurphy.ViewModels
             return false;
         }
 
+        public string VehicleLocationError { get; private set; }
+
+        public async Task<Geopoint> GetVehicleLocationAsync(string vin)
+        {
+            VehicleLocationError = null;
+            if (AppSettings.Instance.IsTestMode) return null;
+            if (string.IsNullOrWhiteSpace(vin)) { VehicleLocationError = "No vehicle selected."; return null; }
+            try
+            {
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)))
+                {
+                    for (int attempt = 0; attempt < 2; attempt++)
+                    {
+                        var content = await VehicleEndpointsServices.VehicleLocationGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vin, cts);
+                        if (content == "Unauthorized" && attempt == 0 && await RefreshToken()) continue;
+                        if (content == "Unauthorized" || content == "Forbidden")
+                        { VehicleLocationError = "Vehicle location access denied. Sign in again and allow vehicle location access."; return null; }
+                        if (string.IsNullOrWhiteSpace(content))
+                        { VehicleLocationError = "Vehicle location request failed or timed out."; return null; }
+                        if (content == "RequestTimeout")
+                        { VehicleLocationError = "Vehicle is unavailable. Wake it and try again."; return null; }
+                        var json = Newtonsoft.Json.Linq.JObject.Parse(content);
+                        var drive = json["response"]?["drive_state"];
+                        double? lat = (double?)drive?["latitude"];
+                        double? lon = (double?)drive?["longitude"];
+                        if (!lat.HasValue || !lon.HasValue || double.IsNaN(lat.Value) || double.IsNaN(lon.Value)
+                            || Math.Abs(lat.Value) > 90 || Math.Abs(lon.Value) > 180)
+                        { VehicleLocationError = "The vehicle did not return a location. Check location permission and vehicle connectivity."; return null; }
+                        return new Geopoint(new BasicGeoposition { Latitude = lat.Value, Longitude = lon.Value });
+                    }
+                }
+            }
+            catch { VehicleLocationError = "Unable to read vehicle location. Check vehicle connectivity and location permission."; }
+            return null;
+        }
         public async Task<bool> GetNearbyChargingSitesAsync(string vehicle_tag)
         {
             try

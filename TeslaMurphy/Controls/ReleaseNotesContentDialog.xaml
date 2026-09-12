@@ -9,8 +9,8 @@
     x:Uid="ReleaseNotesCD"
     Title="Release Notes"
     Loaded="ContentDialog_Loaded"
-    PrimaryButtonText="Release Videos"
-    SecondaryButtonText="Close"
+    PrimaryButtonText="RELEASE VIDDEOS"
+    SecondaryButtonText="CLOSE"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <!--<ContentDialog.Resources>

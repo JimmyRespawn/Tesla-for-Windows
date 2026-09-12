@@ -172,6 +172,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MapServices.cs" />
     <Compile Include="Services\TeslaFleetServices.cs" />
+    <Compile Include="Services\HttpService.cs" />
+    <Compile Include="Services\TeslaConfiguration.cs" />
     <Compile Include="Services\VehicleCommandsServices.cs" />
     <Compile Include="Services\VehicleEndpointsServices.cs" />
     <Compile Include="ViewModels\CarPageViewModel.cs" />
@@ -197,7 +199,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
+    <AppxManifest Include="Package.appxmanifest" Condition="!Exists('Package.local.appxmanifest')">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <AppxManifest Include="Package.local.appxmanifest" Condition="Exists('Package.local.appxmanifest')">
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
@@ -328,7 +333,12 @@
       <Version>13.0.3</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="TeslaCredentials.example.json" />
+    <EmbeddedResource Include="TeslaCredentials.local.json" Condition="Exists('TeslaCredentials.local.json')">
+      <LogicalName>TeslaMurphy.TeslaCredentials.json</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Fonts\Segoe Fluent Icons.ttf" />
   </ItemGroup>

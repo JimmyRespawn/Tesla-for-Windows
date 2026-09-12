@@ -1,107 +1,207 @@
-﻿<ContentDialog
+<ContentDialog
     x:Class="TeslaMurphy.Controls.ScheduleContentDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:TeslaMurphy.Controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Schedule"
+    Closing="ContentDialog_Closing"
     Loaded="ContentDialog_Loaded"
-    SecondaryButtonText="Close"
-    Style="{StaticResource DefaultContentDialogStyle}"
-    mc:Ignorable="d">
-    <ScrollViewer Margin="-24,0">
-        <StackPanel Width="360" Margin="24,0">
-            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Departure" />
-            <Grid Margin="0,12,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Departure Time" />
+    PrimaryButtonClick="Save_Click"
+    PrimaryButtonText="SAVE"
+    SecondaryButtonText="CLOSE"
+    Style="{StaticResource DefaultContentDialogStyle}">
+    <ScrollViewer
+        MaxHeight="520"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Hidden">
+        <StackPanel MaxWidth="400">
+            <StackPanel x:Name="Editor">
                 <TextBlock
-                    x:Name="DepartureTimeTextBlock"
-                    Grid.Column="1"
-                    Text="00:00" />
-            </Grid>
-            <Grid Margin="0,24,-116,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="Precondition" />
-                <TextBlock
-                    Grid.Row="1"
-                    VerticalAlignment="Center"
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    MaxLines="2"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="Set climate and preheat battery" />
-                <ToggleSwitch
-                    x:Name="PreconditionToggleSwitch"
-                    Grid.RowSpan="2"
-                    Grid.Column="1"
-                    IsEnabled="False"
-                    OffContent=""
-                    OnContent="" />
-            </Grid>
-            <Grid Margin="0,24,-116,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="Off-Peak Charge" />
+                    Text="Times use the vehicle's local time."
+                    TextWrapping="Wrap" />
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Schedule mode"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <ComboBox
+                            x:Name="Mode"
+                            MinWidth="156"
+                            SelectedIndex="0">
+                            <ComboBoxItem Content="Departure" />
+                            <ComboBoxItem Content="Start charging" />
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Enable schedule"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <ToggleSwitch
+                            x:Name="Enabled"
+                            MinWidth="0"
+                            OffContent=""
+                            OnContent="" />
+                    </StackPanel>
+                </Grid>
+                <Border
+                    Height="1"
+                    Margin="0,20,0,16"
+                    Background="{ThemeResource SystemControlForegroundBaseLowBrush}" />
                 <TextBlock
-                    Grid.Row="1"
-                    VerticalAlignment="Center"
+                    Margin="0,0,0,4"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="Departure" />
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Departure time"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <TimePicker x:Name="Departure" ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Precondition"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <ToggleSwitch
+                            x:Name="Precondition"
+                            MinWidth="0"
+                            OffContent=""
+                            OnContent="" />
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Weekdays only"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <CheckBox
+                            x:Name="PreconditionWeekdays"
+                            MinWidth="0"
+                            AutomationProperties.Name="Precondition on weekdays only" />
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Off-peak charging"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <ToggleSwitch
+                            x:Name="OffPeak"
+                            MinWidth="0"
+                            OffContent=""
+                            OnContent="" />
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Weekdays only"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <CheckBox
+                            x:Name="OffPeakWeekdays"
+                            MinWidth="0"
+                            AutomationProperties.Name="Off-peak charging on weekdays only" />
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Off-peak ends at"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <TimePicker x:Name="OffPeakEnd" ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </Grid>
+                <Border
+                    Height="1"
+                    Margin="0,20,0,16"
+                    Background="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+                <TextBlock
+                    Margin="0,0,0,4"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="Charging" />
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center"
+                        Text="Start charging at"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <TimePicker x:Name="ChargeStart" ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </Grid>
+                <TextBlock
+                    Margin="0,20,0,0"
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    MaxLines="2"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="Reduce energy costs" />
-                <ToggleSwitch
-                    x:Name="OffPeakChargeToggleSwitch"
-                    Grid.RowSpan="2"
-                    Grid.Column="1"
-                    IsEnabled="False"
-                    OffContent=""
-                    OnContent="" />
-            </Grid>
+                    Text="Save applies only the selected mode. Close discards unsaved changes."
+                    TextWrapping="Wrap" />
+            </StackPanel>
+            <ProgressRing
+                x:Name="Progress"
+                Width="24"
+                Height="24"
+                IsActive="False" />
             <TextBlock
-                Margin="0,36,0,0"
-                Style="{StaticResource BodyStrongTextBlockStyle}"
-                Text="Charge" />
-            <Grid Margin="0,4,-116,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="Schedule Charging" />
-                <ToggleSwitch
-                    x:Name="SheduledChargeToggleSwitch"
-                    Grid.Column="1"
-                    IsEnabled="False"
-                    OffContent=""
-                    OnContent="" />
-            </Grid>
-            <Grid Margin="0,4,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Start Charging at" />
-                <TextBlock
-                    x:Name="StartChargingTextBlock"
-                    Grid.Column="1"
-                    Text="00:00" />
-            </Grid>
+                x:Name="Status"
+                Margin="0,12,0,0"
+                TextWrapping="Wrap" />
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # User-specific files
+/TeslaMurphy/Package.local.appxmanifest
+/TeslaMurphy/TeslaCredentials.local.json
 *.rsuser
 *.suo
 *.user

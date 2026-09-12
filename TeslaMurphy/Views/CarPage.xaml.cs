@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Net.Http;
+using TeslaMurphy.Services;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -125,75 +124,122 @@ namespace TeslaMurphy.Views
             }
         }
 
-        private async void ACAppBarButton_Click(object sender, RoutedEventArgs e)
+        private bool vehicleCommandInProgress;
+
+        private async void LockAppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            if (vehicleCommandInProgress) return;
+            var car = ViewModel.CarData;
+            if (car?.vehicle_state == null || string.IsNullOrWhiteSpace(car.vin) || AppSettings.Instance.IsTestMode)
+            {
+                MainPage.Instance.ShowToast("Please connect your vehicle first. Demo mode does not support vehicle lock control.");
+                return;
+            }
+            bool locked = !car.vehicle_state.locked;
+            vehicleCommandInProgress = true;
+            LockAppBarButton.IsEnabled = false;
+            ACAppBarButton.IsEnabled = false;
             try
             {
-                if (ACAppBarButton.IsChecked == false)
+                if (await ViewModel.SetDoorLockAsync(car.vin, locked))
                 {
-                    bool isTurnedOff = await ViewModel.TurnOffACAsync(ViewModel.CarData.id.ToString());
-                    if (!isTurnedOff)
+                    car.vehicle_state.locked = locked;
+                    if (ReferenceEquals(car, ViewModel.CarData))
                     {
-                        ACAppBarButton.IsChecked = true;
-                        MainPage.Instance.ShowToast("Failed, car-control coming soon");
+                        // Rebind because the vehicle state model does not notify property changes.
+                        var icon = (FontIcon)LockAppBarButton.Icon;
+                        icon.SetBinding(FontIcon.GlyphProperty, new Windows.UI.Xaml.Data.Binding
+                        {
+                            Path = new PropertyPath("CarData.vehicle_state.locked"),
+                            Converter = new TeslaMurphy.Converters.LockStateToIconConverter()
+                        });
                     }
-                    else
-                    {
-                        ACAppBarButton.IsEnabled = false;
-                        ViewModel.CarData.climate_state.is_climate_on = false;
-                    }
+                    MainPage.Instance.ShowToast(locked ? "Car Locked" : "Car Unlocked");
                 }
                 else
-                {
-                    // Turn on AC
-                }
+                    await new ContentDialog { Title = locked ? "Failed to lock car" : "Failed to unlock car", Content = ViewModel.VehicleCommandError, CloseButtonText = "CLOSE" }.ShowAsync();
             }
             catch
             {
-
+                MainPage.Instance.ShowToast("Car lock command failed. Please check the connection and try again.");
+            }
+            finally
+            {
+                vehicleCommandInProgress = false;
+                LockAppBarButton.IsEnabled = true;
+                ACAppBarButton.IsEnabled = true;
             }
         }
-
+        private async void ACAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var car = ViewModel.CarData;
+            if (vehicleCommandInProgress) return;
+            if (car?.climate_state == null || AppSettings.Instance.IsTestMode)
+            {
+                ACAppBarButton.IsChecked = car?.climate_state?.is_climate_on ?? false;
+                MainPage.Instance.ShowToast("Climate control requires a connected vehicle.");
+                return;
+            }
+            bool previousState = car.climate_state.is_climate_on;
+            bool turnOn = ACAppBarButton.IsChecked == true;
+            vehicleCommandInProgress = true;
+            ACAppBarButton.IsEnabled = false;
+            LockAppBarButton.IsEnabled = false;
+            try
+            {
+                bool succeeded = turnOn
+                    ? await ViewModel.TurnOnACAsync(car.vin)
+                    : await ViewModel.TurnOffACAsync(car.vin);
+                if (succeeded)
+                    car.climate_state.is_climate_on = turnOn;
+                else
+                    await new ContentDialog { Title = "空调指令未成功", Content = ViewModel.VehicleCommandError, CloseButtonText = "CLOSE" }.ShowAsync();
+                if (ReferenceEquals(car, ViewModel.CarData))
+                    ACAppBarButton.IsChecked = succeeded ? turnOn : previousState;
+            }
+            catch
+            {
+                if (ReferenceEquals(car, ViewModel.CarData)) ACAppBarButton.IsChecked = previousState;
+                MainPage.Instance.ShowToast("Unable to change climate. Please try again.");
+            }
+            finally
+            {
+                vehicleCommandInProgress = false;
+                ACAppBarButton.IsEnabled = true;
+                LockAppBarButton.IsEnabled = true;
+            }
+        }
         public async Task LoadNerbyChargingSites(string vehicle_tag)
         {
-            //var MyLandmarks = new List<MapElement>();
-
-            //BasicGeoposition snPosition = new BasicGeoposition { Latitude = 47.620, Longitude = -122.349 };
-            //Geopoint snPoint = new Geopoint(snPosition);
-
-            //var spaceNeedleIcon = new MapIcon
-            //{
-            //    Location = snPoint,
-            //    NormalizedAnchorPoint = new Point(0.5, 1.0),
-            //    ZIndex = 0,
-            //    Title = "Space Needle"
-            //};
-
-            //MyLandmarks.Add(spaceNeedleIcon);
-
-            //var LandmarksLayer = new MapElementsLayer
-            //{
-            //    ZIndex = 1,
-            //    MapElements = MyLandmarks
-            //};
-
-            //TeslaChargingMap.Layers.Add(LandmarksLayer);
-
-            //TeslaChargingMap.Center = snPoint;
-            //TeslaChargingMap.ZoomLevel = 14;
-            await ViewModel.GetNearbyChargingSitesAsync(vehicle_tag);
-            if(ViewModel.MapIcons.Count != 0)
+            var car = ViewModel.CarData;
+            bool sitesLoaded = await ViewModel.GetNearbyChargingSitesAsync(vehicle_tag);
+            var location = await ViewModel.GetVehicleLocationAsync(vehicle_tag);
+            if (!ReferenceEquals(car, ViewModel.CarData)) return;
+            TeslaChargingMap.MapElements.Clear();
+            if (ViewModel.MapIcons != null)
+                foreach (var icon in ViewModel.MapIcons) TeslaChargingMap.MapElements.Add(icon);
+            if (location != null)
             {
-                // add the map icons to the map
-                foreach (var mapIcon in ViewModel.MapIcons)
+                TeslaChargingMap.MapElements.Add(new MapIcon
                 {
-                    TeslaChargingMap.MapElements.Add(mapIcon);
-                }
-                TeslaChargingMap.Center = ViewModel.MapIcons.LastOrDefault().Location;
-                TeslaChargingMap.ZoomLevel = 14;
+                    Location = location, Title = "Your vehicle", ZIndex = 10,
+                    CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
+                });
+                TeslaChargingMap.Center = location;
+                TeslaChargingMap.ZoomLevel = 13;
             }
+            else
+            {
+                if (ViewModel.MapIcons?.Count > 0)
+                {
+                    TeslaChargingMap.Center = ViewModel.MapIcons.First().Location;
+                    TeslaChargingMap.ZoomLevel = 13;
+                }
+                if (!string.IsNullOrEmpty(ViewModel.VehicleLocationError))
+                    MainPage.Instance.ShowToast(ViewModel.VehicleLocationError);
+            }
+            if (!sitesLoaded) MainPage.Instance.ShowToast("Unable to load nearby charging sites.");
         }
-
         private void LocationButton_Click(object sender, RoutedEventArgs e)
         {
             CarInfoGrid.Visibility = Visibility.Collapsed;
@@ -214,6 +260,8 @@ namespace TeslaMurphy.Views
             {
                 if (AppSettings.Instance.IsPro)
                 {
+                    if (ViewModel.CarData == null) return;
+                    GetChargerSitesButton.IsEnabled = false;
                     DestinationComboBox.SelectedIndex = -1;
                     await LoadNerbyChargingSites(ViewModel.CarData.vin);
                     if (ViewModel.MapIcons.Count > 0) DestinationComboBox.Visibility = Visibility.Visible;
@@ -222,10 +270,8 @@ namespace TeslaMurphy.Views
                 else
                     DisplayPurchaseInfoAsync();
             }
-            catch
-            {
-
-            }
+            catch { MainPage.Instance.ShowToast("Unable to load the map. Please try again."); }
+            finally { GetChargerSitesButton.IsEnabled = true; }
         }
 
         private async void TopRigtInfoButton_Click(object sender, RoutedEventArgs e)
@@ -270,7 +316,10 @@ namespace TeslaMurphy.Views
             if (ViewModel.CarData != null)
             {
                 if (AppSettings.Instance.IsPro)
+                {
+                    if (vehicleCommandInProgress) return;
                     await ViewModel.ShowSchedule(ViewModel.CarData.charge_state);
+                }
                 else
                     DisplayPurchaseInfoAsync();
             }
@@ -292,7 +341,11 @@ namespace TeslaMurphy.Views
             if (ViewModel.CarData != null)
             {
                 if (AppSettings.Instance.IsPro)
+                {
+                    if (vehicleCommandInProgress) return;
                     await ViewModel.ShowClimate(ViewModel.CarData.climate_state);
+                    ACAppBarButton.IsChecked = ViewModel.CarData?.climate_state?.is_climate_on ?? false;
+                }
                 else
                     DisplayPurchaseInfoAsync();
             }
@@ -355,7 +408,7 @@ namespace TeslaMurphy.Views
             {
                 // 处理找不到路径的情况
                 //await new Windows.UI.Popups.MessageDialog("No route found").ShowAsync();
-                await DisplayPopout.dualButton("Sorry", "No route found", "Ok", "Cancel");
+                await DisplayPopout.dualButton("Sorry", "No route found", "OK", "CANCEL");
             }
         }
 
@@ -475,32 +528,15 @@ namespace TeslaMurphy.Views
         {
             try
             {
-                string teslaCodeExchangeURL = "https://auth." + AppSettings.Instance.Region_URL + "/oauth2/v3/token";
-                // Exchange token for session key
-                var postData = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                    new KeyValuePair<string, string>("redirect_uri", "http://localhost:8000/callback"),
-                    new KeyValuePair<string, string>("client_id", AppSettings.Instance.Client_id),
-                    new KeyValuePair<string, string>("client_secret", AppSettings.Instance.Client_secret),
-                    new KeyValuePair<string, string>("audience", AppSettings.Instance.Base_URL),
-                    new KeyValuePair<string, string>("scope", "openid offline_access user_data vehicle_device_data vehicle_cmds vehicle_charging_cmds"),
-                    new KeyValuePair<string, string>("code", token) // This is the authorization code you received
-                });
-
-                using (var client = new HttpClient())
-                {
-                    var response = await client.PostAsync(teslaCodeExchangeURL, postData);
-                    var content = await response.Content.ReadAsStringAsync();
-                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(content);
-                    string access_token = result.access_token;
-                    string refresh_token = result.refresh_token;
-                    // Save the session key securely for future use
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["refreshtoken"] = refresh_token;
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstoken"] = access_token;
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstokentime"] = DateTime.Now.Date.ToString();
-                    return true;
-                }
+                var content = await TeslaFleetServices.ExchangeCodeAsync(token);
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(content);
+                string access_token = result.access_token;
+                string refresh_token = result.refresh_token;
+                if (string.IsNullOrWhiteSpace(access_token) || string.IsNullOrWhiteSpace(refresh_token)) return false;
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["refreshtoken"] = refresh_token;
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstoken"] = access_token;
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstokentime"] = DateTime.Now.Date.ToString();
+                return true;
             }
             catch
             {
@@ -645,7 +681,7 @@ namespace TeslaMurphy.Views
         //    {
         //        AuthorizeTextBlock.Text = "Authenticating...";
         //        PB.IsIndeterminate = true;
-        //        string authRequestUrl = await TeslaFleetServices.GenerateAuthorizeUriAsync("https://auth." + AppSettings.Instance.Region_URL + "/oauth2/v3/authorize", AppSettings.Instance.Client_id);
+        //        string authRequestUrl = await TeslaFleetServices.GenerateAuthorizeUriAsync();
         //        UWPGeneralHelper.OpenInDefaultBrowser(authRequestUrl);
         //    }
         //    else
