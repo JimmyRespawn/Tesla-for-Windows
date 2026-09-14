@@ -7,7 +7,7 @@ namespace TeslaMurphy.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            string modelString = value.ToString();
+            string modelString = value?.ToString()?.Trim().ToLowerInvariant();
             if (modelString == "model3")
                 return "/Assets/Images/model3pearlwhite.webp";
             else if (modelString == "modely")
@@ -16,6 +16,8 @@ namespace TeslaMurphy.Converters
                 return "/Assets/Images/modelspearlwhite.webp";
             else if (modelString == "modelx")
                 return "/Assets/Images/modelxpearlwhite.webp";
+            if (modelString == "cybertruck" || modelString == "cyber_truck" || modelString == "cyber truck")
+                return "/Assets/Images/Vehicles/cybertruck-closed.png";
             return "/Assets/Images/modelypearlwhite.webp";
         }
 

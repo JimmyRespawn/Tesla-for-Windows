@@ -87,8 +87,9 @@ namespace TeslaMurphy.Controls
         private void Update()
         {
             var car = Vehicle;
-            string model = car?.vehicle_config?.car_type?.ToLowerInvariant();
-            bool supported = new[] { "model3", "modely", "models", "modelx" }.Contains(model);
+            string model = car?.vehicle_config?.car_type?.Trim().ToLowerInvariant();
+            if (model == "cyber_truck" || model == "cyber truck") model = "cybertruck";
+            bool supported = new[] { "model3", "modely", "models", "modelx", "cybertruck" }.Contains(model);
             groundShadow.Visibility = supported ? Visibility.Visible : Visibility.Collapsed;
             transition?.Stop();
             UpdateCharging(car?.charge_state, model);
@@ -109,7 +110,7 @@ namespace TeslaMurphy.Controls
             int? rf = rhd ? doors?.df : doors?.pf, rr = rhd ? doors?.dr : doors?.pr;
             // The left side faces the camera. Keep far-side state for the status text.
             int mask = (lf > 0 ? 1 : 0) | (lr > 0 ? 2 : 0) | (rf > 0 ? 4 : 0) | (rr > 0 ? 8 : 0);
-            caption = model == "model3" ? "Model 3" : model == "modely" ? "Model Y" : model == "models" ? "Model S" : "Model X";
+            caption = model == "model3" ? "Model 3" : model == "modely" ? "Model Y" : model == "models" ? "Model S" : model == "modelx" ? "Model X" : "Cybertruck";
             var open = new[] { lf > 0 ? "Front left" : null, lr > 0 ? "Rear left" : null, rf > 0 ? "Front right" : null, rr > 0 ? "Rear right" : null }.Where(x => x != null);
             stateLabel = !known ? "Door state unavailable" : mask == 0 ? "All doors closed" : string.Join(" · ", open) + " open";
             AutomationProperties.SetName(this, caption + ". " + stateLabel);
@@ -137,7 +138,8 @@ namespace TeslaMurphy.Controls
             chargingLabel.Visibility = connected ? Visibility.Visible : Visibility.Collapsed;
             if (!connected) return;
             bool active = state == "Charging";
-            double portY = model == "model3" ? 67 : model == "modely" ? 70 : model == "models" ? 64 : 75;
+            double portX = model == "cybertruck" ? 369 : model == "modely" ? 375 : model == "modelx" ? 381 : model == "models" ? 379 : 366;
+            double portY = model == "cybertruck" ? 109 : model == "model3" ? 67 : model == "modely" ? 64 : model == "models" ? 64 : 69;
             var accent = new SolidColorBrush(active ? Color.FromArgb(255, 40, 190, 126) : Color.FromArgb(255, 121, 142, 164));
             chargingLabel.Text = active ? "Charging" + (charge.charger_power > 0 ? " · " + charge.charger_power + " kW" : "")
                 : state == "Complete" ? "Plugged in · Charge complete" : state == "NoPower" ? "Plugged in · No power" : "Plugged in · Waiting";
@@ -150,11 +152,11 @@ namespace TeslaMurphy.Controls
                 Child = new TextBlock { Text = "\uE945", FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 17, Foreground = new SolidColorBrush(Colors.White), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center } };
             Canvas.SetLeft(stand, 357); Canvas.SetTop(stand, 173); chargingLayer.Children.Add(stand);
             var figure = new PathFigure { StartPoint = new Point(357, 213), IsClosed = false };
-            figure.Segments.Add(new BezierSegment { Point1 = new Point(322, 263), Point2 = new Point(397, 140), Point3 = new Point(366, portY) });
+            figure.Segments.Add(new BezierSegment { Point1 = new Point(322, 263), Point2 = new Point(397, 140), Point3 = new Point(portX, portY) });
             var geometry = new PathGeometry(); geometry.Figures.Add(figure);
             chargingLayer.Children.Add(new Windows.UI.Xaml.Shapes.Path { Data = geometry, Stroke = new SolidColorBrush(Color.FromArgb(255, 37, 47, 60)), StrokeThickness = 5, StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round });
             var connector = new Border { Width = 15, Height = 8, Background = accent, CornerRadius = new CornerRadius(3), RenderTransform = new RotateTransform { Angle = 35, CenterX = 7, CenterY = 4 } };
-            Canvas.SetLeft(connector, 358); Canvas.SetTop(connector, portY - 4); chargingLayer.Children.Add(connector);
+            Canvas.SetLeft(connector, portX - 8); Canvas.SetTop(connector, portY - 4); chargingLayer.Children.Add(connector);
             if (active && new Windows.UI.ViewManagement.UISettings().AnimationsEnabled)
             {
                 chargingPulse = new Storyboard();
@@ -169,5 +171,3 @@ namespace TeslaMurphy.Controls
         }
     }
 }
-
-

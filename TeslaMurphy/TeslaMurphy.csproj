@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -350,6 +350,8 @@
     <Content Include="Assets\Images\Vehicles\modely-side.png" />
     <Content Include="Assets\Images\Vehicles\models-side.png" />
     <Content Include="Assets\Images\Vehicles\modelx-side.png" />
+    <Content Include="Assets\Images\Vehicles\cybertruck-side.png" />
+    <Content Include="Assets\Images\Vehicles\cybertruck-closed.png" />
     <Content Include="Assets\Images\modelypearlwhite.webp" />
     <Content Include="Assets\TestData\drivers.json" />
     <Content Include="Assets\Images\TelsaBirdViewPhoto.webp" />
