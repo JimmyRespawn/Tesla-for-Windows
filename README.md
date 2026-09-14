@@ -106,3 +106,12 @@ and OAuth token requests continue using the regional Fleet API/auth endpoints.
 This setting does not deploy a proxy or pair a virtual key automatically. The
 vehicle must be online; if it is asleep, wake it and retry. See Tesla's
 [command requirements](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-commands).
+### China vehicle marker coordinates
+
+Only the vehicle marker in the CN region uses coordinate correction. Charger
+coordinates and API response data are unchanged. The default is the approximate
+GCJ-02 to WGS-84 conversion, an assumption that must be checked against the actual
+map and vehicle position. In the CN entry of TeslaCredentials.local.json, set
+VehicleCoordinateConversion to Gcj02ToWgs84, Wgs84ToGcj02, or None, then rebuild.
+The algorithm uses a coarse geographic bounding box, not a precise mainland
+boundary; disable correction for locations or map providers that do not need it.

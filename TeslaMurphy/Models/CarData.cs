@@ -30,6 +30,7 @@ namespace TeslaMurphy.Models
 
     public class VehicleConfig
     {
+        public bool rhd { get; set; }
         public string car_type { get; set; }
         public string driver_assist { get; set; }
         public string exterior_color { get; set; }
@@ -108,6 +109,11 @@ namespace TeslaMurphy.Models
 
     public class VihicleState
     {
+        // Null means the API did not return a door state; do not assume closed.
+        public int? df { get; set; }
+        public int? dr { get; set; }
+        public int? pf { get; set; }
+        public int? pr { get; set; }
         public string car_version { get; set; }
         public string vehicle_name { get; set; }
         public bool locked { get; set; }

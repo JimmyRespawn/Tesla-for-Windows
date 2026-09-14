@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
@@ -9,6 +9,61 @@ namespace TeslaMurphy.Services
 {
     internal static class TeslaFleetServices
     {
+        private static readonly SemaphoreSlim tokenLock = new SemaphoreSlim(1, 1);
+
+        // Persist the rotated refresh token together with the new access-token lifetime.
+        public static bool SaveSession(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json)) return false;
+            var token = Newtonsoft.Json.Linq.JObject.Parse(json);
+            string access = (string)token["access_token"];
+            if (string.IsNullOrWhiteSpace(access)) return false;
+            string refresh = (string)token["refresh_token"];
+            long seconds = (long?)token["expires_in"] ?? 0;
+            var values = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
+            if (!string.IsNullOrWhiteSpace(refresh))
+            {
+                values["refreshtoken"] = refresh;
+                AppSettings.Instance.Refresh_token = refresh;
+            }
+            values["accesstoken"] = access;
+            values["accessTokenExpiresUtc"] = DateTimeOffset.UtcNow.AddSeconds(Math.Max(0, seconds)).ToUnixTimeSeconds();
+            AppSettings.Instance.Access_token = access;
+            return true;
+        }
+
+        public static async Task<bool> EnsureSessionAsync(string rejectedToken = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await tokenLock.WaitAsync(cancellationToken);
+            try
+            {
+                var values = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
+                string access = values.ContainsKey("accesstoken") ? values["accesstoken"] as string : null;
+                if (string.IsNullOrWhiteSpace(access)) return false;
+                AppSettings.Instance.Access_token = access;
+                // Another request may already have renewed the rejected token.
+                if (rejectedToken != null && access != rejectedToken) return true;
+                long expires;
+                if (rejectedToken == null && values.ContainsKey("accessTokenExpiresUtc")
+                    && long.TryParse(values["accessTokenExpiresUtc"].ToString(), out expires)
+                    && expires > DateTimeOffset.UtcNow.AddMinutes(2).ToUnixTimeSeconds()) return true;
+                string refresh = values.ContainsKey("refreshtoken") ? values["refreshtoken"] as string : null;
+                if (string.IsNullOrWhiteSpace(refresh)) return false;
+                AppSettings.Instance.Refresh_token = refresh;
+                using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+                {
+                    string result = await RefreshTokenRequestAsync(cts);
+                    // Do not restore a session after logout or overwrite a newer login.
+                    if (!values.ContainsKey("refreshtoken") || values["refreshtoken"] as string != refresh)
+                        return false;
+                    return SaveSession(result);
+                }
+            }
+            catch (Newtonsoft.Json.JsonException) { return false; }
+            finally { tokenLock.Release(); }
+        }
+
         public static Task<string> HttpGetRequestAsync(string base_url, string endpoint, string access_token, CancellationTokenSource cts)
             => HttpService.SendFleetAsync(HttpMethod.Get, base_url, endpoint, access_token, cts?.Token ?? CancellationToken.None);
 

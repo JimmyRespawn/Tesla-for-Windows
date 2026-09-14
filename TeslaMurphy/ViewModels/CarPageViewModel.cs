@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -39,64 +39,57 @@ namespace TeslaMurphy.ViewModels
         [ObservableProperty]
         private ObservableCollection<VehicleBrief> carList;
 
-        public CarPageViewModel()
-        {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            string tokenTime = "";
-            if (localSettings.Values.ContainsKey("accesstokentime"))
-                tokenTime = localSettings.Values["accesstokentime"].ToString();
-            if (string.IsNullOrEmpty(tokenTime) || tokenTime != DateTime.Now.Date.ToString())
-                if (localSettings.Values.ContainsKey("refreshtoken"))
-                    RefreshToken();
-        }
+        private int vehicleLoadVersion;
+        private static string VehicleCacheKey(string vin)
+            => "vehicledata-" + new string(vin.Where(char.IsLetterOrDigit).ToArray());
 
         public async Task Intitalize(string vehicle_tag, bool isForceRefresh = false)
         {
+            int version = ++vehicleLoadVersion;
             IsLoading = true;
-            //Get car vin in the accountr, if there is no vin
-            if (string.IsNullOrEmpty(AppSettings.Instance.Current_carvin))
-                await GetCarListAsync();
-
-            bool isCacheExpired = false;
-            if (isForceRefresh)
-                isCacheExpired = true;
-
-            if (!isCacheExpired)
+            try
             {
-                Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                if (localSettings.Values.ContainsKey("cardatacachetime"))
+                if (CarList == null)
+                    await GetCarListAsync();
+                if (version != vehicleLoadVersion) return;
+                string vin = vehicle_tag;
+                if (CarList != null && !CarList.Any(x => x.vin == vin))
+                    vin = AppSettings.Instance.Current_carvin;
+                if (string.IsNullOrWhiteSpace(vin)) vin = AppSettings.Instance.Current_carvin;
+                if (string.IsNullOrWhiteSpace(vin)) { CarData = null; return; }
+
+                AppSettings.Instance.Current_carvin = vin;
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["maincarvin"] = vin;
+                if (CarData?.vin != vin)
                 {
-                    // retrieve the current time
-                    DateTime currentTime = DateTime.Now;
-                    DateTime lastCacheTime = DateTime.Parse(localSettings.Values["cardatacachetime"].ToString());
-                    // check if the cache is expired
-                    if ((currentTime - lastCacheTime).TotalHours > 4)
+                    CarData = null;
+                    MapIcons = new ObservableCollection<MapIcon>();
+                    UserMapLocations = new ObservableCollection<MapLocation>();
+                }
+
+                var values = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
+                string timeKey = VehicleCacheKey(vin) + "-time";
+                long saved;
+                bool expired = isForceRefresh || !values.ContainsKey(timeKey)
+                    || !long.TryParse(values[timeKey].ToString(), out saved)
+                    || DateTimeOffset.UtcNow.ToUnixTimeSeconds() - saved > 4 * 3600;
+                if (!AppSettings.Instance.IsTestMode && expired)
+                {
+                    bool awake = await CheckIfCarisAwakeAsync(vin);
+                    if (version != vehicleLoadVersion) return;
+                    if (!awake)
                     {
-                        // Expired every 4 hours
-                        // To be editted
-                        isCacheExpired = true;
+                        await WakeCarAsync(vin);
+                        await Task.Delay(18000);
+                        if (version != vehicleLoadVersion) return;
                     }
                 }
-                else
-                    isCacheExpired = true;
+                await GetCarInfoAsync(vin, expired);
             }
-
-            if (!AppSettings.Instance.IsTestMode)
+            finally
             {
-                if(AppSettings.Instance.Current_carvin != null && isCacheExpired)
-                {
-                    bool isCarAwake = await CheckIfCarisAwakeAsync(AppSettings.Instance.Current_carvin);
-                    if (!isCarAwake)
-                    {
-                        await WakeCarAsync(AppSettings.Instance.Current_carvin);
-                        await Task.Delay(18000);// Get info after 10s , 15秒不够，目前在测试18秒
-                    }
-                }
+                if (version == vehicleLoadVersion) IsLoading = false;
             }
-
-            if (AppSettings.Instance.Current_carvin != null)
-                await GetCarInfoAsync(AppSettings.Instance.Current_carvin, isCacheExpired);
-            IsLoading = false;
         }
 
         public async Task<string> ShowLoginDialog()
@@ -129,52 +122,41 @@ namespace TeslaMurphy.ViewModels
 
         public async Task GetCarInfoAsync(string vehicle_tag, bool isGettingOnline = true)
         {
+            if (string.IsNullOrWhiteSpace(vehicle_tag)) return;
+            int version = vehicleLoadVersion;
             try
             {
-                string responseString = "";
-                if (!AppSettings.Instance.IsTestMode)
-                {
-                    if (isGettingOnline)
-                    {
-                        responseString = await VehicleEndpointsServices.VehicleDataGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
-                        // mark save time
-                        if (!responseString.Contains("Unauthorized"))
-                        {
-                            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                            localSettings.Values["cardatacachetime"] = DateTime.Now.ToString();
-                            await UWPGeneralHelper.SaveStringToCacheFileAsync("vehicledata.json", responseString);
-                        }
-                    }
-                    else
-                    {
-                        responseString = await UWPGeneralHelper.GetCacheFileStringAsync("vehicledata.json");
-                        if (string.IsNullOrEmpty(responseString))
-                        {
-                            responseString = await VehicleEndpointsServices.VehicleDataGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
-                            // mark save time
-                            if (!responseString.Contains("Unauthorized"))
-                            {
-                                Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                                localSettings.Values["cardatacachetime"] = DateTime.Now.ToString();
-                                await UWPGeneralHelper.SaveStringToCacheFileAsync("vehicledata.json", responseString);
-                            }
-                        }
-                    }
-                }
+                string content = null;
+                string cache = VehicleCacheKey(vehicle_tag);
+                if (AppSettings.Instance.IsTestMode)
+                    content = await UWPGeneralHelper.GetTestFileAsync("vehicledata.json");
                 else
                 {
-                    //Load local file to test UI
-                    responseString = await UWPGeneralHelper.GetTestFileAsync("vehicledata.json");
+                    if (!isGettingOnline)
+                    {
+                        try { content = await UWPGeneralHelper.GetCacheFileStringAsync(cache + ".json"); }
+                        catch { }
+                    }
+                    if (string.IsNullOrWhiteSpace(content))
+                    {
+                        content = await VehicleEndpointsServices.VehicleDataGetAsync(
+                            AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token,
+                            vehicle_tag, new CancellationTokenSource());
+                        var live = JsonConvert.DeserializeObject<CarDataResponse>(content);
+                        if (live?.response?.vin != vehicle_tag) return;
+                        await UWPGeneralHelper.SaveStringToCacheFileAsync(cache + ".json", content);
+                        Windows.Storage.ApplicationData.Current.LocalSettings.Values[cache + "-time"]
+                            = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                    }
                 }
-                if (!string.IsNullOrEmpty(responseString))
-                {
-                    CarDataResponse carDataResponse = JsonConvert.DeserializeObject<CarDataResponse>(responseString);
-                    CarData = carDataResponse.response;
-                }
+                var data = JsonConvert.DeserializeObject<CarDataResponse>(content)?.response;
+                if (data != null && (AppSettings.Instance.IsTestMode || data.vin == vehicle_tag)
+                    && version == vehicleLoadVersion && AppSettings.Instance.Current_carvin == vehicle_tag)
+                    CarData = data;
             }
-            catch//To be editted
+            catch (Exception)
             {
-                //Log the responseString
+                // A failed response must never replace this or another vehicle's cached data.
             }
         }
 
@@ -188,12 +170,7 @@ namespace TeslaMurphy.ViewModels
                 string responseString = await VehicleEndpointsServices.WakeUpPostAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
                 if (!string.IsNullOrEmpty(responseString))
                 {
-                    if (responseString == "Unauthorized")
-                    {
-                        await RefreshToken();
-                        //responseString = await VehicleEndpointsServices.WakeUpPostAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
-                        //return true;
-                    }
+                    if (responseString == "Unauthorized") return false;
                     else if (responseString == "TooManyRequests")
                     {
                         // Notify users that call to much
@@ -218,13 +195,6 @@ namespace TeslaMurphy.ViewModels
                 if (!AppSettings.Instance.IsTestMode)
                 {
                     responseString = await VehicleEndpointsServices.ReleaseNotesGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
-                    if (!string.IsNullOrEmpty(responseString))
-                    {
-                        if (responseString == "Unauthorized")
-                        {
-                            await RefreshToken();
-                        }
-                    }
                 }
                 else
                 {
@@ -249,13 +219,6 @@ namespace TeslaMurphy.ViewModels
                 if (!AppSettings.Instance.IsTestMode)
                 {
                     responseString = await VehicleEndpointsServices.DriversGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
-                    if (!string.IsNullOrEmpty(responseString))
-                    {
-                        if (responseString == "Unauthorized")
-                        {
-                            await RefreshToken();
-                        }
-                    }
                 }
                 else
                 {
@@ -280,9 +243,6 @@ namespace TeslaMurphy.ViewModels
                 if (!AppSettings.Instance.IsTestMode)
                 {
                     responseString = await VehicleEndpointsServices.ServiceGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, new CancellationTokenSource());
-                    if (!string.IsNullOrEmpty(responseString))
-                        if (responseString == "Unauthorized")
-                            await RefreshToken();
                 }
                 else
                 {
@@ -321,8 +281,37 @@ namespace TeslaMurphy.ViewModels
             {
                 for (int attempt = 0; attempt < 2; attempt++)
                 {
+                    // Give each attempt its own timeout, including after waking the vehicle.
+                    cts.CancelAfter(TimeSpan.FromSeconds(45));
                     var response = await send(cts);
-                    if (response.StatusCode == 401 && attempt == 0 && await RefreshToken()) continue;
+                    cts.CancelAfter(Timeout.InfiniteTimeSpan);
+                    if (response.StatusCode == 500 && attempt == 0)
+                    {
+                        using (var wakeCts = new CancellationTokenSource(TimeSpan.FromSeconds(30)))
+                        {
+                            // Wake-up uses the regional Fleet API, not the signing proxy.
+                            string wakeResponse = await VehicleEndpointsServices.WakeUpPostAsync(
+                                AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, wakeCts);
+                            bool wakeAccepted = false;
+                            bool online = false;
+                            try
+                            {
+                                var wake = Newtonsoft.Json.Linq.JObject.Parse(wakeResponse ?? "");
+                                var state = (string)wake["response"]?["state"];
+                                wakeAccepted = !string.IsNullOrEmpty(state) && wake["error"] == null;
+                                online = state == "online";
+                            }
+                            catch (Newtonsoft.Json.JsonException) { }
+                            if (!wakeAccepted)
+                            {
+                                VehicleCommandError = "HTTP 500. Unable to wake the vehicle; the command was not retried. Please try again later.";
+                                return false;
+                            }
+                            // Waking is asynchronous. Allow a short startup interval if needed.
+                            if (!online) await Task.Delay(TimeSpan.FromSeconds(10), wakeCts.Token);
+                        }
+                        continue;
+                    }
                     if (response.TransportError != null)
                     {
                         VehicleCommandError = response.TransportError;
@@ -430,35 +419,8 @@ namespace TeslaMurphy.ViewModels
             return true;
         }
 
-        public async Task<bool> RefreshToken()
-        {
-            try
-            {
-                //access_token expired in 8 hours
-                string content = await TeslaFleetServices.RefreshTokenRequestAsync(new CancellationTokenSource());
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(content);
-                string access_token = result.access_token;
-                string refresh_token = result.refresh_token;
-                if (refresh_token != null)
-                {
-                    AppSettings.Instance.Refresh_token = refresh_token;
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["refreshtoken"] = refresh_token;
-                }
-
-                if (access_token != null)
-                {
-                    AppSettings.Instance.Access_token = access_token;
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstoken"] = access_token;
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstokentime"] = DateTime.Now.Date.ToString();
-                    return true;
-                }
-            }
-            catch
-            {
-
-            }
-            return false;
-        }
+        public Task<bool> RefreshToken()
+            => TeslaFleetServices.EnsureSessionAsync();
 
         public string VehicleLocationError { get; private set; }
 
@@ -474,7 +436,6 @@ namespace TeslaMurphy.ViewModels
                     for (int attempt = 0; attempt < 2; attempt++)
                     {
                         var content = await VehicleEndpointsServices.VehicleLocationGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vin, cts);
-                        if (content == "Unauthorized" && attempt == 0 && await RefreshToken()) continue;
                         if (content == "Unauthorized" || content == "Forbidden")
                         { VehicleLocationError = "Vehicle location access denied. Sign in again and allow vehicle location access."; return null; }
                         if (string.IsNullOrWhiteSpace(content))
@@ -488,7 +449,8 @@ namespace TeslaMurphy.ViewModels
                         if (!lat.HasValue || !lon.HasValue || double.IsNaN(lat.Value) || double.IsNaN(lon.Value)
                             || Math.Abs(lat.Value) > 90 || Math.Abs(lon.Value) > 180)
                         { VehicleLocationError = "The vehicle did not return a location. Check location permission and vehicle connectivity."; return null; }
-                        return new Geopoint(new BasicGeoposition { Latitude = lat.Value, Longitude = lon.Value });
+                        var position = ChinaCoordinates.Convert(lat.Value, lon.Value, TeslaConfiguration.VehicleCoordinateConversion);
+                        return new Geopoint(new BasicGeoposition { Latitude = position[0], Longitude = position[1] });
                     }
                 }
             }
@@ -507,8 +469,10 @@ namespace TeslaMurphy.ViewModels
                 string responseString = "";
                 if (!AppSettings.Instance.IsTestMode)
                 {
-                    var cts = new CancellationTokenSource();
-                    responseString = await VehicleEndpointsServices.NearbyChargingSitesGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, cts);
+                    using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)))
+                    {
+                        responseString = await VehicleEndpointsServices.NearbyChargingSitesGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, vehicle_tag, cts);
+                    }
                 }
                 else
                 {
@@ -520,7 +484,9 @@ namespace TeslaMurphy.ViewModels
                 if (!string.IsNullOrEmpty(responseString))
                 {
                     var sitesResponse = JsonConvert.DeserializeObject<NearbyChargingSitesResponse>(responseString);
-                    foreach (var destination in sitesResponse.response.destination_charging)
+                    if (sitesResponse?.response == null
+                        || AppSettings.Instance.Current_carvin != vehicle_tag) return false;
+                    foreach (var destination in sitesResponse.response.destination_charging ?? new List<ChargingLocation>())
                     {
                         try
                         {
@@ -541,7 +507,7 @@ namespace TeslaMurphy.ViewModels
                         }
                         catch { continue; }
                     }
-                    foreach (var supercharger in sitesResponse.response.superchargers)
+                    foreach (var supercharger in sitesResponse.response.superchargers ?? new List<SuperchargerLocation>())
                     {
                         try
                         {
@@ -621,74 +587,40 @@ namespace TeslaMurphy.ViewModels
             return false;
         }
 
+        private readonly SemaphoreSlim vehicleListLock = new SemaphoreSlim(1, 1);
         public async Task<List<VehicleBrief>> GetCarListAsync(bool isForceGetOnlineCache = false)
         {
+            await vehicleListLock.WaitAsync();
             try
             {
-                string carJsonString = "";
-                if (!AppSettings.Instance.IsTestMode)
+                if (!isForceGetOnlineCache && CarList != null) return CarList.ToList();
+                string json = AppSettings.Instance.IsTestMode
+                    ? await UWPGeneralHelper.GetTestFileAsync("vehiclelist.json")
+                    : await VehicleEndpointsServices.VehiclesListGetAsync(AppSettings.Instance.Base_URL,
+                        AppSettings.Instance.Access_token, "", new CancellationTokenSource());
+                var response = JsonConvert.DeserializeObject<VehicleListResponse>(json)?.response;
+                if (response == null) return CarList?.ToList();
+                var cars = response.Where(x => !string.IsNullOrWhiteSpace(x.vin))
+                    .GroupBy(x => x.vin).Select(x => x.First()).ToList();
+                CarList = new ObservableCollection<VehicleBrief>(cars);
+                var values = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
+                string selected = AppSettings.Instance.Current_carvin;
+                if (string.IsNullOrWhiteSpace(selected) && values.ContainsKey("maincarvin"))
+                    selected = values["maincarvin"] as string;
+                if (!cars.Any(x => x.vin == selected)) selected = cars.FirstOrDefault()?.vin;
+                AppSettings.Instance.Current_carvin = selected;
+                if (selected == null)
                 {
-                    Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-                    try
-                    {
-                        // Parse local file string
-                        carJsonString = await UWPGeneralHelper.GetCacheFileStringAsync("vehiclelist.json");
-                        if (carJsonString.Contains("Unauthorized"))
-                        {
-                            carJsonString = await VehicleEndpointsServices.VehiclesListGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, "", new CancellationTokenSource());
-                            //save string to local cache
-                            await UWPGeneralHelper.SaveStringToCacheFileAsync("vehiclelist.json", carJsonString);
-                        }
-                    }
-                    catch
-                    {
-                        carJsonString = await VehicleEndpointsServices.VehiclesListGetAsync(AppSettings.Instance.Base_URL, AppSettings.Instance.Access_token, "", new CancellationTokenSource());
-                        //save string to local cache
-                        await UWPGeneralHelper.SaveStringToCacheFileAsync("vehiclelist.json", carJsonString);
-                    }
+                    values.Remove("maincarvin");
+                    CarData = null;
+                    MapIcons = new ObservableCollection<MapIcon>();
+                    MainPage.Instance.ShowToast("No car is linked to the account");
                 }
-                else
-                {
-                    carJsonString = await UWPGeneralHelper.GetTestFileAsync("vehiclelist.json");
-                }
-
-                if (!string.IsNullOrEmpty(carJsonString))
-                {
-                    //Save json to cache
-                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleListResponse>(carJsonString);
-                    if(result.response.Count > 1)
-                    {
-                        //Multiple Cars
-                        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                        if (!localSettings.Values.ContainsKey("maincarvin"))
-                            Windows.Storage.ApplicationData.Current.LocalSettings.Values["maincarvin"] = result.response[0].vin;
-                        AppSettings.Instance.Current_carvin = result.response[0].vin;
-                    }
-                    else if (result.response.Count == 1)
-                    {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.Values["maincarvin"] = result.response[0].vin;
-                        AppSettings.Instance.Current_carvin = result.response[0].vin;
-                    }
-                    else
-                    {
-                        MainPage.Instance.ShowToast("No car is linked to the account");
-                        //No Car in the account
-                        return null;
-                    }
-                    return result.response;
-
-                    // Generate car in th menuflyout
-                    //foreach (var car in result.response)
-                    //{
-                    //    CarList.Add(car);
-                    //}
-                }
-                return null;
+                else values["maincarvin"] = selected;
+                return cars;
             }
-            catch
-            {
-                return null;
-            }
+            catch { return CarList?.ToList(); }
+            finally { vehicleListLock.Release(); }
         }
 
         public async Task<string> GetRecentAlertsAsync(string vehicle_tag)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using TeslaMurphy.Services;
 using System.Threading.Tasks;
@@ -71,7 +71,7 @@ namespace TeslaMurphy.Views
                 }
                 if (ViewModel?.CarData == null)
                 {
-                    ViewModel?.Intitalize(AppSettings.Instance.Current_carvin);
+                    if (ViewModel != null) await ViewModel.Intitalize(AppSettings.Instance.Current_carvin);
                     //await LoadNerbyChargingSites(AppSettings.Instance.Current_carvin);
                     //if (ViewModel.MapIcons.Count > 0) DestinationComboBox.Visibility = Visibility.Visible;
                     //else DestinationComboBox.Visibility = Visibility.Collapsed;
@@ -86,16 +86,18 @@ namespace TeslaMurphy.Views
         {
             if (AppSettings.Instance.Current_carvin != null)
             {
+                string vin = AppSettings.Instance.Current_carvin;
                 DestinationComboBox.SelectedIndex = -1;
-                await ViewModel.Intitalize(AppSettings.Instance.Current_carvin, true);
-                await LoadNerbyChargingSites(AppSettings.Instance.Current_carvin);
-                if (ViewModel.MapIcons.Count > 0) DestinationComboBox.Visibility = Visibility.Visible;
+                await ViewModel.Intitalize(vin, true);
+                if (AppSettings.Instance.Current_carvin != vin) return;
+                await LoadNerbyChargingSites(vin);
+                if (ViewModel.MapIcons?.Count > 0) DestinationComboBox.Visibility = Visibility.Visible;
                 else DestinationComboBox.Visibility = Visibility.Collapsed;
             }
             else
             {
                 //Should load main car vin
-                ViewModel?.GetCarListAsync();
+                if (ViewModel != null) await ViewModel.Intitalize(null);
             }
         }
 
@@ -529,14 +531,7 @@ namespace TeslaMurphy.Views
             try
             {
                 var content = await TeslaFleetServices.ExchangeCodeAsync(token);
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(content);
-                string access_token = result.access_token;
-                string refresh_token = result.refresh_token;
-                if (string.IsNullOrWhiteSpace(access_token) || string.IsNullOrWhiteSpace(refresh_token)) return false;
-                Windows.Storage.ApplicationData.Current.LocalSettings.Values["refreshtoken"] = refresh_token;
-                Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstoken"] = access_token;
-                Windows.Storage.ApplicationData.Current.LocalSettings.Values["accesstokentime"] = DateTime.Now.Date.ToString();
-                return true;
+                return TeslaFleetServices.SaveSession(content);
             }
             catch
             {
@@ -544,54 +539,58 @@ namespace TeslaMurphy.Views
             }
         }
 
+        private bool loadingVehicleMenu;
         private async void CarDropDownButton_Click(object sender, RoutedEventArgs e)
         {
-            // Load car list into menu flyout
+            if (loadingVehicleMenu) return;
+            loadingVehicleMenu = true;
             try
             {
-                if (CarMenuFlyout.Items.Count == 0)
+                string previousVin = AppSettings.Instance.Current_carvin;
+                var cars = await ViewModel.GetCarListAsync(true);
+                CarMenuFlyout.Items.Clear();
+                if (cars == null)
                 {
-                    var carlist = await ViewModel.GetCarListAsync();
-                    // 
-                    foreach (var car in carlist)
+                    CarMenuFlyout.Items.Add(new MenuFlyoutItem { Text = "Unable to load vehicles", IsEnabled = false });
+                    return;
+                }
+                foreach (var car in cars)
+                {
+                    string suffix = car.vin.Substring(Math.Max(0, car.vin.Length - 6));
+                    var item = new muxc.RadioMenuFlyoutItem
                     {
-                        muxc.RadioMenuFlyoutItem rmfi = new muxc.RadioMenuFlyoutItem();
-                        rmfi.Tag = car.vin;
-                        if (rmfi.Text != car.display_name)
-                            rmfi.Text = car.display_name;
-                        else
-                            rmfi.Text = car.vin;
-                        rmfi.Click += SwitchMainCarMfi_Click;
-
-                        if(AppSettings.Instance.Current_carvin == car.vin)
-                            rmfi.IsChecked = true;
-
-                        rmfi.GroupName = "CarList";
-
-                        CarMenuFlyout.Items.Add(rmfi);
-                    }
+                        Tag = car.vin,
+                        Text = (string.IsNullOrWhiteSpace(car.display_name) ? "Vehicle" : car.display_name) + " · " + suffix,
+                        GroupName = "CarList",
+                        IsChecked = AppSettings.Instance.Current_carvin == car.vin
+                    };
+                    item.Click += SwitchMainCarMfi_Click;
+                    CarMenuFlyout.Items.Add(item);
+                }
+                if (cars.Count == 0)
+                    CarMenuFlyout.Items.Add(new MenuFlyoutItem { Text = "No vehicles available", IsEnabled = false });
+                if (previousVin != AppSettings.Instance.Current_carvin)
+                {
+                    ClearVehicleMap();
+                    await ViewModel.Intitalize(AppSettings.Instance.Current_carvin);
                 }
             }
-            catch
-            {
+            finally { loadingVehicleMenu = false; }
+        }
 
-            }
+        private void ClearVehicleMap()
+        {
+            TeslaChargingMap.MapElements.Clear();
+            DestinationComboBox.SelectedIndex = -1;
+            DestinationComboBox.Visibility = Visibility.Collapsed;
         }
 
         private async void SwitchMainCarMfi_Click(object sender, RoutedEventArgs e)
         {
-            var rmfi = (muxc.RadioMenuFlyoutItem)sender;
-            if(rmfi.Tag != null)
-            {
-                if (AppSettings.Instance.IsPro)
-                {
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["maincarvin"] = rmfi.Tag.ToString();
-                    AppSettings.Instance.Current_carvin = rmfi.Tag.ToString();
-                    await ViewModel.Intitalize(rmfi.Tag.ToString());
-                }
-                else
-                    DisplayPurchaseInfoAsync();
-            }
+            string vin = (sender as muxc.RadioMenuFlyoutItem)?.Tag as string;
+            if (string.IsNullOrWhiteSpace(vin) || vin == AppSettings.Instance.Current_carvin) return;
+            ClearVehicleMap();
+            await ViewModel.Intitalize(vin);
         }
 
         private void RemoveUserSettings()
@@ -600,7 +599,15 @@ namespace TeslaMurphy.Views
             {
                 Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 localSettings.Values.Remove("maincarvin");
+                AppSettings.Instance.Current_carvin = null;
+                ViewModel.CarList = null;
+                ViewModel.CarData = null;
+                CarMenuFlyout.Items.Clear();
+                ClearVehicleMap();
                 localSettings.Values.Remove("refreshtoken");
+                localSettings.Values.Remove("accessTokenExpiresUtc");
+                AppSettings.Instance.Access_token = null;
+                AppSettings.Instance.Refresh_token = null;
                 localSettings.Values.Remove("accesstoken");
             }
             catch

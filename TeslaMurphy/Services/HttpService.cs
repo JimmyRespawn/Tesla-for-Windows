@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -19,6 +19,40 @@ namespace TeslaMurphy.Services
         }
 
         public static async Task<CommandResponse> SendCommandAsync(string baseUrl, string endpoint,
+            string accessToken, CancellationToken cancellationToken, string jsonBody = "{}")
+        {
+            try
+            {
+                await TeslaFleetServices.EnsureSessionAsync(cancellationToken: cancellationToken);
+                accessToken = TeslaMurphy.Models.AppSettings.Instance.Access_token;
+                var result = await SendCommandCoreAsync(baseUrl, endpoint, accessToken, cancellationToken, jsonBody);
+                if (result.StatusCode == 401
+                    && await TeslaFleetServices.EnsureSessionAsync(accessToken, cancellationToken))
+                    result = await SendCommandCoreAsync(baseUrl, endpoint,
+                        TeslaMurphy.Models.AppSettings.Instance.Access_token, cancellationToken, jsonBody);
+                return result;
+            }
+            catch (OperationCanceledException) { return new CommandResponse { TransportError = "Request was canceled." }; }
+        }
+
+        public static async Task<string> SendFleetAsync(HttpMethod method, string baseUrl,
+            string endpoint, string accessToken, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await TeslaFleetServices.EnsureSessionAsync(cancellationToken: cancellationToken);
+                accessToken = TeslaMurphy.Models.AppSettings.Instance.Access_token;
+                var result = await SendFleetCoreAsync(method, baseUrl, endpoint, accessToken, cancellationToken);
+                if (result == "Unauthorized"
+                    && await TeslaFleetServices.EnsureSessionAsync(accessToken, cancellationToken))
+                    result = await SendFleetCoreAsync(method, baseUrl, endpoint,
+                        TeslaMurphy.Models.AppSettings.Instance.Access_token, cancellationToken);
+                return result;
+            }
+            catch (OperationCanceledException) { return null; }
+        }
+
+        private static async Task<CommandResponse> SendCommandCoreAsync(string baseUrl, string endpoint,
             string accessToken, CancellationToken cancellationToken, string jsonBody = "{}")
         {
             try
@@ -47,7 +81,7 @@ namespace TeslaMurphy.Services
         }
 
         // Preserve the status-name/null contract consumed by existing vehicle views.
-        public static async Task<string> SendFleetAsync(HttpMethod method, string baseUrl,
+        private static async Task<string> SendFleetCoreAsync(HttpMethod method, string baseUrl,
             string endpoint, string accessToken, CancellationToken cancellationToken)
         {
             try

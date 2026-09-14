@@ -17,6 +17,7 @@ namespace TeslaMurphy.Services
             public string ClientId { get; set; }
             public string ClientSecret { get; set; }
             public string CommandBaseUrl { get; set; }
+            public string VehicleCoordinateConversion { get; set; }
         }
 
         private static readonly Lazy<Dictionary<string, Credentials>> credentials =
@@ -32,6 +33,15 @@ namespace TeslaMurphy.Services
                 }
             });
 
+        public static string VehicleCoordinateConversion
+        {
+            get
+            {
+                if (AppSettings.Instance.Region != 2) return "None";
+                credentials.Value.TryGetValue("CN", out var value);
+                return value?.VehicleCoordinateConversion ?? "None";
+            }
+        }
         public static string AuthorizeUrl => "https://auth." + AppSettings.Instance.Region_URL + "/oauth2/v3/authorize";
         public static string TokenUrl => "https://auth." + AppSettings.Instance.Region_URL + "/oauth2/v3/token";
         public static string CommandBaseUrl
