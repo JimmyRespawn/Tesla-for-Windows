@@ -175,6 +175,7 @@
     <Compile Include="Services\MapServices.cs" />
     <Compile Include="Services\TeslaFleetServices.cs" />
     <Compile Include="Services\HttpService.cs" />
+    <Compile Include="Services\DriverManagementService.cs" />
     <Compile Include="Services\TeslaConfiguration.cs" />
     <Compile Include="Services\VehicleCommandsServices.cs" />
     <Compile Include="Services\VehicleEndpointsServices.cs" />
@@ -355,6 +356,11 @@
     <Content Include="Assets\Images\modelypearlwhite.webp" />
     <Content Include="Assets\TestData\drivers.json" />
     <Content Include="Assets\Images\TelsaBirdViewPhoto.webp" />
+    <Content Include="Assets\Images\Vehicles\model3-bird.png" />
+    <Content Include="Assets\Images\Vehicles\modely-bird.png" />
+    <Content Include="Assets\Images\Vehicles\models-bird.png" />
+    <Content Include="Assets\Images\Vehicles\modelx-bird.png" />
+    <Content Include="Assets\Images\Vehicles\cybertruck-bird.png" />
     <Content Include="Assets\Images\modelspearlwhite.webp" />
     <Content Include="Assets\Images\modelxpearlwhite.webp" />
     <None Include="Assets\TestData\me.json" />

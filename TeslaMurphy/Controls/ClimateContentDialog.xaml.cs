@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using TeslaMurphy.Models;
 using Windows.UI.Xaml;
@@ -8,6 +8,7 @@ namespace TeslaMurphy.Controls
 {
     public sealed partial class ClimateContentDialog : ContentDialog
     {
+        public string VehicleModel { get; set; }
         public ClimateState climateStateData { get; set; }
         public Func<bool, Task<bool>> ChangeClimateAsync { get; set; }
         public Func<string> GetCommandError { get; set; }
@@ -22,6 +23,14 @@ namespace TeslaMurphy.Controls
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
             initializing = true;
+            string model = VehicleModel?.Trim().ToLowerInvariant();
+            if (model == "cyber_truck" || model == "cyber truck") model = "cybertruck";
+            bool supported = model == "model3" || model == "modely" || model == "models"
+                || model == "modelx" || model == "cybertruck";
+            TelsaBirdViewPhoto.Visibility = supported ? Visibility.Visible : Visibility.Collapsed;
+            if (supported)
+                TelsaBirdViewPhoto.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(
+                    new Uri("ms-appx:///Assets/Images/Vehicles/" + model + "-bird.png"));
             if (climateStateData != null)
             {
                 InteriorTemperatureTextBlock.Text = climateStateData.inside_temp + "°";

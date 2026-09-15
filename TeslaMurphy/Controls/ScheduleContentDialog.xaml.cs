@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TeslaMurphy.Models;
@@ -19,7 +19,7 @@ namespace TeslaMurphy.Controls
         {
             var data = chargeStateData;
             bool available = data != null && SaveScheduleAsync != null && !AppSettings.Instance.IsTestMode;
-            //Editor.IsEnabled = IsPrimaryButtonEnabled = available;
+            Editor.IsEnabled = IsPrimaryButtonEnabled = available;
             if (data == null) { Status.Text = "Schedule data is unavailable."; return; }
             Mode.SelectedIndex = data.scheduled_charging_mode == "StartAt" ? 1 : 0;
             Enabled.IsOn = data.scheduled_charging_mode == "StartAt" || data.scheduled_charging_mode == "DepartBy";
@@ -55,7 +55,7 @@ namespace TeslaMurphy.Controls
                 end_off_peak_time = endTime
             } : new { enable = enabled, time = startTime };
             busy = true;
-            //Editor.IsEnabled = IsPrimaryButtonEnabled = IsSecondaryButtonEnabled = false;
+            Editor.IsEnabled = IsPrimaryButtonEnabled = IsSecondaryButtonEnabled = false;
             Progress.IsActive = true;
             Status.Text = "Saving schedule…";
             try
@@ -83,7 +83,7 @@ namespace TeslaMurphy.Controls
             {
                 busy = false;
                 Progress.IsActive = false;
-                //Editor.IsEnabled = IsPrimaryButtonEnabled = IsSecondaryButtonEnabled = true;
+                Editor.IsEnabled = IsPrimaryButtonEnabled = IsSecondaryButtonEnabled = true;
             }
         }
     }

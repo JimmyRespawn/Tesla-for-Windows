@@ -52,14 +52,30 @@ namespace TeslaMurphy.Services
             catch (OperationCanceledException) { return null; }
         }
 
-        private static async Task<CommandResponse> SendCommandCoreAsync(string baseUrl, string endpoint,
-            string accessToken, CancellationToken cancellationToken, string jsonBody = "{}")
+        public static async Task<CommandResponse> SendManagementAsync(HttpMethod method, string baseUrl,
+            string endpoint, CancellationToken token, string body = null)
         {
             try
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Post, baseUrl.TrimEnd('/') + endpoint))
+                await TeslaFleetServices.EnsureSessionAsync(cancellationToken: token);
+                string access = TeslaMurphy.Models.AppSettings.Instance.Access_token;
+                var result = await SendCommandCoreAsync(baseUrl, endpoint, access, token, body, method);
+                if (result.StatusCode == 401 && await TeslaFleetServices.EnsureSessionAsync(access, token))
+                    result = await SendCommandCoreAsync(baseUrl, endpoint,
+                        TeslaMurphy.Models.AppSettings.Instance.Access_token, token, body, method);
+                return result;
+            }
+            catch (OperationCanceledException) { return new CommandResponse { TransportError = "Request canceled or timed out." }; }
+        }
+
+        private static async Task<CommandResponse> SendCommandCoreAsync(string baseUrl, string endpoint,
+            string accessToken, CancellationToken cancellationToken, string jsonBody = "{}", HttpMethod method = null)
+        {
+            try
+            {
+                using (var request = new HttpRequestMessage(method ?? HttpMethod.Post, baseUrl.TrimEnd('/') + endpoint))
                 {
-                    request.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
+                    if (jsonBody != null) request.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     using (var response = await client.SendAsync(request, cancellationToken))

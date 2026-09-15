@@ -26,14 +26,21 @@ namespace TeslaMurphy.Views
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            Loaded += (s, e) =>
+            {
+                if (ViewModel != null)
+                {
+                    ViewModel.PropertyChanged -= ChargeLimitModelChanged;
+                    ViewModel.PropertyChanged += ChargeLimitModelChanged;
+                }
+                UpdateChargeLimitApplyVisibility();
+            };
+            Unloaded += (s, e) => { if (ViewModel != null) ViewModel.PropertyChanged -= ChargeLimitModelChanged; };
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-#if DEBUG
-            VinTextBlock.Text = "DEBUG7FA1MA193314";
-#endif
 
             if (AppSettings.Instance.CurrentTheme == ThemeMode.Dark)
                 ViewModel.MapColorScheme = MapColorScheme.Dark;
@@ -127,6 +134,124 @@ namespace TeslaMurphy.Views
         }
 
         private bool vehicleCommandInProgress;
+
+        private void UpdateChargeLimitApplyVisibility()
+        {
+            if (ApplyChargeLimitButton == null || ChargeLimitSlider == null) return;
+            var state = ViewModel?.CarData?.charge_state;
+            bool changed = state != null && !AppSettings.Instance.IsTestMode
+                && (int)Math.Round(ChargeLimitSlider.Value) != state.charge_limit_soc;
+            ApplyChargeLimitButton.Visibility = changed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ChargeLimitSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+            => UpdateChargeLimitApplyVisibility();
+
+        private async void ChargeLimitModelChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CarPageViewModel.CarData))
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, UpdateChargeLimitApplyVisibility);
+        }
+
+        private void RestoreChargeLimitBinding()
+        {
+            ChargeLimitSlider.SetBinding(Windows.UI.Xaml.Controls.Primitives.RangeBase.ValueProperty,
+                new Windows.UI.Xaml.Data.Binding
+                {
+                    Path = new PropertyPath("CarData.charge_state.charge_limit_soc"),
+                    Mode = Windows.UI.Xaml.Data.BindingMode.OneWay,
+                    FallbackValue = 0, TargetNullValue = 0
+                });
+            UpdateChargeLimitApplyVisibility();
+        }
+
+        private async void ApplyChargeLimitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (vehicleCommandInProgress) return;
+            var car = ViewModel.CarData;
+            if (car?.charge_state == null || string.IsNullOrWhiteSpace(car.vin) || AppSettings.Instance.IsTestMode)
+            {
+                RestoreChargeLimitBinding();
+                MainPage.Instance.ShowToast("Charge limit control requires a connected vehicle.");
+                return;
+            }
+            int percent = (int)Math.Round(ChargeLimitSlider.Value);
+            int minimum = Math.Max(0, car.charge_state.charge_limit_soc_min);
+            int maximum = car.charge_state.charge_limit_soc_max;
+            if (maximum <= 0 || maximum > 100) maximum = 100;
+            if (percent < minimum || percent > maximum)
+            {
+                RestoreChargeLimitBinding();
+                MainPage.Instance.ShowToast("Choose a charge limit between " + minimum + "% and " + maximum + "%.");
+                return;
+            }
+            if (percent == car.charge_state.charge_limit_soc) return;
+            vehicleCommandInProgress = true;
+            ApplyChargeLimitButton.IsEnabled = ChargeLimitSlider.IsEnabled = false;
+            ApplyChargeLimitButton.Content = "Applying…";
+            try
+            {
+                if (await ViewModel.SetChargeLimitAsync(car.vin, percent))
+                {
+                    car.charge_state.charge_limit_soc = percent;
+                    MainPage.Instance.ShowToast("Charge limit set to " + percent + "%.");
+                }
+                else MainPage.Instance.ShowToast(ViewModel.VehicleCommandError);
+            }
+            catch { MainPage.Instance.ShowToast("Unable to set charge limit. Please refresh and try again."); }
+            finally
+            {
+                // Rebind to the currently selected vehicle, including after a mid-request switch.
+                RestoreChargeLimitBinding();
+                ApplyChargeLimitButton.Content = "Apply";
+                ApplyChargeLimitButton.IsEnabled = ChargeLimitSlider.IsEnabled = true;
+                vehicleCommandInProgress = false;
+            }
+        }
+
+        private async void ChargePortButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (vehicleCommandInProgress) return;
+            var car = ViewModel.CarData;
+            if (car?.charge_state == null || string.IsNullOrWhiteSpace(car.vin) || AppSettings.Instance.IsTestMode)
+            {
+                MainPage.Instance.ShowToast("Charge port control requires a connected vehicle.");
+                return;
+            }
+            bool open = !car.charge_state.charge_port_door_open;
+            string state = car.charge_state.charging_state;
+            if (!open && (state == "Charging" || state == "Complete" || state == "Stopped"
+                || state == "Starting" || state == "NoPower"))
+            {
+                MainPage.Instance.ShowToast("Unplug the charging cable before closing the charge port.");
+                return;
+            }
+            vehicleCommandInProgress = true;
+            ChargePortButton.IsEnabled = LockAppBarButton.IsEnabled = ACAppBarButton.IsEnabled = false;
+            try
+            {
+                if (await ViewModel.SetChargePortAsync(car.vin, open))
+                {
+                    car.charge_state.charge_port_door_open = open;
+                    if (ReferenceEquals(car, ViewModel.CarData))
+                        ChargePortStateText.SetBinding(TextBlock.TextProperty, new Windows.UI.Xaml.Data.Binding
+                        {
+                            Path = new PropertyPath("CarData.charge_state.charge_port_door_open"),
+                            Converter = new TeslaMurphy.Converters.BooleanToOpenCloseConverter(),
+                            ConverterParameter = "Door"
+                        });
+                    MainPage.Instance.ShowToast(open ? "Charge port opened." : "Charge port closed.");
+                }
+                else
+                    MainPage.Instance.ShowToast(ViewModel.VehicleCommandError);
+            }
+            catch { MainPage.Instance.ShowToast("Unable to change the charge port. Please try again."); }
+            finally
+            {
+                vehicleCommandInProgress = false;
+                ChargePortButton.IsEnabled = LockAppBarButton.IsEnabled = ACAppBarButton.IsEnabled = true;
+            }
+        }
 
         private async void LockAppBarButton_Click(object sender, RoutedEventArgs e)
         {
@@ -305,11 +430,8 @@ namespace TeslaMurphy.Views
         {
             if (ViewModel.CarData != null)
             {
-                string drivers = await ViewModel.GetDriversAsync(ViewModel.CarData.id.ToString());
-                if (!string.IsNullOrEmpty(drivers))
-                {
-                    await ViewModel.ShowDrivers(drivers);
-                }
+                string vin = ViewModel.CarData.vin;
+                await ViewModel.ShowDrivers(vin);
             }
         }
 

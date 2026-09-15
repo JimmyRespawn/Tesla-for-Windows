@@ -1,4 +1,4 @@
-<ContentDialog
+﻿<ContentDialog
     x:Class="TeslaMurphy.Controls.ScheduleContentDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,7 +14,8 @@
         HorizontalScrollBarVisibility="Disabled"
         VerticalScrollBarVisibility="Hidden">
         <StackPanel MaxWidth="400">
-            <StackPanel x:Name="Editor">
+            <ContentControl x:Name="Editor" HorizontalContentAlignment="Stretch" IsTabStop="False">
+            <StackPanel>
                 <TextBlock
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -193,6 +194,7 @@
                     Text="Save applies only the selected mode. Close discards unsaved changes."
                     TextWrapping="Wrap" />
             </StackPanel>
+            </ContentControl>
             <ProgressRing
                 x:Name="Progress"
                 Width="24"

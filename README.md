@@ -115,3 +115,14 @@ map and vehicle position. In the CN entry of TeslaCredentials.local.json, set
 VehicleCoordinateConversion to Gcj02ToWgs84, Wgs84ToGcj02, or None, then rebuild.
 The algorithm uses a coarse geographic bounding box, not a precise mainland
 boundary; disable correction for locations or map providers that do not need it.
+
+Drivers management now uses the selected VIN and the Fleet API directly:
+list/remove drivers, create/copy/revoke invitations, paginated invitations and
+redeem a Tesla invitation code/link. The dialog holds its vehicle context fixed.
+Owner-only controls are enabled after the owner-only drivers endpoint succeeds;
+Tesla still authorizes every mutation. English confirmation UI precedes changes.
+Invitation links are not written to disk or sent automatically. Copy is user initiated.
+Demo mode blocks network operations. A 401 refresh retries once; 500/timeouts never
+automatically replay membership mutations. Run tests/DriverManagementChecks.ps1
+in a fresh PowerShell 7 session for offline HTTP/response checks.
+Reference: https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-endpoints

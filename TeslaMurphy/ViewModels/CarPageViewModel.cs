@@ -273,7 +273,15 @@ namespace TeslaMurphy.ViewModels
                 ? VehicleCommandsServices.AutoConditioningOnPostAsync(TeslaConfiguration.CommandBaseUrl, AppSettings.Instance.Access_token, vehicle_tag, cts)
                 : VehicleCommandsServices.AutoConditioningOffPostAsync(TeslaConfiguration.CommandBaseUrl, AppSettings.Instance.Access_token, vehicle_tag, cts));
 
-        private async Task<bool> ExecuteVehicleCommandAsync(string vehicle_tag, Func<CancellationTokenSource, Task<HttpService.CommandResponse>> send)
+        public Task<bool> SetChargeLimitAsync(string vin, int percent)
+            => ExecuteVehicleCommandAsync(vin, cts => VehicleCommandsServices.SetChargeLimitAsync(
+                TeslaConfiguration.CommandBaseUrl, AppSettings.Instance.Access_token, vin, percent, cts), "already_set");
+
+        public Task<bool> SetChargePortAsync(string vin, bool open)
+            => ExecuteVehicleCommandAsync(vin, cts => VehicleCommandsServices.SetChargePortAsync(
+                TeslaConfiguration.CommandBaseUrl, AppSettings.Instance.Access_token, vin, open, cts));
+
+        private async Task<bool> ExecuteVehicleCommandAsync(string vehicle_tag, Func<CancellationTokenSource, Task<HttpService.CommandResponse>> send, string acceptedReason = null)
         {
             VehicleCommandError = "The vehicle did not confirm the command.";
             if (AppSettings.Instance.IsTestMode || string.IsNullOrWhiteSpace(vehicle_tag)) return false;
@@ -325,6 +333,8 @@ namespace TeslaMurphy.ViewModels
                         var accepted = result?["result"];
                         if (response.StatusCode >= 200 && response.StatusCode < 300 &&
                             accepted?.Type == Newtonsoft.Json.Linq.JTokenType.Boolean && (bool)accepted) return true;
+                        if (response.StatusCode >= 200 && response.StatusCode < 300 && acceptedReason != null
+                            && (string)result?["reason"] == acceptedReason) return true;
                         foreach (var field in new[] { result?["reason"], json["error"], json["error_description"] })
                             if (field?.Type == Newtonsoft.Json.Linq.JTokenType.String && !string.IsNullOrWhiteSpace((string)field))
                                 detail += (detail.Length == 0 ? "" : "\n") + (string)field;
@@ -362,11 +372,13 @@ namespace TeslaMurphy.ViewModels
             return true;
         }
 
-        public async Task<bool> ShowDrivers(string drivers)
+        public async Task<bool> ShowDrivers(string vin)
         {
             DriversContentDialog dialog = new DriversContentDialog();
-            dialog.DriversJsonString = drivers;
+            dialog.VehicleVin = vin;
+            dialog.VehicleName = CarData?.vehicle_state?.vehicle_name;
             ContentDialogResult result = await dialog.ShowAsync();
+            if (dialog.MembershipChanged) CarList = null;
             return true;
         }
 
@@ -409,6 +421,7 @@ namespace TeslaMurphy.ViewModels
             if(climateState != null)
             {
                 ClimateContentDialog dialog = new ClimateContentDialog();
+                dialog.VehicleModel = CarData?.vehicle_config?.car_type;
                 dialog.climateStateData = climateState;
                 string vin = CarData?.vin;
                 if (!string.IsNullOrWhiteSpace(vin))

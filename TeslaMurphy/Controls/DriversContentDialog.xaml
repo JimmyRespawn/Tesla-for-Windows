@@ -1,51 +1,44 @@
 ﻿<ContentDialog
-    x:Class="TeslaMurphy.Controls.DriversContentDialog"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:TeslaMurphy.Controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:TeslaMurphy.Models"
-    Title="Drivers"
-    Loaded="ContentDialog_Loaded"
-    SecondaryButtonText="CLOSE"
-    Style="{StaticResource DefaultContentDialogStyle}"
-    mc:Ignorable="d">
-    <ListView
-        x:Name="DriversListView"
-        Margin="-16,12,-24,12"
-        IsItemClickEnabled="False"
-        SelectionMode="Single">
-        <ListView.Header>
-            <StackPanel x:Name="NullPlaceHolderPanel" Visibility="Collapsed">
-                <FontIcon
-                    Margin="0,0,0,12"
-                    FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
-                    FontSize="36"
-                    Glyph="&#xE748;" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontWeight="Normal"
-                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                    Text="No other drivers logged for this car." />
-            </StackPanel>
-        </ListView.Header>
-        <ListView.ItemContainerStyle>
-            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="Margin" Value="0,0,24,0" />
-            </Style>
-        </ListView.ItemContainerStyle>
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="models:Driver">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Margin="0,0,4,0"
-                        Style="{StaticResource BodyStrongTextBlockStyle}"
-                        Text="{x:Bind driver_first_name}" />
-                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind driver_last_name}" />
-                </StackPanel>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+ x:Class="TeslaMurphy.Controls.DriversContentDialog"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="Drivers" Loaded="ContentDialog_Loaded" Closing="Dialog_Closing"
+ SecondaryButtonText="CLOSE" Style="{StaticResource DefaultContentDialogStyle}">
+ <ScrollViewer MaxHeight="540" VerticalScrollBarVisibility="Auto">
+  <StackPanel MinWidth="300" Spacing="12">
+   <TextBlock x:Name="VehicleLabel" TextWrapping="Wrap" />
+   <ContentControl x:Name="Actions" HorizontalContentAlignment="Stretch" IsTabStop="False">
+   <StackPanel Spacing="12">
+    <Grid>
+     <TextBlock Text="Drivers" FontWeight="SemiBold" VerticalAlignment="Center" />
+     <Button Content="Refresh" HorizontalAlignment="Right" Click="Refresh_Click" />
+    </Grid>
+    <TextBlock x:Name="DriverStatus" TextWrapping="Wrap" />
+    <StackPanel x:Name="DriverRows" Spacing="8" />
+    <Grid Margin="0,12,0,0">
+     <TextBlock Text="Invitations" FontWeight="SemiBold" VerticalAlignment="Center" />
+     <Button x:Name="CreateButton" Content="Add driver" HorizontalAlignment="Right" Click="Create_Click" IsEnabled="False" />
+    </Grid>
+    <TextBlock Text="Invite links are single-use and expire after 24 hours. The recipient gains vehicle access." TextWrapping="Wrap" Opacity="0.7" />
+    <TextBlock x:Name="InviteStatus" TextWrapping="Wrap" />
+    <StackPanel x:Name="InviteRows" Spacing="8" />
+    <Button x:Name="MoreButton" Content="Load more" Click="More_Click" Visibility="Collapsed" />
+    <TextBlock Text="Accept an invitation" FontWeight="SemiBold" Margin="0,12,0,0" />
+    <TextBox x:Name="InviteInput" PlaceholderText="Tesla invitation link or code" />
+    <Button Content="Accept invitation" Click="Redeem_Click" />
+   </StackPanel>
+   </ContentControl>
+   <ContentControl x:Name="Confirmation" HorizontalContentAlignment="Stretch" IsTabStop="False" Visibility="Collapsed">
+   <StackPanel Spacing="8">
+    <TextBlock x:Name="ConfirmText" TextWrapping="Wrap" />
+    <StackPanel Orientation="Horizontal" Spacing="12">
+     <Button Content="Confirm" Click="Confirm_Click" />
+     <Button Content="Cancel" Click="Cancel_Click" />
+    </StackPanel>
+   </StackPanel>
+   </ContentControl>
+   <ProgressRing x:Name="Progress" Width="24" Height="24" IsActive="False" />
+   <TextBlock x:Name="Status" TextWrapping="Wrap" />
+  </StackPanel>
+ </ScrollViewer>
 </ContentDialog>

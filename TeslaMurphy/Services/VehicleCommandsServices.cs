@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,6 +18,21 @@ namespace TeslaMurphy.Services
                 + (locked ? "door_lock" : "door_unlock");
             return HttpService.SendCommandAsync(baseUrl, endpoint, token, cts.Token);
         }
+        public static Task<HttpService.CommandResponse> SetChargeLimitAsync(string baseUrl, string token, string vin, int percent, CancellationTokenSource cts)
+        {
+            if (percent < 0 || percent > 100) throw new ArgumentOutOfRangeException(nameof(percent));
+            string endpoint = "/api/1/vehicles/" + Uri.EscapeDataString(vin) + "/command/set_charge_limit";
+            return HttpService.SendCommandAsync(baseUrl, endpoint, token, cts.Token,
+                Newtonsoft.Json.JsonConvert.SerializeObject(new { percent }));
+        }
+
+        public static Task<HttpService.CommandResponse> SetChargePortAsync(string baseUrl, string token, string vin, bool open, CancellationTokenSource cts)
+        {
+            string endpoint = "/api/1/vehicles/" + Uri.EscapeDataString(vin) + "/command/"
+                + (open ? "charge_port_door_open" : "charge_port_door_close");
+            return HttpService.SendCommandAsync(baseUrl, endpoint, token, cts.Token);
+        }
+
         public static Task<HttpService.CommandResponse> SetScheduleAsync(string baseUrl, string token, string vin, bool departure, string json, CancellationTokenSource cts)
         {
             var endpoint = "/api/1/vehicles/" + Uri.EscapeDataString(vin) + "/command/"

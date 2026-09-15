@@ -7,7 +7,8 @@ namespace TeslaMurphy.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            string isOpened = value.ToString();
+            if ((string)parameter == "Door") return value is bool open ? (open ? "Open" : "Closed") : "Unavailable";
+            string isOpened = value?.ToString();
             var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
             if (isOpened == "True")
                 return resourceLoader.GetString("Unlocked/Text");

@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="TeslaMurphy.Views.CarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -298,14 +298,16 @@
                         x:Name="ChargeInfoStackPanel"
                         Grid.Row="3"
                         Margin="16,8"
-                        Padding="8"
+                        Padding="8,12"
                         Background="{ThemeResource MediaTransportControlsPanelBackground}"
                         CornerRadius="8"
                         Visibility="Visible">
                         <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
                             <TextBlock x:Uid="ChargeLimit" Text="Charge limit:" />
-                            <TextBlock Margin="4,0,0,0" Text="{Binding CarData.charge_state.charge_limit_soc, FallbackValue=100, TargetNullValue=100}" />
+                            <TextBlock Margin="4,0,0,0" Text="{Binding Value, ElementName=ChargeLimitSlider}" />
                             <TextBlock Text="%" />
+                            <Button x:Name="ApplyChargeLimitButton" Content="Apply" Margin="12,0,0,0"
+                                    Visibility="Collapsed" Padding="8,2" Click="ApplyChargeLimitButton_Click" />
                             <TextBlock
                                 Margin="4,0,0,0"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -320,11 +322,43 @@
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Text="kWh added during last charging session" />
                         </StackPanel>
-                        <ProgressBar
-                            Margin="4,16,4,0"
-                            CornerRadius="2"
-                            Value="{Binding CarData.charge_state.battery_level, FallbackValue=100, TargetNullValue=0}" />
-                        <Button Margin="4,24,4,0" HorizontalAlignment="Stretch">
+                        <Grid Height="40" Margin="0,8,4,0">
+                            <!--  Battery stays read-only; the thumb previews the requested charge limit.  -->
+                            <ProgressBar
+                                Height="4"
+                                Margin="6,0"
+                                VerticalAlignment="Center"
+                                CornerRadius="2"
+                                IsHitTestVisible="False"
+                                Maximum="100"
+                                Minimum="0"
+                                Value="{Binding CarData.charge_state.battery_level, FallbackValue=0, TargetNullValue=0}" />
+                            <Slider
+                                x:Name="ChargeLimitSlider"
+                                ValueChanged="ChargeLimitSlider_ValueChanged"
+                                VerticalAlignment="Center"
+                                AutomationProperties.Name="Charge limit"
+                                Background="Transparent"
+                                Maximum="100"
+                                Minimum="0"
+                                SnapsTo="StepValues"
+                                StepFrequency="1"
+                                TickFrequency="1"
+                                ToolTipService.ToolTip="Adjust the limit, then select Apply."
+                                Value="{Binding CarData.charge_state.charge_limit_soc, Mode=OneWay, FallbackValue=0, TargetNullValue=0}">
+                                <Slider.Resources>
+                                    <SolidColorBrush x:Key="SliderTrackFill" Color="Transparent" />
+                                    <SolidColorBrush x:Key="SliderTrackFillPointerOver" Color="Transparent" />
+                                    <SolidColorBrush x:Key="SliderTrackFillPressed" Color="Transparent" />
+                                    <SolidColorBrush x:Key="SliderTrackFillDisabled" Color="Transparent" />
+                                    <SolidColorBrush x:Key="SliderTrackValueFill" Color="Transparent" />
+                                    <SolidColorBrush x:Key="SliderTrackValueFillPointerOver" Color="Transparent" />
+                                    <SolidColorBrush x:Key="SliderTrackValueFillPressed" Color="Transparent" />
+                                    <SolidColorBrush x:Key="SliderTrackValueFillDisabled" Color="Transparent" />
+                                </Slider.Resources>
+                            </Slider>
+                        </Grid>
+                        <Button Margin="4,12,4,0" HorizontalAlignment="Stretch">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding CarData.charge_state.charge_current_request, FallbackValue=16, TargetNullValue=16}" />
@@ -334,13 +368,17 @@
 
                         </Button>
                         <HyperlinkButton
+                            x:Name="ChargePortButton"
                             Margin="0,12,0,0"
                             HorizontalAlignment="Center"
-                            IsEnabled="False">
+                            Click="ChargePortButton_Click">
                             <HyperlinkButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock x:Uid="ChargePort" Text="Charge Port" />
-                                    <TextBlock Margin="4,0,0,0" Text="{Binding CarData.charge_state.charge_port_door_open, Converter={StaticResource BooleanToOpenCloseConverter}}" />
+                                    <TextBlock
+                                        x:Name="ChargePortStateText"
+                                        Margin="4,0,0,0"
+                                        Text="{Binding CarData.charge_state.charge_port_door_open, Converter={StaticResource BooleanToOpenCloseConverter}, ConverterParameter=Door}" />
                                 </StackPanel>
                             </HyperlinkButton.Content>
                         </HyperlinkButton>
@@ -777,7 +815,8 @@
                                 x:Name="VinTextBlock"
                                 Margin="4,0,0,0"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Text="{Binding CarData.vin, FallbackValue=LRW, TargetNullValue=LRW}" />
+                                IsTextSelectionEnabled="True"
+                                Text="{Binding CarData.vin, Mode=OneWay, FallbackValue=—, TargetNullValue=—}" />
                         </StackPanel>
                         <StackPanel Margin="12,4,0,0" Orientation="Horizontal">
                             <TextBlock

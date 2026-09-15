@@ -42,3 +42,16 @@ These remain illustrative assets, with approximate model/trim differentiation.
 Model identity correction: Y uses the 2025 Juniper light-bar front and taller crossover proportions; S uses a long low fastback, nose slit and silver multi-spoke wheels; X uses the large panoramic SUV cabin and falcon-wing rear doors. Built-in image generation used separate model-specific prompts without the Model 3 reference. Prompt common constraints: white satin paint, elevated front-left camera, locked 2x2 door-state atlas, flat green key background. Y/X backgrounds were regenerated before approved local keying; dark tinted-window pixels are preserved and despilled. These are representative illustrations, not VIN/model-year matched assets. Native soft shadow retained; charger anchors adjusted per model.
 
 Cybertruck added: built-in image generation, model-specific angular satin stainless-steel pickup, closed black tonneau cover, black off-road tires, elevated front-left camera and fixed 2x2 left-door states. Prompt requested flat green background with no shadow/floor/text; background-only correction preceded approved local chroma-key extraction. Native shadow and charging overlay retained, port anchor tailored to the left-rear arch. cybertruck-closed.png is the first atlas cell for legacy Image bindings. Illustration only, not exact trim or body configuration.
+
+Climate bird-view set:
+Five 1024x1536 RGBA assets (*-bird.png) generated with the built-in image tool.
+Prompt set: separate Model 3/Y/S/X/Cybertruck, strict orthographic top-down,
+front up, closed doors, transparent roof cutaway showing neutral dark cabin,
+satin white body (bare stainless steel for Cybertruck), pure green key background,
+no labels/floor/shadow. Previously approved local keying/despill applied.
+Model X shows a representative six-seat layout; no VIN-specific seat configuration.
+ClimateContentDialog selects via VehicleModel passed from CarData.vehicle_config.
+Unknown models hide the illustration rather than showing the wrong vehicle.
+The old TelsaBirdViewPhoto.webp is retained but no longer used by this dialog.
+Preview: bird-preview.jpg. C# syntax, XAML/project XML, asset presence and alpha
+checks passed; UWP device validation remains necessary.

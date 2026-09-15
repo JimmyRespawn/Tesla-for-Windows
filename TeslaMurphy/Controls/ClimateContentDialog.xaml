@@ -1,4 +1,4 @@
-<ContentDialog
+﻿<ContentDialog
     x:Class="TeslaMurphy.Controls.ClimateContentDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,12 +14,14 @@
     <StackPanel>
         <Grid>
             <Image
-                Grid.Row="1"
+                x:Name="TelsaBirdViewPhoto"
                 MaxWidth="240"
+                MaxHeight="280"
+                Stretch="Uniform"
                 Margin="24,12"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
-                Source="/Assets/Images/TelsaBirdViewPhoto.webp" />
+                Source="/Assets/Images/Vehicles/model3-bird.png" />
         </Grid>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <TextBlock
