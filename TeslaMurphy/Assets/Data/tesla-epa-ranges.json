@@ -1,0 +1,1117 @@
+{
+  "source": "https://www.fueleconomy.gov/feg/epadata/vehicles.csv.zip",
+  "retrieved": "2026-09-16",
+  "basis": "US EPA certification range; reference only, not measured new-vehicle displayed range",
+  "vehicles": [
+    {
+      "year": 2012,
+      "model": "Model S",
+      "rangeMiles": 265.0,
+      "epaId": "32557"
+    },
+    {
+      "year": 2013,
+      "model": "Model S (60 kW-hr battery pack)",
+      "rangeMiles": 208.0,
+      "epaId": "33367"
+    },
+    {
+      "year": 2013,
+      "model": "Model S (85 kW-hr battery pack)",
+      "rangeMiles": 265.0,
+      "epaId": "33368"
+    },
+    {
+      "year": 2013,
+      "model": "Model S (40 kW-hr battery pack)",
+      "rangeMiles": 139.0,
+      "epaId": "33612"
+    },
+    {
+      "year": 2014,
+      "model": "Model S (85 kW-hr battery pack)",
+      "rangeMiles": 265.0,
+      "epaId": "34775"
+    },
+    {
+      "year": 2014,
+      "model": "Model S (60 kW-hr battery pack)",
+      "rangeMiles": 208.0,
+      "epaId": "34776"
+    },
+    {
+      "year": 2015,
+      "model": "Model S (85 kW-hr battery pack)",
+      "rangeMiles": 265.0,
+      "epaId": "35980"
+    },
+    {
+      "year": 2014,
+      "model": "Model S AWD (85 kW-hr battery pack)",
+      "rangeMiles": 242.0,
+      "epaId": "35994"
+    },
+    {
+      "year": 2015,
+      "model": "Model S AWD - P85D",
+      "rangeMiles": 253.0,
+      "epaId": "36008"
+    },
+    {
+      "year": 2015,
+      "model": "Model S AWD - 85D",
+      "rangeMiles": 270.0,
+      "epaId": "36009"
+    },
+    {
+      "year": 2015,
+      "model": "Model S (60 kW-hr battery pack)",
+      "rangeMiles": 208.0,
+      "epaId": "36017"
+    },
+    {
+      "year": 2015,
+      "model": "Model S AWD - 70D",
+      "rangeMiles": 240.0,
+      "epaId": "36126"
+    },
+    {
+      "year": 2015,
+      "model": "Model S AWD - 90D",
+      "rangeMiles": 270.0,
+      "epaId": "36786"
+    },
+    {
+      "year": 2015,
+      "model": "Model S AWD - P90D",
+      "rangeMiles": 253.0,
+      "epaId": "36787"
+    },
+    {
+      "year": 2016,
+      "model": "Model X AWD - 90D",
+      "rangeMiles": 257.0,
+      "epaId": "36979"
+    },
+    {
+      "year": 2016,
+      "model": "Model X AWD - P90D",
+      "rangeMiles": 250.0,
+      "epaId": "36980"
+    },
+    {
+      "year": 2016,
+      "model": "Model S (70 kW-hr battery pack)",
+      "rangeMiles": 234.0,
+      "epaId": "37233"
+    },
+    {
+      "year": 2016,
+      "model": "Model S (85 kW-hr battery pack)",
+      "rangeMiles": 265.0,
+      "epaId": "37234"
+    },
+    {
+      "year": 2016,
+      "model": "Model S (90 kW-hr battery pack)",
+      "rangeMiles": 265.0,
+      "epaId": "37235"
+    },
+    {
+      "year": 2015,
+      "model": "Model S (90 kW-hr battery pack)",
+      "rangeMiles": 265.0,
+      "epaId": "37236"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - 70D",
+      "rangeMiles": 240.0,
+      "epaId": "37238"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - 85D",
+      "rangeMiles": 270.0,
+      "epaId": "37239"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - 90D",
+      "rangeMiles": 294.0,
+      "epaId": "37240"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - P85D",
+      "rangeMiles": 253.0,
+      "epaId": "37241"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - P90D",
+      "rangeMiles": 270.0,
+      "epaId": "37242"
+    },
+    {
+      "year": 2016,
+      "model": "Model S (75 kW-hr battery pack)",
+      "rangeMiles": 249.0,
+      "epaId": "37421"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - 75D",
+      "rangeMiles": 259.0,
+      "epaId": "37422"
+    },
+    {
+      "year": 2016,
+      "model": "Model X AWD - 75D",
+      "rangeMiles": 238.0,
+      "epaId": "37423"
+    },
+    {
+      "year": 2016,
+      "model": "Model S (60 kW-hr battery pack)",
+      "rangeMiles": 210.0,
+      "epaId": "38170"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - 60D",
+      "rangeMiles": 218.0,
+      "epaId": "38171"
+    },
+    {
+      "year": 2016,
+      "model": "Model S AWD - P100D",
+      "rangeMiles": 315.0,
+      "epaId": "38172"
+    },
+    {
+      "year": 2016,
+      "model": "Model X AWD - 60D",
+      "rangeMiles": 200.0,
+      "epaId": "38173"
+    },
+    {
+      "year": 2016,
+      "model": "Model X AWD - P100D",
+      "rangeMiles": 289.0,
+      "epaId": "38500"
+    },
+    {
+      "year": 2017,
+      "model": "Model S AWD - 60D",
+      "rangeMiles": 218.0,
+      "epaId": "38523"
+    },
+    {
+      "year": 2017,
+      "model": "Model S AWD - 75D",
+      "rangeMiles": 259.0,
+      "epaId": "38524"
+    },
+    {
+      "year": 2017,
+      "model": "Model S AWD - P100D",
+      "rangeMiles": 315.0,
+      "epaId": "38525"
+    },
+    {
+      "year": 2017,
+      "model": "Model X AWD - 60D",
+      "rangeMiles": 200.0,
+      "epaId": "38526"
+    },
+    {
+      "year": 2017,
+      "model": "Model X AWD - 75D",
+      "rangeMiles": 238.0,
+      "epaId": "38527"
+    },
+    {
+      "year": 2017,
+      "model": "Model X AWD - 90D",
+      "rangeMiles": 257.0,
+      "epaId": "38528"
+    },
+    {
+      "year": 2017,
+      "model": "Model X AWD - P90D",
+      "rangeMiles": 250.0,
+      "epaId": "38529"
+    },
+    {
+      "year": 2017,
+      "model": "Model X AWD - P100D",
+      "rangeMiles": 289.0,
+      "epaId": "38530"
+    },
+    {
+      "year": 2017,
+      "model": "Model S AWD - P90D",
+      "rangeMiles": 270.0,
+      "epaId": "38537"
+    },
+    {
+      "year": 2017,
+      "model": "Model S (60 kW-hr battery pack)",
+      "rangeMiles": 210.0,
+      "epaId": "38557"
+    },
+    {
+      "year": 2017,
+      "model": "Model S (75 kW-hr battery pack)",
+      "rangeMiles": 249.0,
+      "epaId": "38558"
+    },
+    {
+      "year": 2017,
+      "model": "Model S AWD - 90D",
+      "rangeMiles": 294.0,
+      "epaId": "38569"
+    },
+    {
+      "year": 2017,
+      "model": "Model S AWD - 100D",
+      "rangeMiles": 335.0,
+      "epaId": "38640"
+    },
+    {
+      "year": 2017,
+      "model": "Model 3 Long Range",
+      "rangeMiles": 310.0,
+      "epaId": "39769"
+    },
+    {
+      "year": 2017,
+      "model": "Model X AWD - 100D",
+      "rangeMiles": 295.0,
+      "epaId": "39831"
+    },
+    {
+      "year": 2018,
+      "model": "Model 3 Long Range",
+      "rangeMiles": 310.0,
+      "epaId": "39836"
+    },
+    {
+      "year": 2018,
+      "model": "Model S 75kWh",
+      "rangeMiles": 249.0,
+      "epaId": "39837"
+    },
+    {
+      "year": 2018,
+      "model": "Model S 75D",
+      "rangeMiles": 259.0,
+      "epaId": "39838"
+    },
+    {
+      "year": 2018,
+      "model": "Model S 100D",
+      "rangeMiles": 335.0,
+      "epaId": "39839"
+    },
+    {
+      "year": 2018,
+      "model": "Model S P100D",
+      "rangeMiles": 315.0,
+      "epaId": "39840"
+    },
+    {
+      "year": 2018,
+      "model": "Model X 75D",
+      "rangeMiles": 238.0,
+      "epaId": "39841"
+    },
+    {
+      "year": 2018,
+      "model": "Model X 100D",
+      "rangeMiles": 295.0,
+      "epaId": "39842"
+    },
+    {
+      "year": 2018,
+      "model": "Model X P100D",
+      "rangeMiles": 289.0,
+      "epaId": "39843"
+    },
+    {
+      "year": 2018,
+      "model": "Model 3 Long Range  AWD",
+      "rangeMiles": 310.0,
+      "epaId": "40385"
+    },
+    {
+      "year": 2018,
+      "model": "Model 3 Long Range  AWD Performance",
+      "rangeMiles": 310.0,
+      "epaId": "40386"
+    },
+    {
+      "year": 2018,
+      "model": "Model 3 Mid Range",
+      "rangeMiles": 260.0,
+      "epaId": "41056"
+    },
+    {
+      "year": 2019,
+      "model": "Model 3 Mid Range",
+      "rangeMiles": 264.0,
+      "epaId": "41188"
+    },
+    {
+      "year": 2019,
+      "model": "Model 3 Long Range",
+      "rangeMiles": 310.0,
+      "epaId": "41189"
+    },
+    {
+      "year": 2019,
+      "model": "Model 3 Long Range AWD",
+      "rangeMiles": 310.0,
+      "epaId": "41190"
+    },
+    {
+      "year": 2019,
+      "model": "Model 3 Long Range AWD Performance",
+      "rangeMiles": 310.0,
+      "epaId": "41191"
+    },
+    {
+      "year": 2019,
+      "model": "Model S 75D",
+      "rangeMiles": 259.0,
+      "epaId": "41192"
+    },
+    {
+      "year": 2019,
+      "model": "Model S 100D",
+      "rangeMiles": 335.0,
+      "epaId": "41193"
+    },
+    {
+      "year": 2019,
+      "model": "Model S P100D",
+      "rangeMiles": 315.0,
+      "epaId": "41194"
+    },
+    {
+      "year": 2019,
+      "model": "Model X 75D",
+      "rangeMiles": 238.0,
+      "epaId": "41195"
+    },
+    {
+      "year": 2019,
+      "model": "Model X 100D",
+      "rangeMiles": 295.0,
+      "epaId": "41196"
+    },
+    {
+      "year": 2019,
+      "model": "Model X P100D",
+      "rangeMiles": 289.0,
+      "epaId": "41197"
+    },
+    {
+      "year": 2019,
+      "model": "Model 3 Standard Range",
+      "rangeMiles": 220.0,
+      "epaId": "41415"
+    },
+    {
+      "year": 2019,
+      "model": "Model 3 Standard Range Plus",
+      "rangeMiles": 240.0,
+      "epaId": "41416"
+    },
+    {
+      "year": 2019,
+      "model": "Model S Long Range",
+      "rangeMiles": 370.0,
+      "epaId": "41417"
+    },
+    {
+      "year": 2019,
+      "model": "Model S Performance (19in Wheels)",
+      "rangeMiles": 345.0,
+      "epaId": "41418"
+    },
+    {
+      "year": 2019,
+      "model": "Model S Performance (21in Wheels)",
+      "rangeMiles": 325.0,
+      "epaId": "41419"
+    },
+    {
+      "year": 2019,
+      "model": "Model S Standard Range",
+      "rangeMiles": 285.0,
+      "epaId": "41513"
+    },
+    {
+      "year": 2019,
+      "model": "Model X Long Range",
+      "rangeMiles": 325.0,
+      "epaId": "41514"
+    },
+    {
+      "year": 2019,
+      "model": "Model X Performance (22in Wheels)",
+      "rangeMiles": 270.0,
+      "epaId": "41515"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Long Range",
+      "rangeMiles": 330.0,
+      "epaId": "42274"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Long Range AWD",
+      "rangeMiles": 322.0,
+      "epaId": "42275"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Mid Range",
+      "rangeMiles": 264.0,
+      "epaId": "42276"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Standard Range",
+      "rangeMiles": 220.0,
+      "epaId": "42277"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Standard Range Plus",
+      "rangeMiles": 250.0,
+      "epaId": "42278"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Long Range Performance AWD (18in)",
+      "rangeMiles": 322.0,
+      "epaId": "42279"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Long Range Performance AWD (19in)",
+      "rangeMiles": 304.0,
+      "epaId": "42280"
+    },
+    {
+      "year": 2020,
+      "model": "Model 3 Long Range Performance AWD (20in)",
+      "rangeMiles": 299.0,
+      "epaId": "42281"
+    },
+    {
+      "year": 2020,
+      "model": "Model S Long Range",
+      "rangeMiles": 373.0,
+      "epaId": "42282"
+    },
+    {
+      "year": 2020,
+      "model": "Model S Performance (19in Wheels)",
+      "rangeMiles": 348.0,
+      "epaId": "42283"
+    },
+    {
+      "year": 2020,
+      "model": "Model S Performance (21in Wheels)",
+      "rangeMiles": 326.0,
+      "epaId": "42284"
+    },
+    {
+      "year": 2020,
+      "model": "Model S Standard Range",
+      "rangeMiles": 287.0,
+      "epaId": "42285"
+    },
+    {
+      "year": 2020,
+      "model": "Model X Long Range",
+      "rangeMiles": 328.0,
+      "epaId": "42286"
+    },
+    {
+      "year": 2020,
+      "model": "Model X Performance (20in Wheels)",
+      "rangeMiles": 305.0,
+      "epaId": "42287"
+    },
+    {
+      "year": 2020,
+      "model": "Model X Performance (22in Wheels)",
+      "rangeMiles": 272.0,
+      "epaId": "42288"
+    },
+    {
+      "year": 2020,
+      "model": "Model X Standard Range",
+      "rangeMiles": 258.0,
+      "epaId": "42289"
+    },
+    {
+      "year": 2020,
+      "model": "Model Y Performance AWD",
+      "rangeMiles": 315.0,
+      "epaId": "42474"
+    },
+    {
+      "year": 2020,
+      "model": "Model S Long Range Plus",
+      "rangeMiles": 402.0,
+      "epaId": "42755"
+    },
+    {
+      "year": 2020,
+      "model": "Model Y Performance AWD (21in Wheels)",
+      "rangeMiles": 291.0,
+      "epaId": "42816"
+    },
+    {
+      "year": 2020,
+      "model": "Model Y Long Range AWD",
+      "rangeMiles": 316.0,
+      "epaId": "42916"
+    },
+    {
+      "year": 2021,
+      "model": "Model 3 Long Range AWD",
+      "rangeMiles": 353.0,
+      "epaId": "43401"
+    },
+    {
+      "year": 2021,
+      "model": "Model 3 Performance AWD",
+      "rangeMiles": 315.0,
+      "epaId": "43402"
+    },
+    {
+      "year": 2021,
+      "model": "Model X Long Range Plus",
+      "rangeMiles": 371.0,
+      "epaId": "43403"
+    },
+    {
+      "year": 2021,
+      "model": "Model X Performance (20in Wheels)",
+      "rangeMiles": 341.0,
+      "epaId": "43404"
+    },
+    {
+      "year": 2021,
+      "model": "Model X Performance (22in Wheels)",
+      "rangeMiles": 300.0,
+      "epaId": "43405"
+    },
+    {
+      "year": 2021,
+      "model": "Model Y Long Range AWD",
+      "rangeMiles": 326.0,
+      "epaId": "43406"
+    },
+    {
+      "year": 2021,
+      "model": "Model Y Performance AWD",
+      "rangeMiles": 303.0,
+      "epaId": "43407"
+    },
+    {
+      "year": 2020,
+      "model": "Model X Long Range Plus",
+      "rangeMiles": 351.0,
+      "epaId": "43413"
+    },
+    {
+      "year": 2021,
+      "model": "Model S Performance (19in Wheels)",
+      "rangeMiles": 387.0,
+      "epaId": "43516"
+    },
+    {
+      "year": 2021,
+      "model": "Model S Performance (21in Wheels)",
+      "rangeMiles": 334.0,
+      "epaId": "43517"
+    },
+    {
+      "year": 2021,
+      "model": "Model 3 Standard Range Plus RWD",
+      "rangeMiles": 263.0,
+      "epaId": "43821"
+    },
+    {
+      "year": 2021,
+      "model": "Model Y Standard Range RWD",
+      "rangeMiles": 244.0,
+      "epaId": "43880"
+    },
+    {
+      "year": 2021,
+      "model": "Model S Long Range",
+      "rangeMiles": 405.0,
+      "epaId": "44051"
+    },
+    {
+      "year": 2021,
+      "model": "Model S Plaid (21inch wheels)",
+      "rangeMiles": 348.0,
+      "epaId": "44069"
+    },
+    {
+      "year": 2022,
+      "model": "Model 3 Long Range AWD",
+      "rangeMiles": 358.0,
+      "epaId": "45011"
+    },
+    {
+      "year": 2022,
+      "model": "Model 3 Performance AWD",
+      "rangeMiles": 315.0,
+      "epaId": "45012"
+    },
+    {
+      "year": 2022,
+      "model": "Model 3 RWD",
+      "rangeMiles": 272.0,
+      "epaId": "45013"
+    },
+    {
+      "year": 2022,
+      "model": "Model S",
+      "rangeMiles": 405.0,
+      "epaId": "45014"
+    },
+    {
+      "year": 2022,
+      "model": "Model S Plaid (19 inch wheels)",
+      "rangeMiles": 396.0,
+      "epaId": "45015"
+    },
+    {
+      "year": 2022,
+      "model": "Model S Plaid (21 inch wheels)",
+      "rangeMiles": 348.0,
+      "epaId": "45016"
+    },
+    {
+      "year": 2022,
+      "model": "Model Y RWD",
+      "rangeMiles": 244.0,
+      "epaId": "45017"
+    },
+    {
+      "year": 2022,
+      "model": "Model Y Long Range AWD",
+      "rangeMiles": 330.0,
+      "epaId": "45018"
+    },
+    {
+      "year": 2022,
+      "model": "Model Y Performance AWD",
+      "rangeMiles": 303.0,
+      "epaId": "45019"
+    },
+    {
+      "year": 2022,
+      "model": "Model X",
+      "rangeMiles": 348.0,
+      "epaId": "45020"
+    },
+    {
+      "year": 2022,
+      "model": "Model X Plaid (20 inch wheels)",
+      "rangeMiles": 333.0,
+      "epaId": "45021"
+    },
+    {
+      "year": 2022,
+      "model": "Model X Plaid (22 inch wheels)",
+      "rangeMiles": 311.0,
+      "epaId": "45022"
+    },
+    {
+      "year": 2022,
+      "model": "Model Y AWD",
+      "rangeMiles": 279.0,
+      "epaId": "45196"
+    },
+    {
+      "year": 2023,
+      "model": "Model 3 Long Range AWD",
+      "rangeMiles": 358.0,
+      "epaId": "46204"
+    },
+    {
+      "year": 2023,
+      "model": "Model 3 Performance AWD",
+      "rangeMiles": 315.0,
+      "epaId": "46205"
+    },
+    {
+      "year": 2023,
+      "model": "Model 3 RWD",
+      "rangeMiles": 272.0,
+      "epaId": "46206"
+    },
+    {
+      "year": 2023,
+      "model": "Model S",
+      "rangeMiles": 405.0,
+      "epaId": "46207"
+    },
+    {
+      "year": 2023,
+      "model": "Model X",
+      "rangeMiles": 348.0,
+      "epaId": "46208"
+    },
+    {
+      "year": 2023,
+      "model": "Model X Plaid (20 inch wheels)",
+      "rangeMiles": 333.0,
+      "epaId": "46209"
+    },
+    {
+      "year": 2023,
+      "model": "Model X Plaid (22 inch wheels)",
+      "rangeMiles": 311.0,
+      "epaId": "46210"
+    },
+    {
+      "year": 2023,
+      "model": "Model Y AWD",
+      "rangeMiles": 279.0,
+      "epaId": "46211"
+    },
+    {
+      "year": 2023,
+      "model": "Model Y Long Range AWD",
+      "rangeMiles": 330.0,
+      "epaId": "46212"
+    },
+    {
+      "year": 2023,
+      "model": "Model Y Performance AWD",
+      "rangeMiles": 303.0,
+      "epaId": "46213"
+    },
+    {
+      "year": 2024,
+      "model": "Model 3 Long Range AWD",
+      "rangeMiles": 342.0,
+      "epaId": "47908"
+    },
+    {
+      "year": 2024,
+      "model": "Model 3 RWD",
+      "rangeMiles": 272.0,
+      "epaId": "47909"
+    },
+    {
+      "year": 2024,
+      "model": "Model S",
+      "rangeMiles": 402.0,
+      "epaId": "47910"
+    },
+    {
+      "year": 2024,
+      "model": "Model S Plaid (19in wheels)",
+      "rangeMiles": 359.0,
+      "epaId": "47911"
+    },
+    {
+      "year": 2024,
+      "model": "Model S Plaid (21in wheels)",
+      "rangeMiles": 320.0,
+      "epaId": "47912"
+    },
+    {
+      "year": 2024,
+      "model": "Model Y Long Range AWD",
+      "rangeMiles": 310.0,
+      "epaId": "47913"
+    },
+    {
+      "year": 2024,
+      "model": "Model Y Performance AWD",
+      "rangeMiles": 279.0,
+      "epaId": "47914"
+    },
+    {
+      "year": 2024,
+      "model": "Model X",
+      "rangeMiles": 335.0,
+      "epaId": "47915"
+    },
+    {
+      "year": 2024,
+      "model": "Model X Plaid (20in wheels)",
+      "rangeMiles": 326.0,
+      "epaId": "47916"
+    },
+    {
+      "year": 2024,
+      "model": "Model X Plaid (22in wheels)",
+      "rangeMiles": 300.0,
+      "epaId": "47917"
+    },
+    {
+      "year": 2024,
+      "model": "Model 3 Long Range AWD-E",
+      "rangeMiles": 341.0,
+      "epaId": "48473"
+    },
+    {
+      "year": 2024,
+      "model": "Model Y Long Range AWD-I",
+      "rangeMiles": 308.0,
+      "epaId": "48474"
+    },
+    {
+      "year": 2024,
+      "model": "Model Y Long Range RWD",
+      "rangeMiles": 320.0,
+      "epaId": "48475"
+    },
+    {
+      "year": 2024,
+      "model": "Model Y RWD",
+      "rangeMiles": 260.0,
+      "epaId": "48476"
+    },
+    {
+      "year": 2025,
+      "model": "Model 3 Long Range AWD",
+      "rangeMiles": 346.0,
+      "epaId": "48764"
+    },
+    {
+      "year": 2025,
+      "model": "Model 3 Long Range RWD",
+      "rangeMiles": 363.0,
+      "epaId": "48765"
+    },
+    {
+      "year": 2025,
+      "model": "Model S Plaid (19in wheels)",
+      "rangeMiles": 348.0,
+      "epaId": "48766"
+    },
+    {
+      "year": 2025,
+      "model": "Model S Plaid (21in wheels)",
+      "rangeMiles": 312.0,
+      "epaId": "48767"
+    },
+    {
+      "year": 2025,
+      "model": "Model X Plaid (20in wheels)",
+      "rangeMiles": 314.0,
+      "epaId": "48768"
+    },
+    {
+      "year": 2025,
+      "model": "Model X Plaid (22in wheels)",
+      "rangeMiles": 294.0,
+      "epaId": "48769"
+    },
+    {
+      "year": 2025,
+      "model": "Model Y Long Range AWD",
+      "rangeMiles": 311.0,
+      "epaId": "48770"
+    },
+    {
+      "year": 2025,
+      "model": "Model Y Long Range RWD",
+      "rangeMiles": 337.0,
+      "epaId": "48771"
+    },
+    {
+      "year": 2025,
+      "model": "Model Y Performance AWD",
+      "rangeMiles": 277.0,
+      "epaId": "48772"
+    },
+    {
+      "year": 2024,
+      "model": "Model 3 Long Range RWD",
+      "rangeMiles": 363.0,
+      "epaId": "48795"
+    },
+    {
+      "year": 2024,
+      "model": "Model 3 Performance AWD",
+      "rangeMiles": 303.0,
+      "epaId": "48796"
+    },
+    {
+      "year": 2025,
+      "model": "Model 3 Performance AWD",
+      "rangeMiles": 298.0,
+      "epaId": "48996"
+    },
+    {
+      "year": 2025,
+      "model": "Cybertruck AWD",
+      "rangeMiles": 325.0,
+      "epaId": "49123"
+    },
+    {
+      "year": 2025,
+      "model": "Model S",
+      "rangeMiles": 410.0,
+      "epaId": "49124"
+    },
+    {
+      "year": 2025,
+      "model": "Model X",
+      "rangeMiles": 329.0,
+      "epaId": "49125"
+    },
+    {
+      "year": 2025,
+      "model": "Cybertruck Long Range",
+      "rangeMiles": 335.0,
+      "epaId": "49152"
+    },
+    {
+      "year": 2025,
+      "model": "Cybertruck Long Range (20in Cyber wheels)",
+      "rangeMiles": 335.0,
+      "epaId": "49153"
+    },
+    {
+      "year": 2025,
+      "model": "Model 3 Long Range RWD-I (19in wheels)",
+      "rangeMiles": 346.0,
+      "epaId": "49154"
+    },
+    {
+      "year": 2026,
+      "model": "Model S",
+      "rangeMiles": 410.0,
+      "epaId": "49741"
+    },
+    {
+      "year": 2026,
+      "model": "Model S Plaid",
+      "rangeMiles": 368.0,
+      "epaId": "49742"
+    },
+    {
+      "year": 2026,
+      "model": "Model Y Long Range RWD",
+      "rangeMiles": 357.0,
+      "epaId": "49743"
+    },
+    {
+      "year": 2026,
+      "model": "Model Y Long Range AWD",
+      "rangeMiles": 327.0,
+      "epaId": "49744"
+    },
+    {
+      "year": 2026,
+      "model": "Model X",
+      "rangeMiles": 352.0,
+      "epaId": "49745"
+    },
+    {
+      "year": 2026,
+      "model": "Model X Plaid",
+      "rangeMiles": 335.0,
+      "epaId": "49746"
+    },
+    {
+      "year": 2026,
+      "model": "Model 3 Performance",
+      "rangeMiles": 309.0,
+      "epaId": "50036"
+    },
+    {
+      "year": 2026,
+      "model": "Model 3 Premium AWD",
+      "rangeMiles": 346.0,
+      "epaId": "50037"
+    },
+    {
+      "year": 2026,
+      "model": "Model 3 Premium RWD",
+      "rangeMiles": 363.0,
+      "epaId": "50038"
+    },
+    {
+      "year": 2026,
+      "model": "Cybertruck AWD",
+      "rangeMiles": 325.0,
+      "epaId": "50039"
+    },
+    {
+      "year": 2026,
+      "model": "Model Y Standard RWD (18in Wheels)",
+      "rangeMiles": 321.0,
+      "epaId": "50040"
+    },
+    {
+      "year": 2026,
+      "model": "Model Y Standard RWD (19in Wheels)",
+      "rangeMiles": 303.0,
+      "epaId": "50041"
+    },
+    {
+      "year": 2026,
+      "model": "Cybertruck Long Range (20in Cyber wheels)",
+      "rangeMiles": 335.0,
+      "epaId": "50249"
+    },
+    {
+      "year": 2026,
+      "model": "Model 3 Performance AWD",
+      "rangeMiles": 314.0,
+      "epaId": "50250"
+    },
+    {
+      "year": 2026,
+      "model": "Model 3 Standard RWD",
+      "rangeMiles": 321.0,
+      "epaId": "50251"
+    },
+    {
+      "year": 2026,
+      "model": "Model S Plaid (21in wheels)",
+      "rangeMiles": 309.0,
+      "epaId": "50252"
+    },
+    {
+      "year": 2026,
+      "model": "Model Y Performance AWD",
+      "rangeMiles": 306.0,
+      "epaId": "50253"
+    },
+    {
+      "year": 2026,
+      "model": "Model Y Standard AWD",
+      "rangeMiles": 294.0,
+      "epaId": "50304"
+    },
+    {
+      "year": 2026,
+      "model": "Cybertruck Dual Motor AWD",
+      "rangeMiles": 325.0,
+      "epaId": "50460"
+    }
+  ]
+}

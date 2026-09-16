@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -135,6 +135,9 @@
     <Compile Include="Controls\ClimateContentDialog.xaml.cs">
       <DependentUpon>ClimateContentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\VehicleSoftwareService.cs" />
+    <Compile Include="Services\RangePresetService.cs" />
+    <Compile Include="Controls\VehicleHealthContentDialog.xaml.cs"><DependentUpon>VehicleHealthContentDialog.xaml</DependentUpon></Compile>
     <Compile Include="Controls\DriversContentDialog.xaml.cs">
       <DependentUpon>DriversContentDialog.xaml</DependentUpon>
     </Compile>
@@ -273,6 +276,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\VehicleHealthContentDialog.xaml"><Generator>MSBuild:Compile</Generator><SubType>Designer</SubType></Page>
     <Page Include="Controls\DriversContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -355,6 +359,8 @@
     <Content Include="Assets\Images\Vehicles\cybertruck-closed.png" />
     <Content Include="Assets\Images\modelypearlwhite.webp" />
     <Content Include="Assets\TestData\drivers.json" />
+    <Content Include="Assets\Data\tesla-epa-ranges.json" />
+    <Content Include="Assets\Data\tesla-cn-ranges.json" />
     <Content Include="Assets\Images\TelsaBirdViewPhoto.webp" />
     <Content Include="Assets\Images\Vehicles\model3-bird.png" />
     <Content Include="Assets\Images\Vehicles\modely-bird.png" />

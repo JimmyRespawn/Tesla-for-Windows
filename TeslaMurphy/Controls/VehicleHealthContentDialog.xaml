@@ -1,0 +1,115 @@
+<ContentDialog
+    x:Class="TeslaMurphy.Controls.VehicleHealthContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Battery &amp; software"
+    SecondaryButtonText="Close"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    Loaded="Dialog_Loaded"
+    Closing="Dialog_Closing">
+    <ContentDialog.Resources>
+        <Style x:Key="SectionCard" TargetType="Border">
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+        <Style x:Key="DetailLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </ContentDialog.Resources>
+    <ScrollViewer MaxHeight="560" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel MinWidth="300" Spacing="12">
+            <TextBlock x:Name="VehicleLabel" Margin="0,0,0,4" Style="{StaticResource DetailLabel}" IsTextSelectionEnabled="True" />
+            <Border Style="{StaticResource SectionCard}">
+                <StackPanel Spacing="14">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="Range overview" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <Border Grid.Column="1" Background="{ThemeResource ControlFillColorSecondaryBrush}" CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="ESTIMATE" FontSize="10" CharacterSpacing="80" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </Border>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="1" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <StackPanel Margin="0,0,12,0" Spacing="4">
+                            <TextBlock Text="Full-charge range" Style="{StaticResource DetailLabel}" />
+                            <TextBlock x:Name="CurrentRange" Text="—" FontSize="32" FontWeight="SemiBold" />
+                            <TextBlock Text="km · estimated" Style="{StaticResource DetailLabel}" />
+                        </StackPanel>
+                        <Border Grid.Column="1" Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+                        <StackPanel Grid.Column="2" Margin="16,0,0,0" Spacing="4">
+                            <TextBlock x:Name="HealthLabel" Text="Range retention" Style="{StaticResource DetailLabel}" />
+                            <TextBlock x:Name="HealthText" Text="—" FontSize="32" FontWeight="SemiBold" />
+                            <TextBlock x:Name="HealthHint" Text="Add a baseline below" Style="{StaticResource DetailLabel}" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="120" /></Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center" Margin="0,0,12,0" Spacing="3">
+                            <TextBlock Text="Original range" FontWeight="SemiBold" />
+                            <TextBlock Text="New-car display or reference" Style="{StaticResource DetailLabel}" />
+                        </StackPanel>
+                        <TextBox x:Name="OriginalRange" Grid.Column="1" PlaceholderText="km" TextAlignment="Right"
+                                 AutomationProperties.Name="Original full-charge range in kilometers"
+                                 TextChanged="Range_Changed" InputScope="Number" VerticalAlignment="Center" />
+                    </Grid>
+                    <TextBlock x:Name="RangeStatus" Style="{StaticResource DetailLabel}" />
+                    <TextBlock Text="Range comparison only, not a battery health test." Style="{StaticResource DetailLabel}" />
+                    <HyperlinkButton x:Name="DetailsButton" Content="Calculation details" Click="Details_Click" Padding="0" HorizontalAlignment="Left" />
+                    <StackPanel x:Name="CalculationDetails" Visibility="Collapsed" Spacing="8">
+                        <TextBlock Text="Full-charge range = rated range ÷ battery level × 100. Use the original displayed range, not advertised CLTC/WLTP range." Style="{StaticResource DetailLabel}" />
+                        <TextBlock x:Name="PresetStatus" Style="{StaticResource DetailLabel}" />
+                        <HyperlinkButton x:Name="PresetSource" Content="View reference source" Visibility="Collapsed" Padding="0" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource SectionCard}">
+                <StackPanel Spacing="14">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="Vehicle software" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <Button x:Name="RefreshButton" Grid.Column="1" Content="Check" Click="Refresh_Click" Padding="12,5" />
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <StackPanel Margin="0,0,12,0" Spacing="5">
+                            <TextBlock Text="Installed" Style="{StaticResource DetailLabel}" />
+                            <TextBlock x:Name="Installed" Text="—" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="8,0,0,0" Spacing="5">
+                            <TextBlock Text="Available for your car" Style="{StaticResource DetailLabel}" />
+                            <TextBlock x:Name="Available" Text="—" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock x:Name="UpdateState" TextWrapping="Wrap" FontSize="13" />
+                    <ProgressBar x:Name="UpdateProgress" Minimum="0" Maximum="100" Visibility="Collapsed" />
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <Button x:Name="InstallButton" Content="Install update" IsEnabled="False" Click="Install_Click" Margin="0,0,6,0" HorizontalAlignment="Stretch" />
+                        <Button x:Name="CancelButton" Grid.Column="1" Content="Cancel countdown" IsEnabled="False" Click="Cancel_Click" Margin="6,0,0,0" HorizontalAlignment="Stretch" Padding="6,8" />
+                    </Grid>
+                    <TextBlock Text="Tesla manages rollout and downloads. Download controls are available in the Tesla app or vehicle." Style="{StaticResource DetailLabel}" />
+                    <StackPanel x:Name="Confirmation" Visibility="Collapsed" Spacing="10">
+                        <Border Background="{ThemeResource ControlFillColorSecondaryBrush}" CornerRadius="8" Padding="12">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Ready to install?" FontWeight="SemiBold" />
+                                <TextBlock Text="Park safely first. You cannot drive during installation or cancel once it begins." TextWrapping="Wrap" FontSize="13" />
+                            </StackPanel>
+                        </Border>
+                        <Grid>
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                            <Button x:Name="ConfirmButton" Content="Confirm installation" Click="Confirm_Click" />
+                            <Button Grid.Column="1" Content="Back" Click="Back_Click" Margin="8,0,0,0" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <ProgressBar x:Name="BusyProgress" IsIndeterminate="True" Visibility="Collapsed" />
+            <TextBlock x:Name="Status" Style="{StaticResource DetailLabel}" Margin="2,0,2,0" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

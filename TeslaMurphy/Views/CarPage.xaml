@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="TeslaMurphy.Views.CarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -823,10 +823,7 @@
                                 x:Uid="Software"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Text="Software:" />
-                            <TextBlock
-                                Margin="4,0,0,0"
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Text="{Binding CarData.vehicle_state.car_version, FallbackValue=v12, TargetNullValue=v12}" />
+                            <HyperlinkButton Margin="4,0,0,0" Padding="0" Click="VehicleSoftware_Click" Content="{Binding CarData.vehicle_state.car_version, FallbackValue=Unknown, TargetNullValue=Unknown}" />
                         </StackPanel>
                         <HyperlinkButton
                             x:Name="ReleaseNotesHyperlinkButton"

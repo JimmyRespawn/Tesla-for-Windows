@@ -35,6 +35,11 @@ namespace TeslaMurphy.Models
         public string driver_assist { get; set; }
         public string exterior_color { get; set; }
         public string wheel_type { get; set; }
+        public string trim_badging { get; set; }
+        public string efficiency_package { get; set; }
+        public string performance_package { get; set; }
+        public string charge_port_type { get; set; }
+        public bool? eu_vehicle { get; set; }
     }
 
     public class ChargeStateData
@@ -105,6 +110,11 @@ namespace TeslaMurphy.Models
         public string car_type { get; set; }
         public string driver_assist { get; set; }
         public string wheel_type { get; set; }
+        public string trim_badging { get; set; }
+        public string efficiency_package { get; set; }
+        public string performance_package { get; set; }
+        public string charge_port_type { get; set; }
+        public bool? eu_vehicle { get; set; }
     }
 
     public class VihicleState

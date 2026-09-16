@@ -23,9 +23,13 @@ namespace TeslaMurphy.Services {
   public static string Method,Path,Body,Reply="{\"response\":true}";
   public static int Status=200, Calls;
   public static bool First401;
+  public static readonly System.Collections.Generic.Queue<HttpResponseMessage> Responses = new System.Collections.Generic.Queue<HttpResponseMessage>();
+  public static readonly System.Collections.Generic.List<string> Requests = new System.Collections.Generic.List<string>();
   protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage r,CancellationToken c) {
    Calls++;Method=r.Method.Method;Path=r.RequestUri.PathAndQuery;
    Body=r.Content==null?null:await r.Content.ReadAsStringAsync();
+   Requests.Add(r.Method.Method + " " + r.RequestUri.AbsoluteUri);
+   if(Responses.Count>0)return Responses.Dequeue();
    return new HttpResponseMessage((HttpStatusCode)(First401 && Calls==1?401:Status)) { Content=new StringContent(Reply) };
   }
  }

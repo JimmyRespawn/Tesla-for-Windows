@@ -1,0 +1,168 @@
+{
+  "basis": "CN owner-reported displayed-range references, not official specifications. Generation/year applicability is inferred; intervals are not statistical confidence bounds.",
+  "reviewed": "2026-09-16",
+  "additionalSources": [
+    "https://www.dongchedi.com/auto/series/score/3762-50885-x-x-x-x-x",
+    "https://club.autohome.com.cn/bbs/thread/746c6ba311c18b40/108772275-1.html",
+    "https://club.autohome.com.cn/bbs/thread/d0424d2119f4cb52/107596577-1.html",
+    "https://club.autohome.com.cn/bbs/thread/d2b30ad6829c0a41/115026416-1.html"
+  ],
+  "vehicles": [
+    {
+      "id": "cn-3-2021-lfp",
+      "model": "model3",
+      "years": [
+        2021
+      ],
+      "trims": [
+        "50"
+      ],
+      "wheels": [
+        "PinwheelRefresh18"
+      ],
+      "minKm": 420,
+      "maxKm": 439,
+      "chemistryCode": "F",
+      "source": "https://k.autohome.com.cn/detail/view_01gcpawj5v6gtkedsq6wsg0000.html",
+      "note": "Owner reports around 420–428 km for 2021 SR+. Upper bound conservatively includes the adjacent 60-kWh RWD reference of 439 km because API fields do not identify a production-month/pack transition. This interval is an inference, not an official specification."
+    },
+    {
+      "id": "cn-3-classic-rwd",
+      "model": "model3",
+      "years": [
+        2022,
+        2023
+      ],
+      "trims": [
+        "50"
+      ],
+      "wheels": [
+        "PinwheelRefresh18"
+      ],
+      "minKm": 439,
+      "maxKm": 439,
+      "chemistryCode": "F",
+      "source": "https://club.autohome.com.cn/bbs/thread/9bb113f68a7a7597/106234955-1.html",
+      "note": "Owner-reported 2022 new-car full-charge range. Applied as a generation reference to 2023 with the same classic 18-inch wheel configuration, not to Highland."
+    },
+    {
+      "id": "cn-3-highland-rwd",
+      "model": "model3",
+      "years": [
+        2023,
+        2024
+      ],
+      "trims": [
+        "50"
+      ],
+      "wheels": [
+        "Photon18"
+      ],
+      "minKm": 422,
+      "maxKm": 422,
+      "chemistryCode": "F",
+      "source": "https://club.m.autohome.com.cn/bbs/thread/1a880d3c5cee9549/110066099-1.html",
+      "note": "First-batch Highland owner report. Reference for the 18-inch RWD generation, not a guaranteed factory value."
+    },
+    {
+      "id": "cn-y-classic-rwd",
+      "model": "modely",
+      "years": [
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "trims": [
+        "50"
+      ],
+      "wheels": [
+        "Apollo19"
+      ],
+      "minKm": 435,
+      "maxKm": 435,
+      "chemistryCode": "F",
+      "source": "https://club.autohome.com.cn/bbs/thread/87dad199d851172e/105579320-1.html",
+      "note": "2021 owner new-car report, corroborated by 2022 and 2023 owner reports. Reference for classic 19-inch RWD; year extension is a generation-level inference."
+    },
+    {
+      "id": "cn-y-classic-lr",
+      "model": "modely",
+      "years": [
+        2022,
+        2023
+      ],
+      "trims": [
+        "74d"
+      ],
+      "wheels": [
+        "Apollo19"
+      ],
+      "minKm": 520,
+      "maxKm": 528,
+      "chemistryCode": null,
+      "source": "https://club.autohome.com.cn/bbs/thread/22c3eb30189a1030/104353689-1.html",
+      "note": "Owner reports 521 km at delivery and 528 after BMS capacity settled; another 2023 owner reports about 520 km. Use a reference interval rather than a precise original capacity."
+    },
+    {
+      "id": "cn-3-highland-lr",
+      "model": "model3",
+      "years": [
+        2024
+      ],
+      "trims": [
+        "74d"
+      ],
+      "wheels": [
+        "Photon18"
+      ],
+      "minKm": 550,
+      "maxKm": 550,
+      "chemistryCode": null,
+      "source": "https://club.autohome.com.cn/bbs/thread/149a17860c1890c1/109924975-1.html",
+      "note": "Owner reports 440 km at 80% soon after delivery. 550 km is extrapolated, not a measured full-charge value. Wheel restriction limits use to the standard 18-inch configuration; the owner report does not independently establish wheel size."
+    },
+    {
+      "id": "cn-y-juniper-rwd",
+      "model": "modely",
+      "years": [
+        2025
+      ],
+      "trims": [
+        "50"
+      ],
+      "wheels": [
+        "Crossflow19",
+        "Helix20",
+        "Helix2_20",
+        "Helix2.020"
+      ],
+      "minKm": 401,
+      "maxKm": 435,
+      "chemistryCode": "F",
+      "source": "https://club.autohome.com.cn/bbs/thread/e8407c4c6e5c72ee/111843953-1.html",
+      "note": "Delivery reports and follow-up owner records span 401–435 km across wheel/firmware configurations. This pooled interval is a community reference, not a configuration-exact factory baseline."
+    },
+    {
+      "id": "cn-y-juniper-lr",
+      "model": "modely",
+      "years": [
+        2025
+      ],
+      "trims": [
+        "74d"
+      ],
+      "wheels": [
+        "Crossflow19",
+        "Helix20",
+        "Helix2_20",
+        "Helix2.020"
+      ],
+      "minKm": 520,
+      "maxKm": 541,
+      "chemistryCode": null,
+      "source": "https://club.autohome.com.cn/bbs/thread/6bbd7c7034f0fab5/112462598-1.html",
+      "note": "2025 owner delivery reports span 520–541 km, including the mid-year battery change. Production month and exact pack are unavailable; use the pooled interval."
+    }
+  ]
+}

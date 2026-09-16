@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using TeslaMurphy.Services;
 using System.Threading.Tasks;
@@ -114,6 +114,14 @@ namespace TeslaMurphy.Views
                 ChargeInfoStackPanel.Visibility = Visibility.Visible;
             else
                 ChargeInfoStackPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private async void VehicleSoftware_Click(object sender, RoutedEventArgs e)
+        {
+            var car = ViewModel?.CarData;
+            if (car == null || string.IsNullOrWhiteSpace(car.vin)) return;
+            var dialog = new VehicleHealthContentDialog { VehicleVin = car.vin, VehicleName = car.vehicle_state?.vehicle_name, VehicleSnapshot = Newtonsoft.Json.Linq.JObject.FromObject(car) };
+            await dialog.ShowAsync();
         }
 
         private async void ReleaseNotesHyperlinkButton_Click(object sender, RoutedEventArgs e)
