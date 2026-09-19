@@ -459,13 +459,15 @@ namespace TeslaMurphy.Views
 
         private async void ServiceButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.CarData != null)
+            var car = ViewModel.CarData;
+            if (car == null) return;
+            ServiceButton.IsEnabled = false;
+            try
             {
-                string service = "";
-                if (ViewModel.CarData.in_service)
-                    service = await ViewModel.GetSerivceAsync(ViewModel.CarData.vin);
-                await ViewModel.ShowService(service);
+                string service = car.in_service ? await ViewModel.GetSerivceAsync(car.vin) : null;
+                await ViewModel.ShowService(service, car.in_service, car.vehicle_state?.vehicle_name);
             }
+            finally { ServiceButton.IsEnabled = true; }
         }
 
         private async void ClimateButton_Click(object sender, RoutedEventArgs e)

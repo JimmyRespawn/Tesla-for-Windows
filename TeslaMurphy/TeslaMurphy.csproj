@@ -132,6 +132,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ServiceContentDialog.xaml.cs"><DependentUpon>ServiceContentDialog.xaml</DependentUpon></Compile>
     <Compile Include="Controls\ClimateContentDialog.xaml.cs">
       <DependentUpon>ClimateContentDialog.xaml</DependentUpon>
     </Compile>
@@ -272,6 +273,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ServiceContentDialog.xaml"><Generator>MSBuild:Compile</Generator><SubType>Designer</SubType></Page>
     <Page Include="Controls\ClimateContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

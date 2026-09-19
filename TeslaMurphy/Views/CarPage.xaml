@@ -224,13 +224,8 @@
                                     VerticalAlignment="Bottom"
                                     FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                                     FontSize="16"
-                                    Text="{Binding CarData.charge_state.battery_level, FallbackValue=&#xEBAA;, TargetNullValue=&#xEBA0;, Converter={StaticResource BatteryStateToIconConverter}}" />
-                                <TextBlock
-                                    Margin="4,0,0,0"
-                                    VerticalAlignment="Center"
-                                    FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
-                                    Text="&#xE945;"
-                                    Visibility="{Binding CarData.charge_state.charging_state, FallbackValue=Collapsed, Converter={StaticResource ChargeStateVisibilityConverter}}" />
+                                    Text="{Binding CarData.charge_state, FallbackValue=&#xEBAA;, TargetNullValue=&#xEBA0;, Converter={StaticResource BatteryStateToIconConverter}}" />
+
                             </StackPanel>
                         </Button>
                     </Grid>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -396,23 +396,10 @@ namespace TeslaMurphy.ViewModels
             return true;
         }
 
-        public async Task<bool> ShowService(string service)
+        public async Task<bool> ShowService(string service, bool inService, string vehicleName)
         {
-            if (string.IsNullOrEmpty(service))
-            {
-                await DisplayPopout.dualButton("Service", "Not in service.", "OK", "CANCEL");
-            }
-            else
-            {
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<ServiceResponse>(service);
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("Service status: " + "In service");
-                if(result.response.service_visit_number != null)
-                    stringBuilder.AppendLine("Visit number: " + result.response.service_visit_number);
-                if (result.response.service_etc != null)
-                    stringBuilder.AppendLine("Estimated time: " + result.response.service_etc);
-                await DisplayPopout.dualButton("Service", stringBuilder.ToString(), "OK", "CANCEL");
-            }
+            var dialog = new ServiceContentDialog(service, inService, vehicleName);
+            await dialog.ShowAsync();
             return true;
         }
 
