@@ -1,84 +1,145 @@
 # Tesla for WinUI
 
-从 UWP 迁移的 WinUI 3 桌面客户端，使用 .NET 8、Windows App SDK 和 HelixToolkit。
-保留原页面与文件夹结构，原生 3D 页面支持车辆状态展示、实车控制和本地驾驶模拟。
+A WinUI 3 desktop client migrated from UWP, built with .NET 8, Windows App SDK,
+and HelixToolkit. The project retains the original page and folder structure
+and adds a native 3D view for vehicle status, real vehicle controls, and local
+driving simulation.
 
-## 本机配置
+## Features
 
-打开 `Tesla for WinUI.slnx`，使用 Visual Studio 的 x64 / Debug 配置，启动
-`Tesla for WinUI (Package)` 项目。
+- Vehicle information and controls using the existing Tesla API integration.
+- A native Model 3 scene rendered with HelixToolkit / DirectX, with body hotspots,
+  interior and showroom views, and a HUD that can be hidden.
+- Local driving simulation with traffic, turn signals, lane changes, brake lights,
+  body motion, and weather and road options.
+- A homepage map with vehicle and nearby charging station markers, plus an option
+  to open driving directions in Amap.
+- English and Simplified Chinese resources, with light and dark scenes that follow
+  the application theme.
 
-首次获取源码后，在仓库根目录运行：
+Local simulation controls only animate the model. Real vehicle controls require a
+configured Tesla login and, where applicable, a vehicle command proxy. See
+[MODEL3-3D.md](MODEL3-3D.md) for supported actions, API limitations, and validation notes.
+
+## Local setup
+
+Open `Tesla for WinUI.slnx` in Visual Studio, select **x64 / Debug**, and set
+**Tesla for WinUI (Package)** as the startup project.
+
+After obtaining the source, run the following command from the repository root:
 
 ```powershell
 pwsh -File Tools/Prepare-LocalConfig.ps1
 ```
 
-该脚本仅创建缺失的本地文件，不覆盖已有配置。
+The script creates missing local configuration files without overwriting existing
+ones. Configure these files before signing in or using store features.
 
-| 公开文件（提交 Git） | 本机文件（忽略） | 内容 |
+| Public file (commit to Git) | Local file (ignored by Git) | Purpose |
 | --- | --- | --- |
-| `Tesla for WinUI/Tesla for WinUI/TeslaCredentials.example.json` | 同目录 `TeslaCredentials.local.json` | Tesla OAuth、命令代理地址、可选坐标转换 |
-| `Tesla for WinUI/Tesla for WinUI/StoreConfiguration.example.json` | 同目录 `StoreConfiguration.local.json` | 商店订阅与应用产品编号 |
-| `Tesla for WinUI/Tesla for WinUI (Package)/Package.appxmanifest` | 同目录 `Package.local.appxmanifest` | 包身份、发布者、版本等打包信息 |
-| `Tesla for WinUI/Tesla for WinUI (Package)/PackageSigning.example.props` | 同目录 `PackageSigning.local.props` | 可选的本机签名设置 |
+| `Tesla for WinUI/Tesla for WinUI/TeslaCredentials.example.json` | `TeslaCredentials.local.json` in the same folder | Tesla OAuth credentials, command proxy URL, and optional coordinate conversion |
+| `Tesla for WinUI/Tesla for WinUI/StoreConfiguration.example.json` | `StoreConfiguration.local.json` in the same folder | Store subscription and application product IDs |
+| `Tesla for WinUI/Tesla for WinUI (Package)/Package.appxmanifest` | `Package.local.appxmanifest` in the same folder | Package identity, publisher, version, and other packaging settings |
+| `Tesla for WinUI/Tesla for WinUI (Package)/PackageSigning.example.props` | `PackageSigning.local.props` in the same folder | Optional local signing settings |
 
-构建默认优先使用本地清单；缺少本地清单时使用公开开发清单。公开清单采用通用
-开发身份，与正式商店身份分开。签名模板仅供需要发布签名时手动复制和配置。
+Builds use the local manifest when available and fall back to the public development
+manifest otherwise. The public manifest uses a generic development identity,
+separate from the production store identity. Copy and configure the signing
+template manually if you need package signing; the setup script does not create it.
 
-实际凭据只填写在 `*.local.json`，修改后重新构建。登录令牌、车辆缓存和用户偏好
-由 Windows 应用本地存储管理，不作为源文件提交。公共演示数据位于 `Assets/TestData`，
-已经脱敏；本机原始数据备份位于被忽略的 `.local/TestData.original/`，不进入安装包资源。
+Enter actual credentials only in `*.local.json` files and rebuild after changing
+them. Login tokens, vehicle caches, and user preferences use Windows application
+local storage and are not committed as source files.
 
-## 提交前检查
+Public demo data in `Assets/TestData` has been sanitized. Original local data
+backups, when present, live in the ignored `.local/TestData.original/` folder and
+are not included as package resources.
 
-在 PowerShell 7 中运行：
+## Before committing
+
+Run the privacy check in PowerShell 7:
 
 ```powershell
 pwsh -File Tools/Test-RepositoryPrivacy.ps1
 ```
 
-脚本检查本地配置、签名文件、商店关联、构建产物、API 数据备份是否被 Git 忽略，
-并比对候选文本文件中是否出现已知的本机私有值。输出只包含文件名和问题类别。
-如果仓库已经初始化，还会检查是否有被忽略但已经被 Git 跟踪的文件。
-新增凭据或接口响应样本后，应再次运行检查。
+The script checks that local configuration, signing files, store associations,
+build outputs, and API data backups are ignored by Git. It also scans candidate
+text files for known private values from local configuration. Reports contain
+file names and issue categories without printing those values. If a Git repository
+has already been initialized, the script also checks for ignored files that are
+still tracked. Run it again after adding credentials or API response samples.
 
-`.gitignore` 保留源码、公开配置模板和三个可移植发布配置；排除 `.vs`、`.build`、
-`.local`、`bin`、`obj`、`AppPackages`、证书与私钥、用户配置和临时诊断结果。
-本地构建会将 local 配置嵌入程序，生成的 DLL、EXE、MSIX 不作为源码提交。
+`.gitignore` keeps source files, public configuration templates, and the three
+portable publish profiles. It excludes `.vs`, `.build`, `.local`, `bin`, `obj`,
+`AppPackages`, certificates and private keys, user configuration, and temporary
+diagnostic output.
 
-## 公开构建
+Local builds embed local configuration in the application. Generated DLL, EXE,
+and MSIX files are excluded from source control.
 
-在 Visual Studio 开发者终端中使用：
+## Public build
+
+Run this command in a Visual Studio Developer PowerShell terminal:
 
 ```powershell
 MSBuild.exe 'Tesla for WinUI.slnx' /t:Rebuild /restore /p:Platform=x64 /p:Configuration=Debug /p:UseLocalConfiguration=false /p:AppxPackageSigningEnabled=false /p:GenerateAppxPackageOnBuild=true /p:AppxBundle=Never
 ```
 
-`UseLocalConfiguration=false` 会跳过本地凭据、商店配置、私有清单和签名设置。
-这样生成的公共演示包不含本机凭据；实车登录与商店产品功能需要另行配置。
-日常本机调试不设置该参数，继续使用已有 local 文件。
+`UseLocalConfiguration=false` excludes local credentials, store configuration,
+the private manifest, and local signing settings. The resulting public demo
+package does not include machine-local credentials; real vehicle login and store
+product features require separate configuration.
 
-## 中文资源与模型
+For everyday local debugging, omit this property to keep using your existing
+local files.
 
-中文统一使用 `Strings/zh-Hans`，英文使用 `Strings/en-US`。旧 `zh-Hans1` 中独有的
-61 条翻译已合并后删除，后续新增翻译只维护这两个目录。
+## Localization and 3D assets
 
-迁移说明见 [MIGRATION.md](MIGRATION.md)，3D 功能及验证记录见 [MODEL3-3D.md](MODEL3-3D.md)。
-模型来源与授权分别见应用的 `Assets/Model3/CREDITS.md` 和 `Assets/Traffic/CREDITS.md`。
+Maintain Simplified Chinese resources in `Strings/zh-Hans` and English resources
+in `Strings/en-US`. The duplicate `zh-Hans1` folder has been merged and removed.
 
-## 首页地图
+Migration notes are in [MIGRATION.md](MIGRATION.md). Native 3D features and
+validation notes are in [MODEL3-3D.md](MODEL3-3D.md).
 
-首页使用随应用打包的 MapLibre GL JS 与 OpenFreeMap 全球底图，无需地图 Key 或订阅。
-支持拖动、缩放、应用深浅主题、车辆位置与附近充电站标记、站点选择和返回车辆位置。
-车辆及站点数据继续来自 Tesla API；地图底图需要联网，失败时可以重试。
-应用内不提供地址搜索或路线计算，原有搜索框与路线入口已移除。
-选择附近充电站后，可以点击“在高德中查看路线”，在默认浏览器打开驾车路线页，
-以车辆位置为起点、站点为终点，无需开发者 Key。缺少车辆位置时需要先刷新地图。
-发给高德的起终点从本应用的 WGS84 坐标转换为 GCJ-02；地图里的点位保持原样。
-高德页面可能要求登录或手动完成验证，网页路线显示由高德提供。
+Model sources and licenses are documented in
+[Model 3 credits](Tesla%20for%20WinUI/Tesla%20for%20WinUI/Assets/Model3/CREDITS.md)
+and [traffic asset credits](Tesla%20for%20WinUI/Tesla%20for%20WinUI/Assets/Traffic/CREDITS.md).
+The previous Three.js / WebView2 3D page is archived and hidden from navigation;
+see the [archive notes](Tesla%20for%20WinUI/Tesla%20for%20WinUI/Views/Archive/README.md).
 
-底图使用 WGS84 坐标。默认不转换 Tesla 返回值；仅在确认某个中国区接口返回 GCJ-02
-而导致位置偏移时，在 CN 本地配置中将对应的 VehicleCoordinateConversion（车辆）或
-ChargingCoordinateConversion（充电站）设置为 Gcj02ToWgs84。两个接口独立配置，避免重复转换。
-库版本、授权、数据署名和网络来源见应用 Assets/Maps/CREDITS.md。
+## Homepage map
+
+The homepage uses bundled MapLibre GL JS and the OpenFreeMap global basemap.
+No map API key or subscription is required. It supports panning, zooming, the
+application's light and dark themes, vehicle and nearby charging station markers,
+station selection, and returning to the vehicle position.
+
+Vehicle and charging station data still come from the Tesla API. The basemap
+requires an internet connection and provides a retry option if loading fails.
+The application does not perform address search or route calculation; the previous
+in-app search and routing controls have been removed.
+
+After selecting a nearby charging station, click **View route in Amap** to open
+driving directions in the default browser, using the vehicle position as the
+origin and the station as the destination. This does not require a developer key.
+If the vehicle position is unavailable, refresh the map first. Amap may require
+login or manual verification; its website provides the route results.
+
+The origin and destination sent to Amap are converted from the application's
+WGS84 coordinates to GCJ-02. This does not change the markers displayed in the
+application.
+
+The basemap uses WGS84 coordinates. Tesla coordinates are not converted by
+default. If a China-region endpoint is confirmed to return GCJ-02 coordinates
+and its markers are offset, set the corresponding option in the `CN` section of
+`TeslaCredentials.local.json` to `Gcj02ToWgs84`:
+
+- `VehicleCoordinateConversion` for the vehicle position.
+- `ChargingCoordinateConversion` for charging stations.
+
+These options are independent to avoid applying a correction to the wrong data
+source or converting coordinates twice.
+
+See [map credits](Tesla%20for%20WinUI/Tesla%20for%20WinUI/Assets/Maps/CREDITS.md)
+for library versions, licenses, data attribution, and network sources.
