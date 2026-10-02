@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- Optional: copy to PackageSigning.local.props and configure release signing locally. -->
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <PackageCertificateKeyFile></PackageCertificateKeyFile>
+    <PackageCertificateThumbprint></PackageCertificateThumbprint>
+  </PropertyGroup>
+</Project>

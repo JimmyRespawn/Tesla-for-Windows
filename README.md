@@ -1,128 +1,84 @@
-# Tesla for Windows
+# Tesla for WinUI
 
-Since Tesla decide charge for API usage. So this project will be opensourced now.
+从 UWP 迁移的 WinUI 3 桌面客户端，使用 .NET 8、Windows App SDK 和 HelixToolkit。
+保留原页面与文件夹结构，原生 3D 页面支持车辆状态展示、实车控制和本地驾驶模拟。
 
-This app is used for overviewing your Tesla car's information like battery percentage, charge state, fan state, nearby charging station, climate info, schedule info, driver's info and latest release notes for your car.
+## 本机配置
 
-Climate control supports starting and stopping preconditioning. Vehicles requiring signed commands need a configured Tesla Vehicle Command Proxy and a paired virtual key. Other vehicle controls have not been implemented yet.
+打开 `Tesla for WinUI.slnx`，使用 Visual Studio 的 x64 / Debug 配置，启动
+`Tesla for WinUI (Package)` 项目。
 
-## Screenshots
-<img width="1919" alt="4" src="https://github.com/user-attachments/assets/c7c316dd-1dbf-4aea-8bf8-9fb4c0164919" />
-<img width="1919" alt="3" src="https://github.com/user-attachments/assets/6db9e534-c2e8-413e-879f-9a926f0014af" />
+首次获取源码后，在仓库根目录运行：
 
+```powershell
+pwsh -File Tools/Prepare-LocalConfig.ps1
+```
 
-## How to compile
+该脚本仅创建缺失的本地文件，不覆盖已有配置。
 
-IDE: Visual studio 2022 with UWP sdk installed.
+| 公开文件（提交 Git） | 本机文件（忽略） | 内容 |
+| --- | --- | --- |
+| `Tesla for WinUI/Tesla for WinUI/TeslaCredentials.example.json` | 同目录 `TeslaCredentials.local.json` | Tesla OAuth、命令代理地址、可选坐标转换 |
+| `Tesla for WinUI/Tesla for WinUI/StoreConfiguration.example.json` | 同目录 `StoreConfiguration.local.json` | 商店订阅与应用产品编号 |
+| `Tesla for WinUI/Tesla for WinUI (Package)/Package.appxmanifest` | 同目录 `Package.local.appxmanifest` | 包身份、发布者、版本等打包信息 |
+| `Tesla for WinUI/Tesla for WinUI (Package)/PackageSigning.example.props` | 同目录 `PackageSigning.local.props` | 可选的本机签名设置 |
 
-Minimum OS version: Windows 10 1903,18362 or higher
+构建默认优先使用本地清单；缺少本地清单时使用公开开发清单。公开清单采用通用
+开发身份，与正式商店身份分开。签名模板仅供需要发布签名时手动复制和配置。
 
-### Local package publisher
+实际凭据只填写在 `*.local.json`，修改后重新构建。登录令牌、车辆缓存和用户偏好
+由 Windows 应用本地存储管理，不作为源文件提交。公共演示数据位于 `Assets/TestData`，
+已经脱敏；本机原始数据备份位于被忽略的 `.local/TestData.original/`，不进入安装包资源。
 
-The tracked `TeslaMurphy/Package.appxmanifest` keeps `Publisher="CN="` as a
-placeholder. For local deployment:
+## 提交前检查
 
-1. Copy `TeslaMurphy/Package.appxmanifest` to
-   `TeslaMurphy/Package.local.appxmanifest`.
-2. In the local copy, change the `Identity` element's `Publisher` to your actual
-   publisher, for example `CN=YourName`. Use the full subject of your signing
-   certificate, and configure the matching certificate for package signing.
-3. Reload the project in Visual Studio after creating or removing the local
-   manifest, then rebuild and deploy.
+在 PowerShell 7 中运行：
 
-The project automatically selects the local manifest when it exists. Git ignores
-this file, so your personal publisher is not committed. Edit shared manifest
-settings in `Package.appxmanifest` and keep those changes in sync with your local
-copy. Remove the local copy to use the tracked manifest again. A fresh checkout
-or CI build must supply a valid publisher and signing setup before deployment;
-the tracked `CN=` value is only a placeholder.
+```powershell
+pwsh -File Tools/Test-RepositoryPrivacy.ps1
+```
 
-## What you need to prepare to get car online service work
+脚本检查本地配置、签名文件、商店关联、构建产物、API 数据备份是否被 Git 忽略，
+并比对候选文本文件中是否出现已知的本机私有值。输出只包含文件名和问题类别。
+如果仓库已经初始化，还会检查是否有被忽略但已经被 Git 跟踪的文件。
+新增凭据或接口响应样本后，应再次运行检查。
 
-### Step 1 
+`.gitignore` 保留源码、公开配置模板和三个可移植发布配置；排除 `.vs`、`.build`、
+`.local`、`bin`、`obj`、`AppPackages`、证书与私钥、用户配置和临时诊断结果。
+本地构建会将 local 配置嵌入程序，生成的 DLL、EXE、MSIX 不作为源码提交。
 
-Go to https://developer.tesla.com/docs/fleet-api to create Tesla account
+## 公开构建
 
-### Step 2
+在 Visual Studio 开发者终端中使用：
 
-Apply for API key and register/activate your partner account one time. There is code in the project, but there is no button to call it. Do your own magic to activate it.s
+```powershell
+MSBuild.exe 'Tesla for WinUI.slnx' /t:Rebuild /restore /p:Platform=x64 /p:Configuration=Debug /p:UseLocalConfiguration=false /p:AppxPackageSigningEnabled=false /p:GenerateAppxPackageOnBuild=true /p:AppxBundle=Never
+```
 
-### Step 3
+`UseLocalConfiguration=false` 会跳过本地凭据、商店配置、私有清单和签名设置。
+这样生成的公共演示包不含本机凭据；实车登录与商店产品功能需要另行配置。
+日常本机调试不设置该参数，继续使用已有 local 文件。
 
-Copy `TeslaMurphy/TeslaCredentials.example.json` to
-`TeslaMurphy/TeslaCredentials.local.json` and fill in `ClientId` and `ClientSecret`
-for each region you use (`NA`, `EU`, `CN`). Reload the project after creating the
-file, then rebuild. The local file is ignored by Git; only the empty example is
-committed. Without local credentials, the app can run in demo mode and displays
-a configuration message when login is attempted.
+## 中文资源与模型
 
-Region URLs and credential selection are centralized in
-`Services/TeslaConfiguration.cs`. `Services/HttpService.cs` shares one HTTP client
-for Fleet API and OAuth requests; `TeslaFleetServices` handles authorization and
-token exchange. Existing vehicle endpoint methods use this shared transport.
+中文统一使用 `Strings/zh-Hans`，英文使用 `Strings/en-US`。旧 `zh-Hans1` 中独有的
+61 条翻译已合并后删除，后续新增翻译只维护这两个目录。
 
-Local credentials are embedded into the compiled app for local development.
-Git exclusion prevents source commits, but does not hide secrets inside a
-distributed app or build artifact. For public distribution, keep the client
-secret and token exchange on a backend you control.
+迁移说明见 [MIGRATION.md](MIGRATION.md)，3D 功能及验证记录见 [MODEL3-3D.md](MODEL3-3D.md)。
+模型来源与授权分别见应用的 `Assets/Model3/CREDITS.md` 和 `Assets/Traffic/CREDITS.md`。
 
-e.g. Api key in US/EU is different from Mainland China
+## 首页地图
 
-## What you need to get map service work
+首页使用随应用打包的 MapLibre GL JS 与 OpenFreeMap 全球底图，无需地图 Key 或订阅。
+支持拖动、缩放、应用深浅主题、车辆位置与附近充电站标记、站点选择和返回车辆位置。
+车辆及站点数据继续来自 Tesla API；地图底图需要联网，失败时可以重试。
+应用内不提供地址搜索或路线计算，原有搜索框与路线入口已移除。
+选择附近充电站后，可以点击“在高德中查看路线”，在默认浏览器打开驾车路线页，
+以车辆位置为起点、站点为终点，无需开发者 Key。缺少车辆位置时需要先刷新地图。
+发给高德的起终点从本应用的 WGS84 坐标转换为 GCJ-02；地图里的点位保持原样。
+高德页面可能要求登录或手动完成验证，网页路线显示由高德提供。
 
-Go to https://azure.microsoft.com/en-us/products/azure-maps/ to apply Bing maps api if you want to get the map control working in release version.
-
-The service is okay without token in debug mode.
-
-Search `MapServiceToken` and replace it with your own token.
-
-## More info
-
-You are free to modify and distribute it to the store. Just follow the GPL3.0 license.
-
-Any activities that violates the privacy policy including store the users' data into your own server. Or monitor users' data will not be allowed.
-
-## Lock, climate and schedule control
-
-The climate toolbar button starts (`auto_conditioning_start`) or stops
-(`auto_conditioning_stop`) climate preconditioning using the selected vehicle VIN.
-Only a response with `response.result: true` is treated as success. An expired
-access token triggers one refresh and retry. Failed requests restore the button
-state, and demo mode never sends commands.
-
-For vehicles requiring signed commands, deploy the official
-[Tesla Vehicle Command Proxy](https://github.com/teslamotors/vehicle-command#http-proxy)
-with your application's private key and pair the corresponding virtual key with
-the vehicle. Add `"CommandBaseUrl": "https://your-command-proxy.example"` alongside
-`ClientId` and `ClientSecret` in the appropriate region of
-`TeslaCredentials.local.json`, then rebuild. Configure the proxy for that Tesla
-region. Use a trusted HTTPS certificate; the app does not bypass TLS validation.
-Only use a proxy you control: vehicle command requests send it the access token.
-Keep the signing private key on the proxy server, not in the UWP package.
-
-An omitted or empty `CommandBaseUrl` sends commands directly to Fleet API, for
-vehicles that support unsigned commands. Reading vehicle data, waking the vehicle
-and OAuth token requests continue using the regional Fleet API/auth endpoints.
-This setting does not deploy a proxy or pair a virtual key automatically. The
-vehicle must be online; if it is asleep, wake it and retry. See Tesla's
-[command requirements](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-commands).
-### China vehicle marker coordinates
-
-Only the vehicle marker in the CN region uses coordinate correction. Charger
-coordinates and API response data are unchanged. The default is the approximate
-GCJ-02 to WGS-84 conversion, an assumption that must be checked against the actual
-map and vehicle position. In the CN entry of TeslaCredentials.local.json, set
-VehicleCoordinateConversion to Gcj02ToWgs84, Wgs84ToGcj02, or None, then rebuild.
-The algorithm uses a coarse geographic bounding box, not a precise mainland
-boundary; disable correction for locations or map providers that do not need it.
-
-Drivers management now uses the selected VIN and the Fleet API directly:
-list/remove drivers, create/copy/revoke invitations, paginated invitations and
-redeem a Tesla invitation code/link. The dialog holds its vehicle context fixed.
-Owner-only controls are enabled after the owner-only drivers endpoint succeeds;
-Tesla still authorizes every mutation. English confirmation UI precedes changes.
-Invitation links are not written to disk or sent automatically. Copy is user initiated.
-Demo mode blocks network operations. A 401 refresh retries once; 500/timeouts never
-automatically replay membership mutations. Run tests/DriverManagementChecks.ps1
-in a fresh PowerShell 7 session for offline HTTP/response checks.
-Reference: https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-endpoints
+底图使用 WGS84 坐标。默认不转换 Tesla 返回值；仅在确认某个中国区接口返回 GCJ-02
+而导致位置偏移时，在 CN 本地配置中将对应的 VehicleCoordinateConversion（车辆）或
+ChargingCoordinateConversion（充电站）设置为 Gcj02ToWgs84。两个接口独立配置，避免重复转换。
+库版本、授权、数据署名和网络来源见应用 Assets/Maps/CREDITS.md。

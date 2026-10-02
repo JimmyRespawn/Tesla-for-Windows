@@ -1,0 +1,1167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Garage_7b992a639df7" xml:space="preserve">
+    <value>，暂不关闭充电口。</value>
+  </data>
+  <data name="Garage_ec304034c8a3" xml:space="preserve">
+    <value>。关闭口盖时会检查车辆返回的充电状态。</value>
+  </data>
+  <data name="Garage_613286046997" xml:space="preserve">
+    <value>[车辆]</value>
+  </data>
+  <data name="Garage_3c019359a396" xml:space="preserve">
+    <value>[已隐藏]</value>
+  </data>
+  <data name="Garage_29126a7445a2" xml:space="preserve">
+    <value>
+车辆停放时可能返回上次行驶的测量值；缺失或零值显示为暂未返回。</value>
+  </data>
+  <data name="Garage_5f3a25d8e413" xml:space="preserve">
+    <value>
+右后：</value>
+  </data>
+  <data name="Garage_1b321edab36d" xml:space="preserve">
+    <value>
+右前：</value>
+  </data>
+  <data name="Garage_b0bd5e475b7b" xml:space="preserve">
+    <value>
+左后：</value>
+  </data>
+  <data name="Garage_fb84f88c9693" xml:space="preserve">
+    <value>左前：</value>
+  </data>
+  <data name="Garage_cc07ad19c05c" xml:space="preserve">
+    <value>＋ 车轮</value>
+  </data>
+  <data name="Garage_f667dd167587" xml:space="preserve">
+    <value>＋ 车锁</value>
+  </data>
+  <data name="Garage_bb2600938c9e" xml:space="preserve">
+    <value>＋ 充电口</value>
+  </data>
+  <data name="Garage_906e951a07e9" xml:space="preserve">
+    <value>2018 · 珍珠白 · 全景玻璃车顶</value>
+  </data>
+  <data name="Garage_e5400bf1a34d" xml:space="preserve">
+    <value>3D: Ameer Studio · CC BY 4.0 · 已调整材质与交互</value>
+  </data>
+  <data name="Garage_df2c6f654af8" xml:space="preserve">
+    <value>不支持此车辆操作。</value>
+  </data>
+  <data name="Garage_e86cf6de9eb7" xml:space="preserve">
+    <value>操作将发送到真实车辆。</value>
+  </data>
+  <data name="Garage_864fa7358b7b" xml:space="preserve">
+    <value>操作将发送到真实车辆</value>
+  </data>
+  <data name="Garage_067383ae92c9" xml:space="preserve">
+    <value>操作期间车辆或登录状态已变化，请刷新查看结果。</value>
+  </data>
+  <data name="Garage_12d5e6296459" xml:space="preserve">
+    <value>操作未完成，模型保留已知状态。</value>
+  </data>
+  <data name="Garage_fb08ee745b2b" xml:space="preserve">
+    <value>查看车轮信息</value>
+  </data>
+  <data name="Garage_6a50a34f39b6" xml:space="preserve">
+    <value>查看车锁状态</value>
+  </data>
+  <data name="Garage_82627e8add29" xml:space="preserve">
+    <value>查看充电口</value>
+  </data>
+  <data name="Garage_f4332bc58e52" xml:space="preserve">
+    <value>查看充电口状态</value>
+  </data>
+  <data name="Garage_9710253e49fb" xml:space="preserve">
+    <value>场景暂不可用，请重新打开此页面。</value>
+  </data>
+  <data name="Garage_f32226a2fa58" xml:space="preserve">
+    <value>车辆报告充电口已经关闭，请刷新状态。</value>
+  </data>
+  <data name="Garage_d4399ebae713" xml:space="preserve">
+    <value>车辆操作未完成</value>
+  </data>
+  <data name="Garage_8158efb21865" xml:space="preserve">
+    <value>车辆操作已取消。</value>
+  </data>
+  <data name="Garage_89285c392342" xml:space="preserve">
+    <value>车辆充电口不支持电动关闭。</value>
+  </data>
+  <data name="Garage_536cf64d4163" xml:space="preserve">
+    <value>车辆返回了无法识别的状态，请稍后刷新。</value>
+  </data>
+  <data name="Garage_64ad8d445fff" xml:space="preserve">
+    <value>车辆拒绝关闭充电口：充电线仍连接，请拔下后重试。</value>
+  </data>
+  <data name="Garage_8178e110eb21" xml:space="preserve">
+    <value>车辆拒绝了指令，请检查授权与虚拟钥匙配对。</value>
+  </data>
+  <data name="Garage_dd052e22c4f3" xml:space="preserve">
+    <value>车辆门锁</value>
+  </data>
+  <data name="Garage_ddfe757872ee" xml:space="preserve">
+    <value>车辆尚未返回锁车或充电口状态，请确认车辆在线后刷新。</value>
+  </data>
+  <data name="Garage_cef74c7984a9" xml:space="preserve">
+    <value>车辆数据与当前选择不一致，请重新选择车辆后刷新。</value>
+  </data>
+  <data name="Garage_4538f7554b68" xml:space="preserve">
+    <value>车辆未确认指令，模型保留已知状态。</value>
+  </data>
+  <data name="Garage_5e02c171dab3" xml:space="preserve">
+    <value>车辆未确认指令，请刷新状态检查执行结果。</value>
+  </data>
+  <data name="Garage_7db0262196f8" xml:space="preserve">
+    <value>车辆未确认指令，请刷新状态检查执行结果。
+</value>
+  </data>
+  <data name="Garage_63c5062d2af4" xml:space="preserve">
+    <value>车辆要求签名指令，请检查命令代理与虚拟钥匙配对。
+</value>
+  </data>
+  <data name="Garage_bc988072df6f" xml:space="preserve">
+    <value>车辆已解锁</value>
+  </data>
+  <data name="Garage_484ca0c52f99" xml:space="preserve">
+    <value>车辆已上锁</value>
+  </data>
+  <data name="Garage_f2aa0b42fb7d" xml:space="preserve">
+    <value>车辆已确认指令，正在核对状态…</value>
+  </data>
+  <data name="Garage_dd622a2fd5d6" xml:space="preserve">
+    <value>车辆暂时不可用或处于休眠状态，请确认车辆在线后刷新。</value>
+  </data>
+  <data name="Garage_0b157c18f574" xml:space="preserve">
+    <value>车辆暂未响应，请稍后重试。</value>
+  </data>
+  <data name="Garage_d9b6f437fb53" xml:space="preserve">
+    <value>车辆指令超时，请刷新状态检查执行结果。</value>
+  </data>
+  <data name="Garage_343acd1224ad" xml:space="preserve">
+    <value>车辆指令未成功，请检查网络、命令代理与授权后重试。</value>
+  </data>
+  <data name="Garage_ad125fe97ee2" xml:space="preserve">
+    <value>车辆状态不完整，请稍后刷新。</value>
+  </data>
+  <data name="Garage_18fdea0210ce" xml:space="preserve">
+    <value>车辆状态已同步。</value>
+  </data>
+  <data name="Garage_2f57ff996988" xml:space="preserve">
+    <value>车轮</value>
+  </data>
+  <data name="Garage_25d5825b9fb4" xml:space="preserve">
+    <value>车锁状态未知</value>
+  </data>
+  <data name="Garage_238bd0081341" xml:space="preserve">
+    <value>充电口</value>
+  </data>
+  <data name="Garage_c336949b3723" xml:space="preserve">
+    <value>充电口未关闭。</value>
+  </data>
+  <data name="Garage_ca7f558ae27b" xml:space="preserve">
+    <value>充电口已打开</value>
+  </data>
+  <data name="Garage_8844e2c4aec0" xml:space="preserve">
+    <value>充电口已关闭</value>
+  </data>
+  <data name="Garage_cdd3c25ab1c8" xml:space="preserve">
+    <value>充电口已经关闭，状态已同步。</value>
+  </data>
+  <data name="Garage_7b2e22c48120" xml:space="preserve">
+    <value>充电口状态未知</value>
+  </data>
+  <data name="Garage_78f4e2d8d6e6" xml:space="preserve">
+    <value>充电完成</value>
+  </data>
+  <data name="Garage_c02f869c31e8" xml:space="preserve">
+    <value>充电已停止</value>
+  </data>
+  <data name="Garage_9fffe14224c3" xml:space="preserve">
+    <value>充电状态：</value>
+  </data>
+  <data name="Garage_3feafba83012" xml:space="preserve">
+    <value>打开充电口</value>
+  </data>
+  <data name="Garage_efdee66e546a" xml:space="preserve">
+    <value>关闭充电口</value>
+  </data>
+  <data name="Garage_590827e99e58" xml:space="preserve">
+    <value>当前车辆或区域已变化，请刷新后重试。</value>
+  </data>
+  <data name="Garage_a8fdcb9d0f48" xml:space="preserve">
+    <value>当前模型导入支持 x64/x86，请运行 x64 版本。</value>
+  </data>
+  <data name="Garage_085dac174077" xml:space="preserve">
+    <value>登录并选车后可操作</value>
+  </data>
+  <data name="Garage_5839a697865f" xml:space="preserve">
+    <value>登录并选择车辆后可操作</value>
+  </data>
+  <data name="Garage_49ea218aea22" xml:space="preserve">
+    <value>登录并选择车辆后可以操作。</value>
+  </data>
+  <data name="Garage_18b4f39557c3" xml:space="preserve">
+    <value>登录已过期，请重新登录。</value>
+  </data>
+  <data name="Garage_3a0f42582885" xml:space="preserve">
+    <value>登录已过期，请重新登录后重试。</value>
+  </data>
+  <data name="Garage_7efe746a6d10" xml:space="preserve">
+    <value>等待车辆状态</value>
+  </data>
+  <data name="Garage_075917557413" xml:space="preserve">
+    <value>读取车辆状态超时，请确认车辆在线后重试。</value>
+  </data>
+  <data name="Garage_b0fe2a90aa51" xml:space="preserve">
+    <value>复位视角</value>
+  </data>
+  <data name="Garage_110bd24b8eb2" xml:space="preserve">
+    <value>关闭状态卡</value>
+  </data>
+  <data name="Garage_70fba17fffb7" xml:space="preserve">
+    <value>解锁</value>
+  </data>
+  <data name="Garage_f2acbe68373e" xml:space="preserve">
+    <value>解锁车辆</value>
+  </data>
+  <data name="Garage_49e8fa5c10e7" xml:space="preserve">
+    <value>仅改变模型，不发送车辆指令</value>
+  </data>
+  <data name="Garage_3de5d65d6894" xml:space="preserve">
+    <value>没有读取车辆状态的权限，请检查 Tesla 授权。</value>
+  </data>
+  <data name="Garage_bfabaaeb01bc" xml:space="preserve">
+    <value>模型缺少交互部件：</value>
+  </data>
+  <data name="Garage_e83ee9ccba25" xml:space="preserve">
+    <value>请求超时，模型保留已知状态。</value>
+  </data>
+  <data name="Garage_40e61426199b" xml:space="preserve">
+    <value>请求过于频繁，请稍后再刷新。</value>
+  </data>
+  <data name="Garage_3c6d8f13cd45" xml:space="preserve">
+    <value>请先拔下充电线；车辆充电状态为 </value>
+  </data>
+  <data name="Garage_604a0df845fe" xml:space="preserve">
+    <value>请先登录 Tesla 账户后连接车辆。</value>
+  </data>
+  <data name="Garage_ed5fa818b217" xml:space="preserve">
+    <value>请先在车辆主页选择要控制的车辆。</value>
+  </data>
+  <data name="Garage_d47e1cb0701f" xml:space="preserve">
+    <value>请先在主页面登录并选择车辆。</value>
+  </data>
+  <data name="Garage_0cd8458bd22d" xml:space="preserve">
+    <value>上锁</value>
+  </data>
+  <data name="Garage_daf8e40fde37" xml:space="preserve">
+    <value>上锁车辆</value>
+  </data>
+  <data name="Garage_93731701411c" xml:space="preserve">
+    <value>实时车辆</value>
+  </data>
+  <data name="Garage_802a407c7743" xml:space="preserve">
+    <value>刷新状态</value>
+  </data>
+  <data name="Garage_d27253b4ccf2" xml:space="preserve">
+    <value>锁车状态未知</value>
+  </data>
+  <data name="Garage_b28781f695bf" xml:space="preserve">
+    <value>胎压（车辆最近测量值）</value>
+  </data>
+  <data name="Garage_ce4f4251e85c" xml:space="preserve">
+    <value>体验模式不会连接或控制真实车辆。</value>
+  </data>
+  <data name="Garage_1df8158d7b4e" xml:space="preserve">
+    <value>同一份精细模型 · 原生 DirectX 渲染</value>
+  </data>
+  <data name="Garage_09baec38cc1a" xml:space="preserve">
+    <value>拖动旋转 · 滚轮缩放 · 右键平移</value>
+  </data>
+  <data name="Garage_a7f0cfb1eddd" xml:space="preserve">
+    <value>未连接车辆</value>
+  </data>
+  <data name="Garage_f748a9354e3f" xml:space="preserve">
+    <value>未连接充电线</value>
+  </data>
+  <data name="Garage_9c70dd4c7243" xml:space="preserve">
+    <value>未找到本地 Model 3 模型资源。</value>
+  </data>
+  <data name="Garage_4904b2d34cba" xml:space="preserve">
+    <value>未找到当前车辆，请重新选择车辆后刷新。</value>
+  </data>
+  <data name="Garage_9621abbafa8f" xml:space="preserve">
+    <value>无充电电源</value>
+  </data>
+  <data name="Garage_f899043af208" xml:space="preserve">
+    <value>无法读取车辆状态，请检查网络连接后刷新。</value>
+  </data>
+  <data name="Garage_4b88ac5f8673" xml:space="preserve">
+    <value>无法连接 Tesla 或命令代理，请检查网络与代理设置。</value>
+  </data>
+  <data name="Garage_65f8d0d05c60" xml:space="preserve">
+    <value>显示 HUD</value>
+  </data>
+  <data name="Garage_ed83ff70185a" xml:space="preserve">
+    <value>隐藏 HUD</value>
+  </data>
+  <data name="Garage_0f0d30bc3cf9" xml:space="preserve">
+    <value>需要 GLB 2.0 模型</value>
+  </data>
+  <data name="Garage_81001396ed15" xml:space="preserve">
+    <value>演示模式 · 操作仅改变模型。</value>
+  </data>
+  <data name="Garage_a8abf7059693" xml:space="preserve">
+    <value>演示模式：仅改变模型。</value>
+  </data>
+  <data name="Garage_05f5cdc5ee4a" xml:space="preserve">
+    <value>演示模式</value>
+  </data>
+  <data name="Garage_3f73eb10b98a" xml:space="preserve">
+    <value>已读取车辆，部分状态暂未返回。</value>
+  </data>
+  <data name="Garage_e4cf2de9b47f" xml:space="preserve">
+    <value>已解锁</value>
+  </data>
+  <data name="Garage_1aaf73314765" xml:space="preserve">
+    <value>已上锁</value>
+  </data>
+  <data name="Garage_34316d06f38c" xml:space="preserve">
+    <value>已选择当前车辆，正在读取状态…</value>
+  </data>
+  <data name="Garage_80cca184acf2" xml:space="preserve">
+    <value>原生场景加载失败。</value>
+  </data>
+  <data name="Garage_187bbf769678" xml:space="preserve">
+    <value>暂时无法唤醒车辆，请确认车辆在线后重试。</value>
+  </data>
+  <data name="Garage_018d442e74ca" xml:space="preserve">
+    <value>暂未返回</value>
+  </data>
+  <data name="Garage_232a49103f27" xml:space="preserve">
+    <value>找不到 Model 3 模型</value>
+  </data>
+  <data name="Garage_cce3c6b9e67e" xml:space="preserve">
+    <value>这里显示整车门锁状态，后视镜动画为视觉示意。尚未接入单个车门开合状态。</value>
+  </data>
+  <data name="Garage_310427034483" xml:space="preserve">
+    <value>正在充电</value>
+  </data>
+  <data name="Garage_7448eb074f38" xml:space="preserve">
+    <value>正在处理车辆操作…</value>
+  </data>
+  <data name="Garage_ca3124707290" xml:space="preserve">
+    <value>正在读取车辆状态…</value>
+  </data>
+  <data name="Garage_d202001780fe" xml:space="preserve">
+    <value>正在加载 Helix Model 3…</value>
+  </data>
+  <data name="Garage_d3bd57ff763f" xml:space="preserve">
+    <value>正在向当前车辆发送指令…</value>
+  </data>
+  <data name="Garage_d173fd72b321" xml:space="preserve">
+    <value>正在准备原生三维场景…</value>
+  </data>
+  <data name="Garage_01c3587a48f2" xml:space="preserve">
+    <value>指令成功，车辆状态已同步。</value>
+  </data>
+  <data name="Garage_d78ac38d262f" xml:space="preserve">
+    <value>指令未成功，请稍后重试。</value>
+  </data>
+  <data name="Garage_977485136589" xml:space="preserve">
+    <value>指令已确认，车辆状态同步中，可稍后刷新。</value>
+  </data>
+  <data name="Garage_6caf3613ce78" xml:space="preserve">
+    <value>指令已确认，暂时无法核对车辆状态。</value>
+  </data>
+  <data name="Garage_bbd9ef28550e" xml:space="preserve">
+    <value>指令已确认，状态读取暂时超时，可稍后刷新。</value>
+  </data>
+  <data name="Garage_a87cf0a965a9" xml:space="preserve">
+    <value>转到充电口</value>
+  </data>
+  <data name="Garage_93e474c68ed5" xml:space="preserve">
+    <value>状态未知</value>
+  </data>
+  <data name="Garage_9512eea166da" xml:space="preserve">
+    <value>准备充电</value>
+  </data>
+  <data name="Garage_3ce1d02a366a" xml:space="preserve">
+    <value>DirectX 渲染中断，请重新打开此页面。</value>
+  </data>
+  <data name="Garage_d573201d9576" xml:space="preserve">
+    <value>GLB 元数据无效</value>
+  </data>
+  <data name="Garage_dd86cccbdbe3" xml:space="preserve">
+    <value>Helix 场景暂不可用</value>
+  </data>
+  <data name="Garage_64ce6b8c139d" xml:space="preserve">
+    <value>Model 3 模型导入失败：</value>
+  </data>
+  <data name="Garage_670dc586c7f5" xml:space="preserve">
+    <value>Tesla 服务暂时不可用，请稍后刷新。</value>
+  </data>
+  <data name="Garage_5d32af25ff17" xml:space="preserve">
+    <value>Tesla 未返回有效车辆状态，请检查授权或稍后刷新。</value>
+  </data>
+  <data name="GarageElement1.Content" xml:space="preserve">
+    <value>＋ 充电口</value>
+  </data>
+  <data name="GarageElement2.Content" xml:space="preserve">
+    <value>＋ 车锁</value>
+  </data>
+  <data name="GarageElement3.Content" xml:space="preserve">
+    <value>＋ 车轮</value>
+  </data>
+  <data name="GarageElement6.Text" xml:space="preserve">
+    <value>2018 · 珍珠白 · 全景玻璃车顶</value>
+  </data>
+  <data name="GarageElement8.Text" xml:space="preserve">
+    <value>等待车辆状态</value>
+  </data>
+  <data name="GarageElement9.Text" xml:space="preserve">
+    <value>状态未知</value>
+  </data>
+  <data name="GarageElement10.Text" xml:space="preserve">
+    <value>拖动旋转 · 滚轮缩放 · 右键平移</value>
+  </data>
+  <data name="GarageElement16.Content" xml:space="preserve">
+    <value>转到充电口</value>
+  </data>
+  <data name="GarageElement19.Text" xml:space="preserve">
+    <value>打开充电口</value>
+  </data>
+  <data name="GarageElement21.Text" xml:space="preserve">
+    <value>解锁</value>
+  </data>
+  <data name="GarageElement23.Text" xml:space="preserve">
+    <value>上锁</value>
+  </data>
+  <data name="GarageElement24.Content" xml:space="preserve">
+    <value>查看充电口</value>
+  </data>
+  <data name="GarageElement25.Content" xml:space="preserve">
+    <value>复位视角</value>
+  </data>
+  <data name="GarageElement26.Content" xml:space="preserve">
+    <value>刷新状态</value>
+  </data>
+  <data name="GarageElement27.Text" xml:space="preserve">
+    <value>正在准备原生三维场景…</value>
+  </data>
+  <data name="GarageElement28.Text" xml:space="preserve">
+    <value>登录并选车后可操作</value>
+  </data>
+  <data name="GarageElement29.Title" xml:space="preserve">
+    <value>车辆操作未完成</value>
+  </data>
+  <data name="GarageElement30.Text" xml:space="preserve">
+    <value>3D: Ameer Studio · CC BY 4.0 · 已调整材质与交互</value>
+  </data>
+  <data name="GarageElement31.Content" xml:space="preserve">
+    <value>隐藏 HUD</value>
+  </data>
+  <data name="GarageElement32.Text" xml:space="preserve">
+    <value>正在加载 Helix Model 3…</value>
+  </data>
+  <data name="GarageElement33.Text" xml:space="preserve">
+    <value>同一份精细模型 · 原生 DirectX 渲染</value>
+  </data>
+  <data name="GarageElement34.Title" xml:space="preserve">
+    <value>Helix 场景暂不可用</value>
+  </data>
+  <data name="Garage_e15430de26c4" xml:space="preserve">
+    <value>展厅模式</value>
+  </data>
+  <data name="Garage_a07eefb816cc" xml:space="preserve">
+    <value>暂停展厅</value>
+  </data>
+  <data name="Garage_4a2d94e839bd" xml:space="preserve">
+    <value>内饰视角</value>
+  </data>
+  <data name="Garage_89ec44ed8e03" xml:space="preserve">
+    <value>返回车外</value>
+  </data>
+  <data name="GarageElement47.Content" xml:space="preserve">
+    <value>展厅模式</value>
+  </data>
+  <data name="GarageElement48.Content" xml:space="preserve">
+    <value>内饰视角</value>
+  </data>
+  <data name="Garage_f9b02af6228a" xml:space="preserve">
+    <value>模拟行车</value>
+  </data>
+  <data name="Garage_79ca91798829" xml:space="preserve">
+    <value>暂停行车</value>
+  </data>
+  <data name="Garage_2ce89116b143" xml:space="preserve">
+    <value>继续行车</value>
+  </data>
+  <data name="Garage_9f44c9d2bf56" xml:space="preserve">
+    <value>结束模拟</value>
+  </data>
+  <data name="Garage_5fd37053aec5" xml:space="preserve">
+    <value>本地模拟</value>
+  </data>
+  <data name="Garage_15550da15940" xml:space="preserve">
+    <value>目标速度（km/h）</value>
+  </data>
+  <data name="Garage_b8a29fa7b314" xml:space="preserve">
+    <value>模拟速度：</value>
+  </data>
+  <data name="Garage_2a7e6f927b7b" xml:space="preserve">
+    <value>本地视觉模拟，不代表真实车辆速度；车辆控制按钮暂时禁用。</value>
+  </data>
+  <data name="GarageElement61.Content" xml:space="preserve">
+    <value>模拟行车</value>
+  </data>
+  <data name="GarageElement62.Text" xml:space="preserve">
+    <value>本地模拟</value>
+  </data>
+  <data name="GarageElement63.Content" xml:space="preserve">
+    <value>结束模拟</value>
+  </data>
+  <data name="GarageElement64.Header" xml:space="preserve">
+    <value>目标速度（km/h）</value>
+  </data>
+  <data name="GarageElement65.Text" xml:space="preserve">
+    <value>本地视觉模拟，不代表真实车辆速度；车辆控制按钮暂时禁用。</value>
+  </data>
+  <data name="Garage_e38aec5ba022" xml:space="preserve">
+    <value>车窗模型演示</value>
+  </data>
+  <data name="Garage_d43f36d0a291" xml:space="preserve">
+    <value>仅演示四扇侧窗升降，不发送车辆指令。</value>
+  </data>
+  <data name="Garage_8fa984a1a74f" xml:space="preserve">
+    <value>左前车窗</value>
+  </data>
+  <data name="Garage_4b88772c6a3a" xml:space="preserve">
+    <value>右前车窗</value>
+  </data>
+  <data name="Garage_a93ddaf0db8b" xml:space="preserve">
+    <value>左后车窗</value>
+  </data>
+  <data name="Garage_1e978137d8c7" xml:space="preserve">
+    <value>右后车窗</value>
+  </data>
+  <data name="Garage_26f6851fc565" xml:space="preserve">
+    <value>全部升起</value>
+  </data>
+  <data name="Garage_77209ac70ff1" xml:space="preserve">
+    <value>全部降下</value>
+  </data>
+  <data name="Garage_e7a9170807e9" xml:space="preserve">
+    <value>升起</value>
+  </data>
+  <data name="Garage_187a908274f3" xml:space="preserve">
+    <value>降下</value>
+  </data>
+  <data name="GarageElement75.Text" xml:space="preserve">
+    <value>车窗模型演示</value>
+  </data>
+  <data name="GarageElement76.Text" xml:space="preserve">
+    <value>仅演示四扇侧窗升降，不发送车辆指令。</value>
+  </data>
+  <data name="GarageElement78.Text" xml:space="preserve">
+    <value>左前车窗</value>
+  </data>
+  <data name="GarageElement81.Text" xml:space="preserve">
+    <value>右前车窗</value>
+  </data>
+  <data name="GarageElement84.Text" xml:space="preserve">
+    <value>左后车窗</value>
+  </data>
+  <data name="GarageElement87.Text" xml:space="preserve">
+    <value>右后车窗</value>
+  </data>
+  <data name="GarageElement90.Text" xml:space="preserve">
+    <value>全部升起</value>
+  </data>
+  <data name="GarageElement92.Text" xml:space="preserve">
+    <value>全部降下</value>
+  </data>
+  <data name="Garage_a83c8f401a21" xml:space="preserve">
+    <value>车窗通风</value>
+  </data>
+  <data name="Garage_bd338bb6a533" xml:space="preserve">
+    <value>通风</value>
+  </data>
+  <data name="Garage_e31ddb1b03cf" xml:space="preserve">
+    <value>关闭车窗</value>
+  </data>
+  <data name="Garage_940edf48be88" xml:space="preserve">
+    <value>车窗已关闭</value>
+  </data>
+  <data name="Garage_3cd7707fcb71" xml:space="preserve">
+    <value>四扇车窗已打开</value>
+  </data>
+  <data name="Garage_0d4d42605c49" xml:space="preserve">
+    <value>部分车窗未关闭</value>
+  </data>
+  <data name="Garage_5b73e5d65701" xml:space="preserve">
+    <value>车窗状态暂未返回</value>
+  </data>
+  <data name="Garage_346d3f6e6f3e" xml:space="preserve">
+    <value>通风与关窗会发送到真实车辆。</value>
+  </data>
+  <data name="Garage_5af453d04d0e" xml:space="preserve">
+    <value>通风时四窗微降；动画开度为示意，实际以车辆为准。</value>
+  </data>
+  <data name="GarageElement102.Text" xml:space="preserve">
+    <value>车窗通风</value>
+  </data>
+  <data name="GarageElement105.Text" xml:space="preserve">
+    <value>通风</value>
+  </data>
+  <data name="GarageElement107.Text" xml:space="preserve">
+    <value>关闭车窗</value>
+  </data>
+  <data name="GarageElement109.Text" xml:space="preserve">
+    <value>通风时四窗微降；动画开度为示意，实际以车辆为准。</value>
+  </data>
+  <data name="Garage_daa0260e662e" xml:space="preserve">
+    <value>车门模型演示</value>
+  </data>
+  <data name="Garage_61a3a04d2f23" xml:space="preserve">
+    <value>仅模拟车门开合，不发送车辆指令。</value>
+  </data>
+  <data name="Garage_814a88828f42" xml:space="preserve">
+    <value>左前车门</value>
+  </data>
+  <data name="Garage_3ebce3d05129" xml:space="preserve">
+    <value>右前车门</value>
+  </data>
+  <data name="Garage_f3472bd315cc" xml:space="preserve">
+    <value>左后车门</value>
+  </data>
+  <data name="Garage_4a0cce5826d0" xml:space="preserve">
+    <value>右后车门</value>
+  </data>
+  <data name="Garage_c771248e511f" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Garage_3fd47edce45b" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Garage_fb44e56e1c64" xml:space="preserve">
+    <value>全部打开</value>
+  </data>
+  <data name="Garage_34f7336d3983" xml:space="preserve">
+    <value>全部关闭</value>
+  </data>
+  <data name="GarageElement123.Text" xml:space="preserve">
+    <value>车门模型演示</value>
+  </data>
+  <data name="GarageElement124.Text" xml:space="preserve">
+    <value>仅模拟车门开合，不发送车辆指令。</value>
+  </data>
+  <data name="GarageElement126.Text" xml:space="preserve">
+    <value>左前车门</value>
+  </data>
+  <data name="GarageElement129.Text" xml:space="preserve">
+    <value>右前车门</value>
+  </data>
+  <data name="GarageElement132.Text" xml:space="preserve">
+    <value>左后车门</value>
+  </data>
+  <data name="GarageElement135.Text" xml:space="preserve">
+    <value>右后车门</value>
+  </data>
+  <data name="GarageElement138.Text" xml:space="preserve">
+    <value>全部打开</value>
+  </data>
+  <data name="GarageElement140.Text" xml:space="preserve">
+    <value>全部关闭</value>
+  </data>
+  <data name="Garage_a94a10ddfd76" xml:space="preserve">
+    <value>这里显示整车门锁状态。车门和后视镜动画为示意，不代表真实车门开合状态。</value>
+  </data>
+  <data name="Garage_572cf45ba436" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="Garage_a8fad2e0c10a" xml:space="preserve">
+    <value>＋ 后备箱</value>
+  </data>
+  <data name="Garage_38dc74d5e1e2" xml:space="preserve">
+    <value>后备箱</value>
+  </data>
+  <data name="Garage_6972d719d323" xml:space="preserve">
+    <value>后备箱已打开</value>
+  </data>
+  <data name="Garage_19a69c27effb" xml:space="preserve">
+    <value>后备箱已关闭</value>
+  </data>
+  <data name="Garage_4a434ba8fad4" xml:space="preserve">
+    <value>后备箱状态暂未返回</value>
+  </data>
+  <data name="Garage_83cacb74bc91" xml:space="preserve">
+    <value>打开后备箱</value>
+  </data>
+  <data name="Garage_6fb5f4a9def6" xml:space="preserve">
+    <value>模拟打开后备箱</value>
+  </data>
+  <data name="Garage_8fc26ab4001e" xml:space="preserve">
+    <value>模拟关闭后备箱</value>
+  </data>
+  <data name="Garage_cec19afad76f" xml:space="preserve">
+    <value>后备箱模型演示</value>
+  </data>
+  <data name="Garage_c6887f38a10d" xml:space="preserve">
+    <value>仅模拟开合，不发送车辆指令。</value>
+  </data>
+  <data name="Garage_5406b876af38" xml:space="preserve">
+    <value>实车打开已接入 API。当前签名代理只支持打开；关闭请使用 Tesla 应用或车上按钮，随后刷新状态。动画开度为示意。</value>
+  </data>
+  <data name="GarageElement141.Content" xml:space="preserve">
+    <value>＋ 后备箱</value>
+  </data>
+  <data name="GarageElement145.Content" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="GarageElement152.Text" xml:space="preserve">
+    <value>后备箱模型演示</value>
+  </data>
+  <data name="GarageElement154.Text" xml:space="preserve">
+    <value>仅模拟开合，不发送车辆指令。</value>
+  </data>
+  <data name="Garage_a5529940f1c2" xml:space="preserve">
+    <value>＋ 前备箱</value>
+  </data>
+  <data name="Garage_694d34484902" xml:space="preserve">
+    <value>前备箱</value>
+  </data>
+  <data name="Garage_1598f5d1354a" xml:space="preserve">
+    <value>打开前备箱</value>
+  </data>
+  <data name="Garage_60a0299c6e2d" xml:space="preserve">
+    <value>前备箱未关闭</value>
+  </data>
+  <data name="Garage_aa63f5bef739" xml:space="preserve">
+    <value>前备箱已关闭</value>
+  </data>
+  <data name="Garage_2311327b8cb4" xml:space="preserve">
+    <value>前备箱状态暂未返回</value>
+  </data>
+  <data name="Garage_2ea1215d0dfe" xml:space="preserve">
+    <value>前备箱模型演示</value>
+  </data>
+  <data name="Garage_1d4891c19452" xml:space="preserve">
+    <value>模拟完全打开前备箱</value>
+  </data>
+  <data name="Garage_4c7632de37f9" xml:space="preserve">
+    <value>模拟关闭前备箱</value>
+  </data>
+  <data name="Garage_5bf6cb6bc91c" xml:space="preserve">
+    <value>仅模拟盖板完全开合，不发送车辆指令。</value>
+  </data>
+  <data name="Garage_fffbc52644da" xml:space="preserve">
+    <value>打开会释放实车前备箱锁扣，仍需手动抬起盖板；关闭也需手动完成。模型微抬为示意，不代表实际开度。</value>
+  </data>
+  <data name="GarageElement155.Content" xml:space="preserve">
+    <value>＋ 前备箱</value>
+  </data>
+  <data name="GarageElement165.Text" xml:space="preserve">
+    <value>前备箱模型演示</value>
+  </data>
+  <data name="GarageElement167.Text" xml:space="preserve">
+    <value>仅模拟盖板完全开合，不发送车辆指令。</value>
+  </data>
+  <data name="Garage_23047c629388" xml:space="preserve">
+    <value>闪灯</value>
+  </data>
+  <data name="Garage_e7f22974ade7" xml:space="preserve">
+    <value>车辆已确认闪灯指令。</value>
+  </data>
+  <data name="GarageElement206.Text" xml:space="preserve">
+    <value>闪灯</value>
+  </data>
+  <data name="Garage_64e3df159741" xml:space="preserve">
+    <value>车内控制</value>
+  </data>
+  <data name="Garage_9f10fe658f24" xml:space="preserve">
+    <value>空调</value>
+  </data>
+  <data name="Garage_cab261836ba7" xml:space="preserve">
+    <value>车内温度</value>
+  </data>
+  <data name="Garage_d16dfbbaeb7c" xml:space="preserve">
+    <value>车外温度</value>
+  </data>
+  <data name="Garage_a96a5e19c044" xml:space="preserve">
+    <value>无钥匙驾驶</value>
+  </data>
+  <data name="Garage_e18ce3edbb21" xml:space="preserve">
+    <value>远程启动（无钥匙驾驶）</value>
+  </data>
+  <data name="Garage_8ff2e6d40840" xml:space="preserve">
+    <value>车辆确认后，请在 2 分钟内上车开始驾驶。此操作不会让车辆自行移动。</value>
+  </data>
+  <data name="Garage_fa02ca38a9e8" xml:space="preserve">
+    <value>空调已开启</value>
+  </data>
+  <data name="Garage_5539223cc283" xml:space="preserve">
+    <value>空调已关闭</value>
+  </data>
+  <data name="Garage_bfd9e27743f9" xml:space="preserve">
+    <value>空调状态暂未返回</value>
+  </data>
+  <data name="Garage_2ac4797284c3" xml:space="preserve">
+    <value>关闭空调</value>
+  </data>
+  <data name="Garage_8b9aa58e4f22" xml:space="preserve">
+    <value>开启空调</value>
+  </data>
+  <data name="Garage_5e9825bd991d" xml:space="preserve">
+    <value>模拟行车中，真实车辆操作暂时禁用。</value>
+  </data>
+  <data name="Garage_ac627de6c995" xml:space="preserve">
+    <value>演示模式：模拟无钥匙驾驶确认，不控制真实车辆。</value>
+  </data>
+  <data name="Garage_4375fdbe855b" xml:space="preserve">
+    <value>车辆已确认无钥匙驾驶请求，请在 2 分钟内上车开始驾驶。</value>
+  </data>
+  <data name="GarageElement210.Text" xml:space="preserve">
+    <value>车内控制</value>
+  </data>
+  <data name="GarageElement211.Text" xml:space="preserve">
+    <value>空调</value>
+  </data>
+  <data name="GarageElement213.Text" xml:space="preserve">
+    <value>车内温度</value>
+  </data>
+  <data name="GarageElement215.Text" xml:space="preserve">
+    <value>车外温度</value>
+  </data>
+  <data name="GarageElement218.Text" xml:space="preserve">
+    <value>无钥匙驾驶</value>
+  </data>
+  <data name="GarageElement220.Text" xml:space="preserve">
+    <value>远程启动（无钥匙驾驶）</value>
+  </data>
+  <data name="GarageElement221.Text" xml:space="preserve">
+    <value>车辆确认后，请在 2 分钟内上车开始驾驶。此操作不会让车辆自行移动。</value>
+  </data>
+  <data name="Garage_800b1fd4985c" xml:space="preserve">
+    <value>车辆暂未返回温度。请确认车辆在线后刷新；空调指令确认与温度回报是独立的。</value>
+  </data>
+  <data name="GarageElement228.Text" xml:space="preserve">
+    <value>车辆暂未返回温度。请确认车辆在线后刷新；空调指令确认与温度回报是独立的。</value>
+  </data>
+  <data name="GarageElement230.Content" xml:space="preserve">
+    <value>刷新状态</value>
+  </data>
+  <data name="Garage_8e9eb672deb9" xml:space="preserve">
+    <value>左转向灯</value>
+  </data>
+  <data name="Garage_73182d66cefc" xml:space="preserve">
+    <value>右转向灯</value>
+  </data>
+  <data name="Garage_75448ed8a732" xml:space="preserve">
+    <value>刹车</value>
+  </data>
+  <data name="Garage_7e4bbcb7c322" xml:space="preserve">
+    <value>松开刹车</value>
+  </data>
+  <data name="Garage_0f12e60eb76a" xml:space="preserve">
+    <value>向左变道</value>
+  </data>
+  <data name="Garage_446e3d65fe80" xml:space="preserve">
+    <value>向右变道</value>
+  </data>
+  <data name="Garage_ea0947e7f18e" xml:space="preserve">
+    <value>左侧车道</value>
+  </data>
+  <data name="Garage_50860668eff0" xml:space="preserve">
+    <value>右侧车道</value>
+  </data>
+  <data name="Garage_e47c58a98d4f" xml:space="preserve">
+    <value>正在变道…</value>
+  </data>
+  <data name="Garage_c84f93b86515" xml:space="preserve">
+    <value>左灯已开启</value>
+  </data>
+  <data name="Garage_6a9f1bc13602" xml:space="preserve">
+    <value>右灯已开启</value>
+  </data>
+  <data name="Garage_c9c7e6362dae" xml:space="preserve">
+    <value>转向灯已开启，正在变道。</value>
+  </data>
+  <data name="Garage_352fe2862dc3" xml:space="preserve">
+    <value>相邻车道有车或暂不满足变道条件，请稍后重试。</value>
+  </data>
+  <data name="GarageElement276.Text" xml:space="preserve">
+    <value>左转向灯</value>
+  </data>
+  <data name="GarageElement278.Text" xml:space="preserve">
+    <value>刹车</value>
+  </data>
+  <data name="GarageElement280.Text" xml:space="preserve">
+    <value>右转向灯</value>
+  </data>
+  <data name="GarageElement282.Text" xml:space="preserve">
+    <value>向左变道</value>
+  </data>
+  <data name="GarageElement285.Text" xml:space="preserve">
+    <value>向右变道</value>
+  </data>
+  <data name="Garage_a44c7ba21132" xml:space="preserve">
+    <value>道路</value>
+  </data>
+  <data name="Garage_4d947325473f" xml:space="preserve">
+    <value>天气</value>
+  </data>
+  <data name="Garage_7f5e584b3e23" xml:space="preserve">
+    <value>公路</value>
+  </data>
+  <data name="Garage_ed84a1665f79" xml:space="preserve">
+    <value>城市</value>
+  </data>
+  <data name="Garage_78d6a8556481" xml:space="preserve">
+    <value>弯道公路</value>
+  </data>
+  <data name="Garage_55d2d31f2a0a" xml:space="preserve">
+    <value>隧道</value>
+  </data>
+  <data name="Garage_3efc6babe619" xml:space="preserve">
+    <value>晴天</value>
+  </data>
+  <data name="Garage_11e4f0086711" xml:space="preserve">
+    <value>雨天</value>
+  </data>
+  <data name="GarageElement330.Header" xml:space="preserve">
+    <value>道路</value>
+  </data>
+  <data name="GarageElement331.Content" xml:space="preserve">
+    <value>公路</value>
+  </data>
+  <data name="GarageElement332.Content" xml:space="preserve">
+    <value>城市</value>
+  </data>
+  <data name="GarageElement333.Content" xml:space="preserve">
+    <value>弯道公路</value>
+  </data>
+  <data name="GarageElement334.Content" xml:space="preserve">
+    <value>隧道</value>
+  </data>
+  <data name="GarageElement335.Header" xml:space="preserve">
+    <value>天气</value>
+  </data>
+  <data name="GarageElement336.Content" xml:space="preserve">
+    <value>晴天</value>
+  </data>
+  <data name="GarageElement337.Content" xml:space="preserve">
+    <value>雨天</value>
+  </data>
+  <data name="Garage_92799cc37771" xml:space="preserve">
+    <value>行车设置</value>
+  </data>
+  <data name="GarageElement386.Text" xml:space="preserve">
+    <value>行车设置</value>
+  </data>
+  <data name="GarageElement387.Content" xml:space="preserve">
+    <value>内饰视角</value>
+  </data>
+  <data name="GarageElement388.Content" xml:space="preserve">
+    <value>复位视角</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>特斯拉助手</value>
+  </data>
+  <data name="Climate.Text" xml:space="preserve">
+    <value>温度</value>
+  </data>
+  <data name="Schedule.Text" xml:space="preserve">
+    <value>预约</value>
+  </data>
+  <data name="Drivers.Text" xml:space="preserve">
+    <value>驾驶员</value>
+  </data>
+  <data name="Upgrades.Text" xml:space="preserve">
+    <value>升级</value>
+  </data>
+  <data name="Service.Text" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="Software.Text" xml:space="preserve">
+    <value>软件:</value>
+  </data>
+  <data name="ReleaseNotes.Content" xml:space="preserve">
+    <value>发行说明</value>
+  </data>
+  <data name="Interior.Text" xml:space="preserve">
+    <value>内部</value>
+  </data>
+  <data name="ChargeLimit.Text" xml:space="preserve">
+    <value>充电限值:</value>
+  </data>
+  <data name="ChargePort.Text" xml:space="preserve">
+    <value>充电口</value>
+  </data>
+  <data name="KWHAdded.Text" xml:space="preserve">
+    <value>kWh 上次充电的耗电量</value>
+  </data>
+  <data name="SuperCharger.Text" xml:space="preserve">
+    <value>超级充电站</value>
+  </data>
+  <data name="Destination.Text" xml:space="preserve">
+    <value>目的地充电站</value>
+  </data>
+  <data name="Locked.Text" xml:space="preserve">
+    <value>锁住</value>
+  </data>
+  <data name="Unlocked.Text" xml:space="preserve">
+    <value>解锁</value>
+  </data>
+  <data name="MyTesla.Content" xml:space="preserve">
+    <value>特斯拉</value>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="Appearance.Text" xml:space="preserve">
+    <value>界面</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="CheckforUpdate.Text" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="Version.Text" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Subscribe.Text" xml:space="preserve">
+    <value>订阅</value>
+  </data>
+  <data name="SubscribeTip.Text" xml:space="preserve">
+    <value>每月定时扣费</value>
+  </data>
+  <data name="WhatsInPlus.Text" xml:space="preserve">
+    <value>Plus 提供哪些功能?</value>
+  </data>
+  <data name="Auto.Content" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="Dark.Content" xml:space="preserve">
+    <value>暗黑</value>
+  </data>
+  <data name="Light.Content" xml:space="preserve">
+    <value>日间</value>
+  </data>
+  <data name="Navigate.PlaceholderText" xml:space="preserve">
+    <value>导航</value>
+  </data>
+  <data name="AppNames.Text" xml:space="preserve">
+    <value>特斯拉助手</value>
+  </data>
+  <data name="Location.Text" xml:space="preserve">
+    <value>地点</value>
+  </data>
+  <data name="Account.Text" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="DestinationLocation.PlaceholderText" xml:space="preserve">
+    <value>终点充电站</value>
+  </data>
+  <data name="Disclaimer.Text" xml:space="preserve">
+    <value>声明</value>
+  </data>
+  <data name="DisclaimerBeta.Text" xml:space="preserve">
+    <value>这个应用正在 beta 阶段，你也许会遇到小问题，未来也许会让你重新登录等</value>
+  </data>
+  <data name="DisclaimerTip.Text" xml:space="preserve">
+    <value>这个产品是第三方工具</value>
+  </data>
+  <data name="EmailDeveloper.Text" xml:space="preserve">
+    <value>联系开发者</value>
+  </data>
+  <data name="ExperienceMode.Text" xml:space="preserve">
+    <value>试驾模式</value>
+  </data>
+  <data name="ExperienceModeTip.Text" xml:space="preserve">
+    <value>体验应用无需登录,为测试人员和爱好者设计</value>
+  </data>
+  <data name="Kilometer.Content" xml:space="preserve">
+    <value>公里</value>
+  </data>
+  <data name="LengthUnit.Text" xml:space="preserve">
+    <value>距离单位</value>
+  </data>
+  <data name="Login.Text" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="LoginTip.Text" xml:space="preserve">
+    <value>退出体验模式并且登录账号</value>
+  </data>
+  <data name="LoginTitle.PrimaryButtonText" xml:space="preserve">
+    <value>体验应用</value>
+  </data>
+  <data name="LoginTitle.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="LoginTitle.Title" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="LogoDesignedby.Text" xml:space="preserve">
+    <value>Logo 设计者</value>
+  </data>
+  <data name="Logout.Text" xml:space="preserve">
+    <value>注销</value>
+  </data>
+  <data name="LogoutTip.Text" xml:space="preserve">
+    <value>登出并注销登录授权</value>
+  </data>
+  <data name="MadeBy.Text" xml:space="preserve">
+    <value>设计者</value>
+  </data>
+  <data name="Mile.Content" xml:space="preserve">
+    <value>英里</value>
+  </data>
+  <data name="Region.Text" xml:space="preserve">
+    <value>区域</value>
+  </data>
+  <data name="RegionCN.Content" xml:space="preserve">
+    <value>中国大陆</value>
+  </data>
+  <data name="RegionEU.Content" xml:space="preserve">
+    <value>欧洲, 中东或非洲</value>
+  </data>
+  <data name="RegionNA.Content" xml:space="preserve">
+    <value>北美或东亚 (未包括中国大陆)</value>
+  </data>
+  <data name="ReleaseNotesCD.PrimaryButtonText" xml:space="preserve">
+    <value>发行说明视频</value>
+  </data>
+  <data name="ReleaseNotesCD.SecondaryButtonText" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="ReleaseNotesCD.Title" xml:space="preserve">
+    <value>发行说明</value>
+  </data>
+  <data name="ResetApp.Content" xml:space="preserve">
+    <value>重置应用</value>
+  </data>
+  <data name="StartLocation.PlaceholderText" xml:space="preserve">
+    <value>起始地点</value>
+  </data>
+  <data name="MapLoading" xml:space="preserve"><value>正在加载地图…</value></data>
+  <data name="MapUnavailable" xml:space="preserve"><value>地图暂时不可用，请检查网络后重试。</value></data>
+  <data name="MapRetry" xml:space="preserve"><value>重试</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>车辆与充电站地图</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>放大</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>缩小</value></data>
+  <data name="MapResetBearing" xml:space="preserve"><value>复位方向</value></data>
+  <data name="MapYourVehicle" xml:space="preserve"><value>我的车辆</value></data>
+  <data name="MapCenterVehicle" xml:space="preserve"><value>返回车辆位置</value></data>
+  <data name="MapRefreshChargingSites" xml:space="preserve"><value>刷新附近充电站</value></data>
+  <data name="MapChargerPicker.PlaceholderText" xml:space="preserve"><value>附近充电站</value></data>
+  <data name="MapAmapRouteLabel.Text" xml:space="preserve"><value>在高德中查看路线</value></data>
+  <data name="MapAmapRouteHint" xml:space="preserve"><value>在默认浏览器打开高德，以车辆位置为起点。</value></data>
+  <data name="MapAmapNeedsVehicle" xml:space="preserve"><value>请先刷新地图，获取车辆位置。</value></data>
+  <data name="MapAmapOpenFailed" xml:space="preserve"><value>无法打开路线，请检查默认浏览器后重试。</value></data>
+</root>

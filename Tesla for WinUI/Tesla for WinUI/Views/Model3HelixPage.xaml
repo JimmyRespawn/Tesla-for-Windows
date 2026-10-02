@@ -1,0 +1,1201 @@
+<Page
+    x:Class="TeslaMurphy.Views.Model3HelixPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hx="using:HelixToolkit.WinUI.SharpDX"
+    ActualThemeChanged="Page_ActualThemeChanged"
+    Loaded="Page_Loaded"
+    RequestedTheme="Default"
+    SizeChanged="Page_SizeChanged">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="GarageBackground" Color="#252932" />
+                    <SolidColorBrush x:Key="GarageLoading" Color="#DD252932" />
+                    <SolidColorBrush x:Key="GarageButtonBackground" Color="#202E3B4D" />
+                    <SolidColorBrush x:Key="GaragePrimaryText" Color="#E9EEF7" />
+                    <SolidColorBrush x:Key="GarageSecondaryText" Color="#B8C2D0" />
+                    <SolidColorBrush x:Key="GarageBorder" Color="#30FFFFFF" />
+                    <SolidColorBrush x:Key="GaragePanel" Color="#E6202936" />
+                    <SolidColorBrush x:Key="GarageAccentText" Color="#C6D9F7" />
+                    <SolidColorBrush x:Key="GarageDivider" Color="#18FFFFFF" />
+                    <SolidColorBrush x:Key="GarageAccentBackground" Color="#C6DDFF" />
+                    <SolidColorBrush x:Key="GarageAccentForeground" Color="#17283D" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="GarageBackground" Color="#F1F3F7" />
+                    <SolidColorBrush x:Key="GarageLoading" Color="#EEF1F3F7" />
+                    <SolidColorBrush x:Key="GarageButtonBackground" Color="#EEFFFFFF" />
+                    <SolidColorBrush x:Key="GaragePrimaryText" Color="#172333" />
+                    <SolidColorBrush x:Key="GarageSecondaryText" Color="#536175" />
+                    <SolidColorBrush x:Key="GarageBorder" Color="#28304058" />
+                    <SolidColorBrush x:Key="GaragePanel" Color="#EEFFFFFF" />
+                    <SolidColorBrush x:Key="GarageAccentText" Color="#2458A5" />
+                    <SolidColorBrush x:Key="GarageDivider" Color="#20304058" />
+                    <SolidColorBrush x:Key="GarageAccentBackground" Color="#1858B8" />
+                    <SolidColorBrush x:Key="GarageAccentForeground" Color="#FFFFFF" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            <Style x:Key="GarageButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource GarageButtonBackground}" />
+                <Setter Property="Foreground" Value="{ThemeResource GaragePrimaryText}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource GarageBorder}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="Padding" Value="12,10" />
+                <Setter Property="MinHeight" Value="40" />
+                <Setter Property="FontSize" Value="13" />
+            </Style>
+            <Style
+                x:Key="GarageDriveButtonStyle"
+                BasedOn="{StaticResource GarageButtonStyle}"
+                TargetType="Button">
+                <Setter Property="Padding" Value="8,6" />
+                <Setter Property="MinHeight" Value="36" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Background="{ThemeResource GarageBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <hx:Viewport3DX
+            x:Name="HelixViewport"
+            Grid.RowSpan="3"
+            ShowCoordinateSystem="False"
+            ShowFrameRate="False"
+            ShowViewCube="False" />
+        <Canvas x:Name="HotspotCanvas" Grid.RowSpan="3">
+            <Button
+                x:Name="PortHotspot"
+                x:Uid="GarageElement1"
+                AutomationProperties.Name="查看充电口状态"
+                Background="{ThemeResource GaragePanel}"
+                Click="Hotspot_Click"
+                Content="＋ 充电口"
+                Style="{StaticResource GarageButtonStyle}"
+                Tag="port"
+                Visibility="Collapsed" />
+            <Button
+                x:Name="DoorsHotspot"
+                x:Uid="GarageElement2"
+                AutomationProperties.Name="查看车锁状态"
+                Background="{ThemeResource GaragePanel}"
+                Click="Hotspot_Click"
+                Content="＋ 车锁"
+                Style="{StaticResource GarageButtonStyle}"
+                Tag="doors"
+                Visibility="Collapsed" />
+            <Button
+                x:Name="WheelHotspot"
+                x:Uid="GarageElement3"
+                AutomationProperties.Name="查看车轮信息"
+                Background="{ThemeResource GaragePanel}"
+                Click="Hotspot_Click"
+                Content="＋ 车轮"
+                Style="{StaticResource GarageButtonStyle}"
+                Tag="wheel"
+                Visibility="Collapsed" />
+            <Button
+                x:Name="TrunkHotspot"
+                x:Uid="GarageElement141"
+                Background="{ThemeResource GaragePanel}"
+                Click="Hotspot_Click"
+                Content="＋ 后备箱"
+                Style="{StaticResource GarageButtonStyle}"
+                Tag="trunk"
+                Visibility="Collapsed" />
+            <Button
+                x:Name="FrunkHotspot"
+                x:Uid="GarageElement155"
+                Background="{ThemeResource GaragePanel}"
+                Click="Hotspot_Click"
+                Content="＋ 前备箱"
+                Style="{StaticResource GarageButtonStyle}"
+                Tag="frunk"
+                Visibility="Collapsed" />
+        </Canvas>
+        <StackPanel Grid.Row="0">
+            <Grid
+                x:Name="HeaderHud"
+                Margin="24,20,24,0"
+                ColumnSpacing="16"
+                IsHitTestVisible="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Spacing="6">
+                    <TextBlock
+                        CharacterSpacing="180"
+                        FontSize="10"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        Text="INTERACTIVE GARAGE" />
+                    <TextBlock
+                        x:Name="VehicleNameText"
+                        FontSize="26"
+                        FontWeight="SemiLight"
+                        Text="MODEL 3"
+                        TextTrimming="CharacterEllipsis" />
+                    <TextBlock
+                        x:Uid="GarageElement6"
+                        FontSize="11"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        Text="2018 · 珍珠白 · 全景玻璃车顶" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Spacing="10">
+                    <Border
+                        Padding="12,6"
+                        HorizontalAlignment="Right"
+                        Background="{ThemeResource GaragePanel}"
+                        BorderBrush="{ThemeResource GarageBorder}"
+                        BorderThickness="1"
+                        CornerRadius="12">
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageAccentText}"
+                            Text="HELIX · DirectX" />
+                    </Border>
+                    <TextBlock
+                        x:Name="ConnectionText"
+                        x:Uid="GarageElement8"
+                        HorizontalAlignment="Right"
+                        FontSize="11"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        Text="等待车辆状态" />
+                    <TextBlock
+                        x:Name="VehicleStateText"
+                        x:Uid="GarageElement9"
+                        HorizontalAlignment="Right"
+                        FontSize="11"
+                        Foreground="{ThemeResource GaragePrimaryText}"
+                        Text="状态未知" />
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="GarageNavigationBar" Margin="16,10,16,8">
+                <Button
+                    Height="32"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="GarageBack_Click"
+                    Content="&#xE72B;"
+                    FontFamily="Segoe Fluent Icons" />
+                <Button
+                    x:Name="HudToggle"
+                    x:Uid="GarageElement31"
+                    Margin="0"
+                    HorizontalAlignment="Right"
+                    Click="HudToggle_Click"
+                    Content="隐藏 HUD"
+                    Style="{StaticResource GarageButtonStyle}" />
+            </Grid>
+        </StackPanel>
+        <Grid
+            x:Name="SceneSpace"
+            Grid.Row="1"
+            IsHitTestVisible="False"
+            SizeChanged="SceneSpace_SizeChanged">
+            <TextBlock
+                x:Uid="GarageElement10"
+                Margin="24,0,24,12"
+                VerticalAlignment="Bottom"
+                FontSize="10"
+                Foreground="{ThemeResource GarageSecondaryText}"
+                Text="拖动旋转 · 滚轮缩放 · 右键平移" />
+        </Grid>
+        <Border
+            x:Name="InteriorControlCard"
+            Grid.Row="1"
+            Width="310"
+            MaxWidth="310"
+            Margin="16"
+            Padding="16"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="{ThemeResource GaragePanel}"
+            BorderBrush="{ThemeResource GarageBorder}"
+            BorderThickness="1"
+            CornerRadius="16"
+            Visibility="Collapsed">
+            <ScrollViewer
+                x:Name="InteriorControlScroll"
+                MaxHeight="520"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="12">
+                    <TextBlock
+                        x:Uid="GarageElement210"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Text="车内控制" />
+                    <TextBlock
+                        x:Uid="GarageElement211"
+                        FontWeight="SemiBold"
+                        Text="空调" />
+                    <TextBlock x:Name="ClimateStateText" TextWrapping="Wrap" />
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock
+                                x:Uid="GarageElement213"
+                                FontSize="11"
+                                Foreground="{ThemeResource GarageSecondaryText}"
+                                Text="车内温度" />
+                            <TextBlock x:Name="InsideTemperatureText" FontSize="22" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock
+                                x:Uid="GarageElement215"
+                                FontSize="11"
+                                Foreground="{ThemeResource GarageSecondaryText}"
+                                Text="车外温度" />
+                            <TextBlock x:Name="OutsideTemperatureText" FontSize="22" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock
+                        x:Name="TemperatureUnavailableNote"
+                        x:Uid="GarageElement228"
+                        FontSize="11"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        Text="车辆暂未返回温度。请确认车辆在线后刷新；空调指令确认与温度回报是独立的。"
+                        TextWrapping="Wrap"
+                        Visibility="Collapsed" />
+                    <Button
+                        x:Name="ClimateToggleButton"
+                        HorizontalAlignment="Stretch"
+                        Click="ClimateToggle_Click"
+                        Style="{StaticResource GarageButtonStyle}" />
+                    <Button
+                        x:Name="InteriorRefreshButton"
+                        x:Uid="GarageElement230"
+                        HorizontalAlignment="Stretch"
+                        Click="RefreshButton_Click"
+                        Content="刷新状态"
+                        Style="{StaticResource GarageButtonStyle}" />
+                    <Border Height="1" Background="{ThemeResource GarageDivider}" />
+                    <TextBlock
+                        x:Uid="GarageElement218"
+                        FontWeight="SemiBold"
+                        Text="无钥匙驾驶" />
+                    <Button
+                        x:Name="RemoteStartButton"
+                        HorizontalAlignment="Stretch"
+                        Click="RemoteStart_Click"
+                        Style="{StaticResource GarageButtonStyle}">
+                        <TextBlock
+                            x:Uid="GarageElement220"
+                            Text="远程启动（无钥匙驾驶）"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Button>
+                    <TextBlock
+                        x:Uid="GarageElement221"
+                        FontSize="11"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        Text="车辆确认后，请在 2 分钟内上车开始驾驶。此操作不会让车辆自行移动。"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="InteriorFeedbackText"
+                        FontSize="11"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <Border
+            x:Name="HotspotCard"
+            Grid.Row="1"
+            MaxWidth="310"
+            Margin="16"
+            Padding="16"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="{ThemeResource GaragePanel}"
+            BorderBrush="{ThemeResource GarageBorder}"
+            BorderThickness="1"
+            CornerRadius="16"
+            Visibility="Collapsed">
+            <ScrollViewer
+                x:Name="HotspotScroll"
+                MaxHeight="520"
+                VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="12">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Name="HotspotTitle"
+                            VerticalAlignment="Center"
+                            FontSize="20" />
+                        <Button
+                            x:Name="CloseHotspotButton"
+                            Grid.Column="1"
+                            AutomationProperties.Name="关闭状态卡"
+                            Click="CloseHotspot_Click"
+                            Content="×" />
+                    </Grid>
+                    <TextBlock
+                        x:Name="HotspotState"
+                        FontSize="16"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="HotspotDetail"
+                        FontSize="12"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        TextWrapping="Wrap" />
+                    <Button
+                        x:Name="HotspotCommand"
+                        HorizontalAlignment="Stretch"
+                        Click="HotspotCommand_Click"
+                        Style="{StaticResource GarageButtonStyle}" />
+                    <Button
+                        x:Name="HotspotView"
+                        x:Uid="GarageElement16"
+                        Click="PortViewButton_Click"
+                        Content="转到充电口"
+                        Style="{StaticResource GarageButtonStyle}" />
+                    <TextBlock
+                        x:Name="HotspotFeedback"
+                        FontSize="11"
+                        Foreground="{ThemeResource GarageSecondaryText}"
+                        TextWrapping="Wrap" />
+                    <StackPanel
+                        x:Name="FrunkControls"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <Border Height="1" Background="{ThemeResource GarageBorder}" />
+                        <TextBlock
+                            x:Uid="GarageElement165"
+                            FontWeight="SemiBold"
+                            Text="前备箱模型演示" />
+                        <Button
+                            x:Name="FrunkDemoButton"
+                            HorizontalAlignment="Stretch"
+                            Click="FrunkDemo_Click"
+                            Style="{StaticResource GarageButtonStyle}" />
+                        <TextBlock
+                            x:Uid="GarageElement167"
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            Text="仅模拟盖板完全开合，不发送车辆指令。"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel
+                        x:Name="TrunkControls"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <Border Height="1" Background="{ThemeResource GarageBorder}" />
+                        <TextBlock
+                            x:Uid="GarageElement152"
+                            FontWeight="SemiBold"
+                            Text="后备箱模型演示" />
+                        <Button
+                            x:Name="TrunkDemoButton"
+                            HorizontalAlignment="Stretch"
+                            Click="TrunkDemo_Click"
+                            Style="{StaticResource GarageButtonStyle}" />
+                        <TextBlock
+                            x:Uid="GarageElement154"
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            Text="仅模拟开合，不发送车辆指令。"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel
+                        x:Name="WindowVehicleControls"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <Border Height="1" Background="{ThemeResource GarageBorder}" />
+                        <TextBlock
+                            x:Uid="GarageElement102"
+                            FontWeight="SemiBold"
+                            Text="车窗通风" />
+                        <TextBlock
+                            x:Name="WindowVehicleStateText"
+                            FontSize="12"
+                            TextWrapping="Wrap" />
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="VentWindowsButton"
+                                HorizontalAlignment="Stretch"
+                                Click="VehicleWindows_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="ventWindows">
+                                <TextBlock
+                                    x:Uid="GarageElement105"
+                                    Text="通风"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                            <Button
+                                x:Name="CloseWindowsButton"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="VehicleWindows_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="closeWindows">
+                                <TextBlock
+                                    x:Uid="GarageElement107"
+                                    Text="关闭车窗"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                        </Grid>
+                        <TextBlock
+                            x:Name="WindowCommandNote"
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            x:Uid="GarageElement109"
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            Text="通风时四窗微降；动画开度为示意，实际以车辆为准。"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel
+                        x:Name="DoorControls"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <Border Height="1" Background="{ThemeResource GarageBorder}" />
+                        <TextBlock
+                            x:Uid="GarageElement123"
+                            FontWeight="SemiBold"
+                            Text="车门模型演示" />
+                        <TextBlock
+                            x:Uid="GarageElement124"
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            Text="仅模拟车门开合，不发送车辆指令。"
+                            TextWrapping="Wrap" />
+                        <Grid ColumnSpacing="8" RowSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Click="DoorToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="lf">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement126"
+                                        Text="左前车门"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="FrontLeftDoorAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="DoorToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="rf">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement129"
+                                        Text="右前车门"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="FrontRightDoorAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                Click="DoorToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="lr">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement132"
+                                        Text="左后车门"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="RearLeftDoorAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="DoorToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="rr">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement135"
+                                        Text="右后车门"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="RearRightDoorAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Click="AllDoors_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="open">
+                                <TextBlock
+                                    x:Uid="GarageElement138"
+                                    Text="全部打开"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="AllDoors_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="close">
+                                <TextBlock
+                                    x:Uid="GarageElement140"
+                                    Text="全部关闭"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel
+                        x:Name="WindowControls"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <Border Height="1" Background="{ThemeResource GarageBorder}" />
+                        <TextBlock
+                            x:Uid="GarageElement75"
+                            FontWeight="SemiBold"
+                            Text="车窗模型演示" />
+                        <TextBlock
+                            x:Uid="GarageElement76"
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            Text="仅演示四扇侧窗升降，不发送车辆指令。"
+                            TextWrapping="Wrap" />
+                        <Grid ColumnSpacing="8" RowSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Click="WindowToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="lf">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement78"
+                                        Text="左前车窗"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="FrontLeftWindowAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="WindowToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="rf">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement81"
+                                        Text="右前车窗"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="FrontRightWindowAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                Click="WindowToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="lr">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement84"
+                                        Text="左后车窗"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="RearLeftWindowAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="WindowToggle_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="rr">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        x:Uid="GarageElement87"
+                                        Text="右后车窗"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="RearRightWindowAction"
+                                        FontSize="11"
+                                        Foreground="{ThemeResource GarageSecondaryText}" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Click="AllWindows_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="up">
+                                <TextBlock
+                                    x:Uid="GarageElement90"
+                                    Text="全部升起"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="AllWindows_Click"
+                                Style="{StaticResource GarageButtonStyle}"
+                                Tag="down">
+                                <TextBlock
+                                    x:Uid="GarageElement92"
+                                    Text="全部降下"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <StackPanel
+            x:Name="FooterHud"
+            Grid.Row="2"
+            Margin="16,0,16,12"
+            Spacing="8">
+            <Border
+                x:Name="FooterPanel"
+                Padding="16,14"
+                Background="{ThemeResource GaragePanel}"
+                BorderBrush="{ThemeResource GarageBorder}"
+                BorderThickness="1"
+                CornerRadius="16">
+                <StackPanel x:Name="FooterContent" Spacing="12">
+                    <Grid
+                        x:Name="ActionsGrid"
+                        ColumnSpacing="18"
+                        RowSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid
+                            x:Name="VehicleActions"
+                            Width="460"
+                            HorizontalAlignment="Left"
+                            ColumnSpacing="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*" />
+                                <ColumnDefinition Width="*" MinWidth="138" />
+                                <ColumnDefinition
+                                    x:Name="FlashActionColumn"
+                                    Width="*"
+                                    MinWidth="96" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="PortButton"
+                                HorizontalAlignment="Stretch"
+                                Background="{ThemeResource GarageAccentBackground}"
+                                BorderBrush="{ThemeResource GarageAccentBackground}"
+                                Click="PortButton_Click"
+                                Foreground="{ThemeResource GarageAccentForeground}"
+                                IsEnabled="False"
+                                Style="{StaticResource GarageButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <FontIcon FontSize="14" Glyph="&#xE945;" />
+                                    <TextBlock
+                                        x:Name="PortButtonLabel"
+                                        x:Uid="GarageElement19"
+                                        Text="打开充电口" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="LockToggleButton"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="LockToggleButton_Click"
+                                IsEnabled="False"
+                                Style="{StaticResource GarageButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <FontIcon
+                                        x:Name="LockToggleIcon"
+                                        FontSize="14"
+                                        Glyph="&#xE785;" />
+                                    <TextBlock
+                                        x:Name="LockToggleLabel"
+                                        x:Uid="GarageElement21"
+                                        Text="解锁" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="FlashLightsButton"
+                                Grid.Column="2"
+                                HorizontalAlignment="Stretch"
+                                Click="FlashLightsButton_Click"
+                                IsEnabled="False"
+                                Style="{StaticResource GarageButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <FontIcon FontSize="14" Glyph="&#xE706;" />
+                                    <TextBlock
+                                        x:Name="FlashLightsLabel"
+                                        x:Uid="GarageElement206"
+                                        Text="闪灯" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <StackPanel
+                            x:Name="ViewActions"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button
+                                    x:Name="PortViewButton"
+                                    x:Uid="GarageElement24"
+                                    Click="PortViewButton_Click"
+                                    Content="查看充电口"
+                                    IsEnabled="False"
+                                    Style="{StaticResource GarageButtonStyle}" />
+                                <Button
+                                    x:Name="ResetViewButton"
+                                    x:Uid="GarageElement25"
+                                    Click="ResetViewButton_Click"
+                                    Content="复位视角"
+                                    IsEnabled="False"
+                                    Style="{StaticResource GarageButtonStyle}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button
+                                    x:Name="ShowroomButton"
+                                    x:Uid="GarageElement47"
+                                    Click="ShowroomButton_Click"
+                                    Content="展厅模式"
+                                    IsEnabled="False"
+                                    Style="{StaticResource GarageButtonStyle}" />
+                                <Button
+                                    x:Name="InteriorButton"
+                                    x:Uid="GarageElement48"
+                                    Click="InteriorButton_Click"
+                                    Content="内饰视角"
+                                    IsEnabled="False"
+                                    Style="{StaticResource GarageButtonStyle}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button
+                                    x:Name="DriveButton"
+                                    x:Uid="GarageElement61"
+                                    Click="DriveButton_Click"
+                                    Content="模拟行车"
+                                    IsEnabled="False"
+                                    Style="{StaticResource GarageButtonStyle}" />
+                                <Button
+                                    x:Name="RefreshButton"
+                                    x:Uid="GarageElement26"
+                                    Click="RefreshButton_Click"
+                                    Content="刷新状态"
+                                    IsEnabled="False"
+                                    Style="{StaticResource GarageButtonStyle}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel
+                        x:Name="DriveControls"
+                        Spacing="6"
+                        Visibility="Collapsed">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel VerticalAlignment="Center" Spacing="2">
+                                <TextBlock
+                                    x:Name="DriveStatus"
+                                    x:Uid="GarageElement62"
+                                    FontSize="14"
+                                    FontWeight="SemiBold"
+                                    Text="本地模拟"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock
+                                    x:Name="DriveLaneText"
+                                    FontSize="11"
+                                    Foreground="{ThemeResource GarageSecondaryText}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="6">
+                                <Button
+                                    x:Name="DrivePauseButton"
+                                    Width="36"
+                                    Click="DriveButton_Click"
+                                    Style="{StaticResource GarageDriveButtonStyle}">
+                                    <FontIcon
+                                        x:Name="DrivePauseIcon"
+                                        FontSize="15"
+                                        Glyph="&#xE769;" />
+                                </Button>
+                                <Button
+                                    x:Name="DriveSettingsButton"
+                                    Width="36"
+                                    Style="{StaticResource GarageDriveButtonStyle}">
+                                    <FontIcon FontSize="15" Glyph="&#xE713;" />
+                                    <Button.Flyout>
+                                        <Flyout x:Name="DriveSettingsFlyout" Placement="Top">
+                                            <Flyout.FlyoutPresenterStyle>
+                                                <Style TargetType="FlyoutPresenter">
+                                                    <Setter Property="Background" Value="{ThemeResource GaragePanel}" />
+                                                    <Setter Property="Foreground" Value="{ThemeResource GaragePrimaryText}" />
+                                                    <Setter Property="BorderBrush" Value="{ThemeResource GarageBorder}" />
+                                                    <Setter Property="CornerRadius" Value="16" />
+                                                    <Setter Property="Padding" Value="16" />
+                                                </Style>
+                                            </Flyout.FlyoutPresenterStyle>
+                                            <ScrollViewer
+                                                x:Name="DriveSettingsScroll"
+                                                Width="320"
+                                                MaxHeight="360"
+                                                HorizontalScrollBarVisibility="Disabled"
+                                                VerticalScrollBarVisibility="Auto">
+                                                <StackPanel Spacing="14">
+                                                    <TextBlock
+                                                        x:Uid="GarageElement386"
+                                                        FontSize="17"
+                                                        FontWeight="SemiBold"
+                                                        Text="行车设置" />
+                                                    <Grid ColumnSpacing="12">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <ComboBox
+                                                            x:Name="DriveRoadPicker"
+                                                            x:Uid="GarageElement330"
+                                                            HorizontalAlignment="Stretch"
+                                                            Header="道路"
+                                                            SelectedIndex="0"
+                                                            SelectionChanged="DriveEnvironment_SelectionChanged">
+                                                            <ComboBoxItem
+                                                                x:Uid="GarageElement331"
+                                                                Content="公路"
+                                                                Tag="Highway" />
+                                                            <ComboBoxItem
+                                                                x:Uid="GarageElement332"
+                                                                Content="城市"
+                                                                Tag="City" />
+                                                            <ComboBoxItem
+                                                                x:Uid="GarageElement333"
+                                                                Content="弯道公路"
+                                                                Tag="Curved" />
+                                                            <ComboBoxItem
+                                                                x:Uid="GarageElement334"
+                                                                Content="隧道"
+                                                                Tag="Tunnel" />
+                                                        </ComboBox>
+                                                        <ComboBox
+                                                            x:Name="DriveWeatherPicker"
+                                                            x:Uid="GarageElement335"
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Stretch"
+                                                            Header="天气"
+                                                            SelectedIndex="0"
+                                                            SelectionChanged="DriveEnvironment_SelectionChanged">
+                                                            <ComboBoxItem
+                                                                x:Uid="GarageElement336"
+                                                                Content="晴天"
+                                                                Tag="Clear" />
+                                                            <ComboBoxItem
+                                                                x:Uid="GarageElement337"
+                                                                Content="雨天"
+                                                                Tag="Rain" />
+                                                        </ComboBox>
+                                                    </Grid>
+                                                    <Slider
+                                                        x:Name="DriveSpeedSlider"
+                                                        x:Uid="GarageElement64"
+                                                        Header="目标速度（km/h）"
+                                                        Maximum="120"
+                                                        Minimum="0"
+                                                        StepFrequency="5"
+                                                        ValueChanged="DriveSpeed_ValueChanged"
+                                                        Value="60" />
+                                                    <Grid ColumnSpacing="8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button
+                                                            x:Name="DriveInteriorButton"
+                                                            x:Uid="GarageElement387"
+                                                            HorizontalAlignment="Stretch"
+                                                            Click="DriveInterior_Click"
+                                                            Content="内饰视角"
+                                                            Style="{StaticResource GarageDriveButtonStyle}" />
+                                                        <Button
+                                                            x:Uid="GarageElement388"
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Stretch"
+                                                            Click="DriveResetView_Click"
+                                                            Content="复位视角"
+                                                            Style="{StaticResource GarageDriveButtonStyle}" />
+                                                    </Grid>
+                                                    <TextBlock
+                                                        x:Uid="GarageElement65"
+                                                        FontSize="11"
+                                                        Foreground="{ThemeResource GarageSecondaryText}"
+                                                        Text="本地视觉模拟，不代表真实车辆速度；车辆控制按钮暂时禁用。"
+                                                        TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </ScrollViewer>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                                <Button
+                                    x:Name="DriveEndButton"
+                                    Width="36"
+                                    Click="StopDriving_Click"
+                                    Style="{StaticResource GarageDriveButtonStyle}">
+                                    <FontIcon FontSize="15" Glyph="&#xE711;" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                        <Grid ColumnSpacing="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="DriveLeftSignalButton"
+                                HorizontalAlignment="Stretch"
+                                Click="DriveSignal_Click"
+                                Style="{StaticResource GarageDriveButtonStyle}"
+                                Tag="1">
+                                <TextBlock
+                                    x:Name="DriveLeftSignalLabel"
+                                    x:Uid="GarageElement276"
+                                    Text="左转向灯"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                            <Button
+                                x:Name="DriveBrakeButton"
+                                Grid.Column="2"
+                                HorizontalAlignment="Stretch"
+                                Click="DriveBrake_Click"
+                                Style="{StaticResource GarageDriveButtonStyle}">
+                                <TextBlock
+                                    x:Name="DriveBrakeLabel"
+                                    x:Uid="GarageElement278"
+                                    Text="刹车"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                            <Button
+                                x:Name="DriveRightSignalButton"
+                                Grid.Column="4"
+                                HorizontalAlignment="Stretch"
+                                Click="DriveSignal_Click"
+                                Style="{StaticResource GarageDriveButtonStyle}"
+                                Tag="-1">
+                                <TextBlock
+                                    x:Name="DriveRightSignalLabel"
+                                    x:Uid="GarageElement280"
+                                    Text="右转向灯"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                            <Button
+                                x:Name="DriveLeftLaneButton"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="DriveLane_Click"
+                                Style="{StaticResource GarageDriveButtonStyle}"
+                                Tag="1">
+                                <TextBlock
+                                    x:Uid="GarageElement282"
+                                    Text="向左变道"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Button>
+
+                            <Button
+                                x:Name="DriveRightLaneButton"
+                                Grid.Column="3"
+                                HorizontalAlignment="Stretch"
+                                Click="DriveLane_Click"
+                                Style="{StaticResource GarageDriveButtonStyle}"
+                                Tag="-1">
+                                <TextBlock
+                                    x:Uid="GarageElement285"
+                                    Text="向右变道"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Button>
+                        </Grid>
+                        <TextBlock
+                            x:Name="DriveFeedbackText"
+                            FontSize="11"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            TextWrapping="Wrap"
+                            Visibility="Collapsed" />
+                    </StackPanel>
+                    <Border
+                        x:Name="FooterDivider"
+                        Height="1"
+                        Background="{ThemeResource GarageDivider}" />
+                    <Grid x:Name="VehicleStatusFooter" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ProgressRing
+                                x:Name="CommandProgress"
+                                Width="14"
+                                Height="14"
+                                IsActive="False"
+                                Visibility="Collapsed" />
+                            <TextBlock
+                                x:Name="StatusText"
+                                x:Uid="GarageElement27"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                Foreground="{ThemeResource GarageSecondaryText}"
+                                Text="正在准备原生三维场景…"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                        <TextBlock
+                            x:Name="ModeNoteText"
+                            x:Uid="GarageElement28"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            Foreground="{ThemeResource GarageSecondaryText}"
+                            Text="登录并选车后可操作" />
+                    </Grid>
+                    <InfoBar
+                        x:Name="OperationErrorInfo"
+                        x:Uid="GarageElement29"
+                        Title="车辆操作未完成"
+                        IsClosable="False"
+                        IsOpen="False"
+                        Severity="Informational"
+                        Visibility="Collapsed" />
+                </StackPanel>
+            </Border>
+            <TextBlock
+                x:Uid="GarageElement30"
+                HorizontalAlignment="Right"
+                FontSize="9"
+                Foreground="{ThemeResource GarageSecondaryText}"
+                Text="3D: Ameer Studio · CC BY 4.0 · 已调整材质与交互" />
+        </StackPanel>
+        <Grid
+            x:Name="LoadingOverlay"
+            Grid.RowSpan="3"
+            Background="{ThemeResource GarageLoading}">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="14">
+                <ProgressRing
+                    x:Name="ModelProgress"
+                    Width="36"
+                    Height="36"
+                    IsActive="True" />
+                <TextBlock
+                    x:Name="LoadingText"
+                    x:Uid="GarageElement32"
+                    HorizontalAlignment="Center"
+                    Text="正在加载 Helix Model 3…" />
+                <TextBlock
+                    x:Uid="GarageElement33"
+                    FontSize="12"
+                    Foreground="{ThemeResource GarageSecondaryText}"
+                    Text="同一份精细模型 · 原生 DirectX 渲染" />
+            </StackPanel>
+        </Grid>
+        <InfoBar
+            x:Name="RenderErrorInfo"
+            x:Uid="GarageElement34"
+            Title="Helix 场景暂不可用"
+            Grid.RowSpan="3"
+            Margin="16"
+            VerticalAlignment="Top"
+            IsClosable="False"
+            IsOpen="False"
+            Severity="Error" />
+    </Grid>
+</Page>

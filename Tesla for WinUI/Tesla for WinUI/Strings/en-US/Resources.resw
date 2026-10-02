@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>Link for Tesla</value>
+  </data>
+  <data name="Climate.Text" xml:space="preserve">
+    <value>Climate</value>
+  </data>
+  <data name="Schedule.Text" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="Drivers.Text" xml:space="preserve">
+    <value>Drivers</value>
+  </data>
+  <data name="Upgrades.Text" xml:space="preserve">
+    <value>Upgrades</value>
+  </data>
+  <data name="Service.Text" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Software.Text" xml:space="preserve">
+    <value>Software:</value>
+  </data>
+  <data name="ReleaseNotes.Content" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="Interior.Text" xml:space="preserve">
+    <value>Interior</value>
+  </data>
+  <data name="ChargeLimit.Text" xml:space="preserve">
+    <value>Charge limit:</value>
+  </data>
+  <data name="ChargePort.Text" xml:space="preserve">
+    <value>Charge Port</value>
+  </data>
+  <data name="KWHAdded.Text" xml:space="preserve">
+    <value>kWh added during last charging session</value>
+  </data>
+  <data name="SuperCharger.Text" xml:space="preserve">
+    <value>Super Charger</value>
+  </data>
+  <data name="Destination.Text" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="Locked.Text" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="Unlocked.Text" xml:space="preserve">
+    <value>Unlocked</value>
+  </data>
+  <data name="MyTesla.Content" xml:space="preserve">
+    <value>My Tesla</value>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Appearance.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="CheckforUpdate.Text" xml:space="preserve">
+    <value>Check for update</value>
+  </data>
+  <data name="Version.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Subscribe.Text" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="SubscribeTip.Text" xml:space="preserve">
+    <value>Recurring charge every month.</value>
+  </data>
+  <data name="WhatsInPlus.Text" xml:space="preserve">
+    <value>What's in Plus?</value>
+  </data>
+  <data name="Auto.Content" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Light.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Navigate.PlaceholderText" xml:space="preserve">
+    <value>Navigate</value>
+  </data>
+  <data name="AppNames.Text" xml:space="preserve">
+    <value>Link for Tesla</value>
+  </data>
+  <data name="Location.Text" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Account.Text" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="DestinationLocation.PlaceholderText" xml:space="preserve">
+    <value>Destination charger location</value>
+  </data>
+  <data name="Disclaimer.Text" xml:space="preserve">
+    <value>Disclaimer</value>
+  </data>
+  <data name="DisclaimerBeta.Text" xml:space="preserve">
+    <value>This app is in beta. You might experience glitches. The app may ask you to log in again in a future release.</value>
+  </data>
+  <data name="DisclaimerTip.Text" xml:space="preserve">
+    <value>This product is not affliated with Tesla, Inc.</value>
+  </data>
+  <data name="EmailDeveloper.Text" xml:space="preserve">
+    <value>Email developer</value>
+  </data>
+  <data name="ExperienceMode.Text" xml:space="preserve">
+    <value>Experience mode</value>
+  </data>
+  <data name="ExperienceModeTip.Text" xml:space="preserve">
+    <value>Explore functions without logging in. Ideal for testers and hobbyists.</value>
+  </data>
+  <data name="Kilometer.Content" xml:space="preserve">
+    <value>Kilometer</value>
+  </data>
+  <data name="LengthUnit.Text" xml:space="preserve">
+    <value>Length unit</value>
+  </data>
+  <data name="Login.Text" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginTip.Text" xml:space="preserve">
+    <value>Exit experience mode and login account.</value>
+  </data>
+  <data name="LoginTitle.PrimaryButtonText" xml:space="preserve">
+    <value>Experience the app</value>
+  </data>
+  <data name="LoginTitle.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LoginTitle.Title" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LogoDesignedby.Text" xml:space="preserve">
+    <value>Logo designed by</value>
+  </data>
+  <data name="Logout.Text" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="LogoutTip.Text" xml:space="preserve">
+    <value>Signout account and revoke the token.</value>
+  </data>
+  <data name="MadeBy.Text" xml:space="preserve">
+    <value>Made by</value>
+  </data>
+  <data name="Mile.Content" xml:space="preserve">
+    <value>Mile</value>
+  </data>
+  <data name="Region.Text" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="RegionCN.Content" xml:space="preserve">
+    <value>Mainland China</value>
+  </data>
+  <data name="RegionEU.Content" xml:space="preserve">
+    <value>Europe, Middle East &amp; Africa</value>
+  </data>
+  <data name="RegionNA.Content" xml:space="preserve">
+    <value>North America &amp; Asia-Pacific</value>
+  </data>
+  <data name="ReleaseNotesCD.PrimaryButtonText" xml:space="preserve">
+    <value>Release Videos</value>
+  </data>
+  <data name="ReleaseNotesCD.SecondaryButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ReleaseNotesCD.Title" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="ResetApp.Content" xml:space="preserve">
+    <value>Reset app</value>
+  </data>
+  <data name="StartLocation.PlaceholderText" xml:space="preserve">
+    <value>Start location</value>
+  </data>
+  <data name="Garage_7b992a639df7" xml:space="preserve"><value>; the charge port will remain open.</value></data>
+  <data name="Garage_ec304034c8a3" xml:space="preserve"><value>. Closing checks the vehicle charging status.</value></data>
+  <data name="Garage_613286046997" xml:space="preserve"><value>[vehicle]</value></data>
+  <data name="Garage_3c019359a396" xml:space="preserve"><value>[redacted]</value></data>
+  <data name="Garage_29126a7445a2" xml:space="preserve"><value>
+Parked vehicles may report the last driving measurement. Missing or zero readings are unavailable.</value></data>
+  <data name="Garage_5f3a25d8e413" xml:space="preserve"><value>
+Rear right: </value></data>
+  <data name="Garage_1b321edab36d" xml:space="preserve"><value>
+Front right: </value></data>
+  <data name="Garage_b0bd5e475b7b" xml:space="preserve"><value>
+Rear left: </value></data>
+  <data name="Garage_fb84f88c9693" xml:space="preserve"><value>Front left: </value></data>
+  <data name="Garage_cc07ad19c05c" xml:space="preserve"><value>+ Tires</value></data>
+  <data name="Garage_f667dd167587" xml:space="preserve"><value>+ Locks</value></data>
+  <data name="Garage_bb2600938c9e" xml:space="preserve"><value>+ Charge port</value></data>
+  <data name="Garage_906e951a07e9" xml:space="preserve"><value>2018 · Pearl white · Glass roof</value></data>
+  <data name="Garage_e5400bf1a34d" xml:space="preserve"><value>3D: Ameer Studio · CC BY 4.0 · Materials and interactions adapted</value></data>
+  <data name="Garage_df2c6f654af8" xml:space="preserve"><value>This vehicle operation is not supported.</value></data>
+  <data name="Garage_e86cf6de9eb7" xml:space="preserve"><value>Commands will be sent to your vehicle.</value></data>
+  <data name="Garage_864fa7358b7b" xml:space="preserve"><value>Commands control your vehicle</value></data>
+  <data name="Garage_067383ae92c9" xml:space="preserve"><value>Vehicle or session changed during the operation. Refresh to check the result.</value></data>
+  <data name="Garage_12d5e6296459" xml:space="preserve"><value>Operation did not complete. Keeping the last known state.</value></data>
+  <data name="Garage_fb08ee745b2b" xml:space="preserve"><value>View tire information</value></data>
+  <data name="Garage_6a50a34f39b6" xml:space="preserve"><value>View lock status</value></data>
+  <data name="Garage_82627e8add29" xml:space="preserve"><value>View charge port</value></data>
+  <data name="Garage_f4332bc58e52" xml:space="preserve"><value>View charge port status</value></data>
+  <data name="Garage_9710253e49fb" xml:space="preserve"><value>Scene unavailable. Reopen this page.</value></data>
+  <data name="Garage_f32226a2fa58" xml:space="preserve"><value>The vehicle reports the charge port is already closed. Refresh its status.</value></data>
+  <data name="Garage_d4399ebae713" xml:space="preserve"><value>Vehicle operation incomplete</value></data>
+  <data name="Garage_8158efb21865" xml:space="preserve"><value>Vehicle operation canceled.</value></data>
+  <data name="Garage_89285c392342" xml:space="preserve"><value>This vehicle does not support motorized charge port closing.</value></data>
+  <data name="Garage_536cf64d4163" xml:space="preserve"><value>Unrecognized vehicle response. Refresh later.</value></data>
+  <data name="Garage_64ad8d445fff" xml:space="preserve"><value>The vehicle refused to close the port: unplug the charging cable and try again.</value></data>
+  <data name="Garage_8178e110eb21" xml:space="preserve"><value>The vehicle rejected the command. Check authorization and virtual key pairing.</value></data>
+  <data name="Garage_dd052e22c4f3" xml:space="preserve"><value>Vehicle locks</value></data>
+  <data name="Garage_ddfe757872ee" xml:space="preserve"><value>Lock and charge port data are unavailable. Check that the vehicle is online and refresh.</value></data>
+  <data name="Garage_cef74c7984a9" xml:space="preserve"><value>Vehicle data does not match the selection. Select your vehicle again and refresh.</value></data>
+  <data name="Garage_4538f7554b68" xml:space="preserve"><value>The vehicle did not acknowledge the command. Keeping the last known state.</value></data>
+  <data name="Garage_5e02c171dab3" xml:space="preserve"><value>The vehicle did not acknowledge the command. Refresh to check its result.</value></data>
+  <data name="Garage_7db0262196f8" xml:space="preserve"><value>The vehicle did not acknowledge the command. Refresh to check its result.
+</value></data>
+  <data name="Garage_63c5062d2af4" xml:space="preserve"><value>Signed commands are required. Check the command proxy and virtual key pairing.
+</value></data>
+  <data name="Garage_bc988072df6f" xml:space="preserve"><value>Vehicle unlocked</value></data>
+  <data name="Garage_484ca0c52f99" xml:space="preserve"><value>Vehicle locked</value></data>
+  <data name="Garage_f2aa0b42fb7d" xml:space="preserve"><value>Command acknowledged. Checking vehicle status…</value></data>
+  <data name="Garage_dd622a2fd5d6" xml:space="preserve"><value>Vehicle unavailable or asleep. Check that it is online and refresh.</value></data>
+  <data name="Garage_0b157c18f574" xml:space="preserve"><value>The vehicle is not responding. Try again later.</value></data>
+  <data name="Garage_d9b6f437fb53" xml:space="preserve"><value>Command timed out. Refresh to check whether it completed.</value></data>
+  <data name="Garage_343acd1224ad" xml:space="preserve"><value>Command failed. Check the network, command proxy and authorization.</value></data>
+  <data name="Garage_ad125fe97ee2" xml:space="preserve"><value>Vehicle data is incomplete. Refresh later.</value></data>
+  <data name="Garage_18fdea0210ce" xml:space="preserve"><value>Vehicle status synchronized.</value></data>
+  <data name="Garage_2f57ff996988" xml:space="preserve"><value>Tires</value></data>
+  <data name="Garage_25d5825b9fb4" xml:space="preserve"><value>Lock status unknown</value></data>
+  <data name="Garage_238bd0081341" xml:space="preserve"><value>Charge port</value></data>
+  <data name="Garage_c336949b3723" xml:space="preserve"><value>Charge port was not closed.</value></data>
+  <data name="Garage_ca7f558ae27b" xml:space="preserve"><value>Charge port open</value></data>
+  <data name="Garage_8844e2c4aec0" xml:space="preserve"><value>Charge port closed</value></data>
+  <data name="Garage_cdd3c25ab1c8" xml:space="preserve"><value>Charge port already closed. Status synchronized.</value></data>
+  <data name="Garage_7b2e22c48120" xml:space="preserve"><value>Charge port status unknown</value></data>
+  <data name="Garage_78f4e2d8d6e6" xml:space="preserve"><value>Charge complete</value></data>
+  <data name="Garage_c02f869c31e8" xml:space="preserve"><value>Charging stopped</value></data>
+  <data name="Garage_9fffe14224c3" xml:space="preserve"><value>Charging: </value></data>
+  <data name="Garage_3feafba83012" xml:space="preserve"><value>Open port</value></data>
+  <data name="Garage_efdee66e546a" xml:space="preserve"><value>Close port</value></data>
+  <data name="Garage_590827e99e58" xml:space="preserve"><value>Vehicle or region changed. Refresh and try again.</value></data>
+  <data name="Garage_a8fdcb9d0f48" xml:space="preserve"><value>Model import supports x64/x86. Run the x64 build.</value></data>
+  <data name="Garage_085dac174077" xml:space="preserve"><value>Sign in and select a vehicle</value></data>
+  <data name="Garage_5839a697865f" xml:space="preserve"><value>Sign in and select a vehicle to control it</value></data>
+  <data name="Garage_49ea218aea22" xml:space="preserve"><value>Sign in and select a vehicle to enable controls.</value></data>
+  <data name="Garage_18b4f39557c3" xml:space="preserve"><value>Session expired. Sign in again.</value></data>
+  <data name="Garage_3a0f42582885" xml:space="preserve"><value>Session expired. Sign in again and retry.</value></data>
+  <data name="Garage_7efe746a6d10" xml:space="preserve"><value>Waiting for vehicle status</value></data>
+  <data name="Garage_075917557413" xml:space="preserve"><value>Status request timed out. Check that the vehicle is online.</value></data>
+  <data name="Garage_b0fe2a90aa51" xml:space="preserve"><value>Reset view</value></data>
+  <data name="Garage_110bd24b8eb2" xml:space="preserve"><value>Close status card</value></data>
+  <data name="Garage_70fba17fffb7" xml:space="preserve"><value>Unlock</value></data>
+  <data name="Garage_f2acbe68373e" xml:space="preserve"><value>Unlock vehicle</value></data>
+  <data name="Garage_49e8fa5c10e7" xml:space="preserve"><value>Model only; no vehicle commands</value></data>
+  <data name="Garage_3de5d65d6894" xml:space="preserve"><value>Vehicle data access denied. Check Tesla authorization.</value></data>
+  <data name="Garage_bfabaaeb01bc" xml:space="preserve"><value>Missing interactive model part: </value></data>
+  <data name="Garage_e83ee9ccba25" xml:space="preserve"><value>Request timed out. Keeping the last known state.</value></data>
+  <data name="Garage_40e61426199b" xml:space="preserve"><value>Too many requests. Refresh later.</value></data>
+  <data name="Garage_3c6d8f13cd45" xml:space="preserve"><value>Unplug the cable first. Reported charging state: </value></data>
+  <data name="Garage_604a0df845fe" xml:space="preserve"><value>Sign in to your Tesla account first.</value></data>
+  <data name="Garage_ed5fa818b217" xml:space="preserve"><value>Select a vehicle on the home page first.</value></data>
+  <data name="Garage_d47e1cb0701f" xml:space="preserve"><value>Sign in and select a vehicle on the home page first.</value></data>
+  <data name="Garage_0cd8458bd22d" xml:space="preserve"><value>Lock</value></data>
+  <data name="Garage_daf8e40fde37" xml:space="preserve"><value>Lock vehicle</value></data>
+  <data name="Garage_93731701411c" xml:space="preserve"><value>Connected vehicle</value></data>
+  <data name="Garage_802a407c7743" xml:space="preserve"><value>Refresh status</value></data>
+  <data name="Garage_d27253b4ccf2" xml:space="preserve"><value>Lock status unknown</value></data>
+  <data name="Garage_b28781f695bf" xml:space="preserve"><value>Tire pressures (last measured)</value></data>
+  <data name="Garage_ce4f4251e85c" xml:space="preserve"><value>Demo mode does not connect to or control your vehicle.</value></data>
+  <data name="Garage_1df8158d7b4e" xml:space="preserve"><value>Detailed model · Native DirectX rendering</value></data>
+  <data name="Garage_09baec38cc1a" xml:space="preserve"><value>Drag to rotate · Scroll to zoom · Right-drag to pan</value></data>
+  <data name="Garage_a7f0cfb1eddd" xml:space="preserve"><value>No vehicle connected</value></data>
+  <data name="Garage_f748a9354e3f" xml:space="preserve"><value>Cable disconnected</value></data>
+  <data name="Garage_9c70dd4c7243" xml:space="preserve"><value>Local Model 3 asset not found.</value></data>
+  <data name="Garage_4904b2d34cba" xml:space="preserve"><value>Vehicle not found. Select it again and refresh.</value></data>
+  <data name="Garage_9621abbafa8f" xml:space="preserve"><value>No charging power</value></data>
+  <data name="Garage_f899043af208" xml:space="preserve"><value>Cannot read vehicle status. Check the network and refresh.</value></data>
+  <data name="Garage_4b88ac5f8673" xml:space="preserve"><value>Cannot reach Tesla or the command proxy. Check the network and proxy settings.</value></data>
+  <data name="Garage_65f8d0d05c60" xml:space="preserve"><value>Show HUD</value></data>
+  <data name="Garage_ed83ff70185a" xml:space="preserve"><value>Hide HUD</value></data>
+  <data name="Garage_0f0d30bc3cf9" xml:space="preserve"><value>A GLB 2.0 model is required</value></data>
+  <data name="Garage_81001396ed15" xml:space="preserve"><value>Demo mode · Controls affect the model only.</value></data>
+  <data name="Garage_a8abf7059693" xml:space="preserve"><value>Demo mode: model changes only.</value></data>
+  <data name="Garage_05f5cdc5ee4a" xml:space="preserve"><value>Demo mode</value></data>
+  <data name="Garage_3f73eb10b98a" xml:space="preserve"><value>Vehicle data received; some fields are unavailable.</value></data>
+  <data name="Garage_e4cf2de9b47f" xml:space="preserve"><value>Unlocked</value></data>
+  <data name="Garage_1aaf73314765" xml:space="preserve"><value>Locked</value></data>
+  <data name="Garage_34316d06f38c" xml:space="preserve"><value>Vehicle selected. Reading status…</value></data>
+  <data name="Garage_80cca184acf2" xml:space="preserve"><value>Native scene failed to load.</value></data>
+  <data name="Garage_187bbf769678" xml:space="preserve"><value>Cannot wake the vehicle. Check its connection and retry.</value></data>
+  <data name="Garage_018d442e74ca" xml:space="preserve"><value>Unavailable</value></data>
+  <data name="Garage_232a49103f27" xml:space="preserve"><value>Model 3 asset not found</value></data>
+  <data name="Garage_cce3c6b9e67e" xml:space="preserve"><value>This is the vehicle lock status. Mirror animation is illustrative; individual door positions are not connected.</value></data>
+  <data name="Garage_310427034483" xml:space="preserve"><value>Charging</value></data>
+  <data name="Garage_7448eb074f38" xml:space="preserve"><value>Processing vehicle command…</value></data>
+  <data name="Garage_ca3124707290" xml:space="preserve"><value>Reading vehicle status…</value></data>
+  <data name="Garage_d202001780fe" xml:space="preserve"><value>Loading Model 3…</value></data>
+  <data name="Garage_d3bd57ff763f" xml:space="preserve"><value>Sending vehicle command…</value></data>
+  <data name="Garage_d173fd72b321" xml:space="preserve"><value>Preparing the native 3D scene…</value></data>
+  <data name="Garage_01c3587a48f2" xml:space="preserve"><value>Command succeeded. Vehicle status synchronized.</value></data>
+  <data name="Garage_d78ac38d262f" xml:space="preserve"><value>Command failed. Try again later.</value></data>
+  <data name="Garage_977485136589" xml:space="preserve"><value>Command acknowledged. Vehicle status is synchronizing; refresh later.</value></data>
+  <data name="Garage_6caf3613ce78" xml:space="preserve"><value>Command acknowledged. Status verification is temporarily unavailable.</value></data>
+  <data name="Garage_bbd9ef28550e" xml:space="preserve"><value>Command acknowledged. Status verification timed out; refresh later.</value></data>
+  <data name="Garage_a87cf0a965a9" xml:space="preserve"><value>Focus charge port</value></data>
+  <data name="Garage_93e474c68ed5" xml:space="preserve"><value>Status unknown</value></data>
+  <data name="Garage_9512eea166da" xml:space="preserve"><value>Starting charge</value></data>
+  <data name="Garage_3ce1d02a366a" xml:space="preserve"><value>DirectX rendering stopped. Reopen this page.</value></data>
+  <data name="Garage_d573201d9576" xml:space="preserve"><value>Invalid GLB metadata</value></data>
+  <data name="Garage_dd86cccbdbe3" xml:space="preserve"><value>3D scene unavailable</value></data>
+  <data name="Garage_64ce6b8c139d" xml:space="preserve"><value>Model 3 import failed: </value></data>
+  <data name="Garage_670dc586c7f5" xml:space="preserve"><value>Tesla service unavailable. Refresh later.</value></data>
+  <data name="Garage_5d32af25ff17" xml:space="preserve"><value>Tesla returned no valid vehicle data. Check authorization or refresh later.</value></data>
+  <data name="GarageElement1.Content" xml:space="preserve"><value>+ Charge port</value></data>
+  <data name="GarageElement2.Content" xml:space="preserve"><value>+ Locks</value></data>
+  <data name="GarageElement3.Content" xml:space="preserve"><value>+ Tires</value></data>
+  <data name="GarageElement6.Text" xml:space="preserve"><value>2018 · Pearl white · Glass roof</value></data>
+  <data name="GarageElement8.Text" xml:space="preserve"><value>Waiting for vehicle status</value></data>
+  <data name="GarageElement9.Text" xml:space="preserve"><value>Status unknown</value></data>
+  <data name="GarageElement10.Text" xml:space="preserve"><value>Drag to rotate · Scroll to zoom · Right-drag to pan</value></data>
+  <data name="GarageElement16.Content" xml:space="preserve"><value>Focus charge port</value></data>
+  <data name="GarageElement19.Text" xml:space="preserve"><value>Open port</value></data>
+  <data name="GarageElement21.Text" xml:space="preserve"><value>Unlock</value></data>
+  <data name="GarageElement23.Text" xml:space="preserve"><value>Lock</value></data>
+  <data name="GarageElement24.Content" xml:space="preserve"><value>View charge port</value></data>
+  <data name="GarageElement25.Content" xml:space="preserve"><value>Reset view</value></data>
+  <data name="GarageElement26.Content" xml:space="preserve"><value>Refresh status</value></data>
+  <data name="GarageElement27.Text" xml:space="preserve"><value>Preparing the native 3D scene…</value></data>
+  <data name="GarageElement28.Text" xml:space="preserve"><value>Sign in and select a vehicle</value></data>
+  <data name="GarageElement29.Title" xml:space="preserve"><value>Vehicle operation incomplete</value></data>
+  <data name="GarageElement30.Text" xml:space="preserve"><value>3D: Ameer Studio · CC BY 4.0 · Materials and interactions adapted</value></data>
+  <data name="GarageElement31.Content" xml:space="preserve"><value>Hide HUD</value></data>
+  <data name="GarageElement32.Text" xml:space="preserve"><value>Loading Model 3…</value></data>
+  <data name="GarageElement33.Text" xml:space="preserve"><value>Detailed model · Native DirectX rendering</value></data>
+  <data name="GarageElement34.Title" xml:space="preserve"><value>3D scene unavailable</value></data>
+  <data name="Garage_e15430de26c4" xml:space="preserve"><value>Showroom</value></data>
+  <data name="Garage_a07eefb816cc" xml:space="preserve"><value>Pause showroom</value></data>
+  <data name="Garage_4a2d94e839bd" xml:space="preserve"><value>Interior</value></data>
+  <data name="Garage_89ec44ed8e03" xml:space="preserve"><value>Exterior</value></data>
+  <data name="GarageElement47.Content" xml:space="preserve"><value>Showroom</value></data>
+  <data name="GarageElement48.Content" xml:space="preserve"><value>Interior</value></data>
+  <data name="Garage_f9b02af6228a" xml:space="preserve"><value>Simulate driving</value></data>
+  <data name="Garage_79ca91798829" xml:space="preserve"><value>Pause driving</value></data>
+  <data name="Garage_2ce89116b143" xml:space="preserve"><value>Resume driving</value></data>
+  <data name="Garage_9f44c9d2bf56" xml:space="preserve"><value>End simulation</value></data>
+  <data name="Garage_5fd37053aec5" xml:space="preserve"><value>Local simulation</value></data>
+  <data name="Garage_15550da15940" xml:space="preserve"><value>Target speed (km/h)</value></data>
+  <data name="Garage_b8a29fa7b314" xml:space="preserve"><value>Simulated speed: </value></data>
+  <data name="Garage_2a7e6f927b7b" xml:space="preserve"><value>Local visual simulation, not actual vehicle speed. Vehicle command buttons are temporarily disabled.</value></data>
+  <data name="GarageElement61.Content" xml:space="preserve"><value>Simulate driving</value></data>
+  <data name="GarageElement62.Text" xml:space="preserve"><value>Local simulation</value></data>
+  <data name="GarageElement63.Content" xml:space="preserve"><value>End simulation</value></data>
+  <data name="GarageElement64.Header" xml:space="preserve"><value>Target speed (km/h)</value></data>
+  <data name="GarageElement65.Text" xml:space="preserve"><value>Local visual simulation, not actual vehicle speed. Vehicle command buttons are temporarily disabled.</value></data>
+  <data name="Garage_e38aec5ba022" xml:space="preserve"><value>Window model demo</value></data>
+  <data name="Garage_d43f36d0a291" xml:space="preserve"><value>Side-window animation only. No vehicle commands are sent.</value></data>
+  <data name="Garage_8fa984a1a74f" xml:space="preserve"><value>Front left</value></data>
+  <data name="Garage_4b88772c6a3a" xml:space="preserve"><value>Front right</value></data>
+  <data name="Garage_a93ddaf0db8b" xml:space="preserve"><value>Rear left</value></data>
+  <data name="Garage_1e978137d8c7" xml:space="preserve"><value>Rear right</value></data>
+  <data name="Garage_26f6851fc565" xml:space="preserve"><value>Raise all</value></data>
+  <data name="Garage_77209ac70ff1" xml:space="preserve"><value>Lower all</value></data>
+  <data name="Garage_e7a9170807e9" xml:space="preserve"><value>Raise</value></data>
+  <data name="Garage_187a908274f3" xml:space="preserve"><value>Lower</value></data>
+  <data name="GarageElement75.Text" xml:space="preserve"><value>Window model demo</value></data>
+  <data name="GarageElement76.Text" xml:space="preserve"><value>Side-window animation only. No vehicle commands are sent.</value></data>
+  <data name="GarageElement78.Text" xml:space="preserve"><value>Front left</value></data>
+  <data name="GarageElement81.Text" xml:space="preserve"><value>Front right</value></data>
+  <data name="GarageElement84.Text" xml:space="preserve"><value>Rear left</value></data>
+  <data name="GarageElement87.Text" xml:space="preserve"><value>Rear right</value></data>
+  <data name="GarageElement90.Text" xml:space="preserve"><value>Raise all</value></data>
+  <data name="GarageElement92.Text" xml:space="preserve"><value>Lower all</value></data>
+  <data name="Garage_a83c8f401a21" xml:space="preserve"><value>Window ventilation</value></data>
+  <data name="Garage_bd338bb6a533" xml:space="preserve"><value>Vent</value></data>
+  <data name="Garage_e31ddb1b03cf" xml:space="preserve"><value>Close windows</value></data>
+  <data name="Garage_940edf48be88" xml:space="preserve"><value>Windows closed</value></data>
+  <data name="Garage_3cd7707fcb71" xml:space="preserve"><value>All four windows open</value></data>
+  <data name="Garage_0d4d42605c49" xml:space="preserve"><value>Some windows are open</value></data>
+  <data name="Garage_5b73e5d65701" xml:space="preserve"><value>Window status unavailable</value></data>
+  <data name="Garage_346d3f6e6f3e" xml:space="preserve"><value>Vent and close commands are sent to your vehicle.</value></data>
+  <data name="Garage_5af453d04d0e" xml:space="preserve"><value>Venting lowers all four windows slightly. The animation illustrates opening, not an exact vehicle position.</value></data>
+  <data name="GarageElement102.Text" xml:space="preserve"><value>Window ventilation</value></data>
+  <data name="GarageElement105.Text" xml:space="preserve"><value>Vent</value></data>
+  <data name="GarageElement107.Text" xml:space="preserve"><value>Close windows</value></data>
+  <data name="GarageElement109.Text" xml:space="preserve"><value>Venting lowers all four windows slightly. The animation illustrates opening, not an exact vehicle position.</value></data>
+  <data name="Garage_daa0260e662e" xml:space="preserve"><value>Door model demo</value></data>
+  <data name="Garage_61a3a04d2f23" xml:space="preserve"><value>Door animation only. No vehicle commands are sent.</value></data>
+  <data name="Garage_814a88828f42" xml:space="preserve"><value>Front left</value></data>
+  <data name="Garage_3ebce3d05129" xml:space="preserve"><value>Front right</value></data>
+  <data name="Garage_f3472bd315cc" xml:space="preserve"><value>Rear left</value></data>
+  <data name="Garage_4a0cce5826d0" xml:space="preserve"><value>Rear right</value></data>
+  <data name="Garage_c771248e511f" xml:space="preserve"><value>Open</value></data>
+  <data name="Garage_3fd47edce45b" xml:space="preserve"><value>Close</value></data>
+  <data name="Garage_fb44e56e1c64" xml:space="preserve"><value>Open all</value></data>
+  <data name="Garage_34f7336d3983" xml:space="preserve"><value>Close all</value></data>
+  <data name="GarageElement123.Text" xml:space="preserve"><value>Door model demo</value></data>
+  <data name="GarageElement124.Text" xml:space="preserve"><value>Door animation only. No vehicle commands are sent.</value></data>
+  <data name="GarageElement126.Text" xml:space="preserve"><value>Front left</value></data>
+  <data name="GarageElement129.Text" xml:space="preserve"><value>Front right</value></data>
+  <data name="GarageElement132.Text" xml:space="preserve"><value>Rear left</value></data>
+  <data name="GarageElement135.Text" xml:space="preserve"><value>Rear right</value></data>
+  <data name="GarageElement138.Text" xml:space="preserve"><value>Open all</value></data>
+  <data name="GarageElement140.Text" xml:space="preserve"><value>Close all</value></data>
+  <data name="Garage_a94a10ddfd76" xml:space="preserve"><value>This is the vehicle lock status. Door and mirror animations are illustrative, not actual door positions.</value></data>
+
+  <data name="Garage_572cf45ba436" xml:space="preserve"><value>Back</value></data>
+  <data name="Garage_a8fad2e0c10a" xml:space="preserve"><value>＋ Trunk</value></data>
+  <data name="Garage_38dc74d5e1e2" xml:space="preserve"><value>Rear trunk</value></data>
+  <data name="Garage_6972d719d323" xml:space="preserve"><value>Rear trunk open</value></data>
+  <data name="Garage_19a69c27effb" xml:space="preserve"><value>Rear trunk closed</value></data>
+  <data name="Garage_4a434ba8fad4" xml:space="preserve"><value>Rear trunk status unavailable</value></data>
+  <data name="Garage_83cacb74bc91" xml:space="preserve"><value>Open rear trunk</value></data>
+  <data name="Garage_6fb5f4a9def6" xml:space="preserve"><value>Simulate opening trunk</value></data>
+  <data name="Garage_8fc26ab4001e" xml:space="preserve"><value>Simulate closing trunk</value></data>
+  <data name="Garage_cec19afad76f" xml:space="preserve"><value>Trunk model demo</value></data>
+  <data name="Garage_c6887f38a10d" xml:space="preserve"><value>Model animation only. No vehicle commands are sent.</value></data>
+  <data name="Garage_5406b876af38" xml:space="preserve"><value>Opening is connected to the vehicle API. The current signed proxy supports opening only. Close using the Tesla app or vehicle button, then refresh. Animation opening is illustrative.</value></data>
+  <data name="GarageElement141.Content" xml:space="preserve"><value>＋ Trunk</value></data>
+  <data name="GarageElement145.Content" xml:space="preserve"><value>Back</value></data>
+  <data name="GarageElement152.Text" xml:space="preserve"><value>Trunk model demo</value></data>
+  <data name="GarageElement154.Text" xml:space="preserve"><value>Model animation only. No vehicle commands are sent.</value></data>
+  <data name="Garage_a5529940f1c2" xml:space="preserve"><value>＋ Frunk</value></data>
+  <data name="Garage_694d34484902" xml:space="preserve"><value>Front trunk</value></data>
+  <data name="Garage_1598f5d1354a" xml:space="preserve"><value>Open frunk</value></data>
+  <data name="Garage_60a0299c6e2d" xml:space="preserve"><value>Front trunk unlatched or open</value></data>
+  <data name="Garage_aa63f5bef739" xml:space="preserve"><value>Front trunk closed</value></data>
+  <data name="Garage_2311327b8cb4" xml:space="preserve"><value>Front trunk status unavailable</value></data>
+  <data name="Garage_2ea1215d0dfe" xml:space="preserve"><value>Frunk model demo</value></data>
+  <data name="Garage_1d4891c19452" xml:space="preserve"><value>Simulate fully opening frunk</value></data>
+  <data name="Garage_4c7632de37f9" xml:space="preserve"><value>Simulate closing frunk</value></data>
+  <data name="Garage_5bf6cb6bc91c" xml:space="preserve"><value>Full bonnet opening/closing animation only. No vehicle commands are sent.</value></data>
+  <data name="Garage_fffbc52644da" xml:space="preserve"><value>Opening releases the vehicle front-trunk latch. Lift and close the bonnet manually. The model shows a small illustrative gap, not the actual opening angle.</value></data>
+  <data name="GarageElement155.Content" xml:space="preserve"><value>＋ Frunk</value></data>
+  <data name="GarageElement165.Text" xml:space="preserve"><value>Frunk model demo</value></data>
+  <data name="GarageElement167.Text" xml:space="preserve"><value>Full bonnet opening/closing animation only. No vehicle commands are sent.</value></data>
+  <data name="Garage_23047c629388" xml:space="preserve"><value>Flash lights</value></data>
+  <data name="Garage_e7f22974ade7" xml:space="preserve"><value>Vehicle acknowledged the flash-lights command.</value></data>
+  <data name="GarageElement206.Text" xml:space="preserve"><value>Flash lights</value></data>
+  <data name="Garage_64e3df159741" xml:space="preserve"><value>Interior controls</value></data>
+  <data name="Garage_9f10fe658f24" xml:space="preserve"><value>Climate</value></data>
+  <data name="Garage_cab261836ba7" xml:space="preserve"><value>Inside temperature</value></data>
+  <data name="Garage_d16dfbbaeb7c" xml:space="preserve"><value>Outside temperature</value></data>
+  <data name="Garage_a96a5e19c044" xml:space="preserve"><value>Keyless driving</value></data>
+  <data name="Garage_e18ce3edbb21" xml:space="preserve"><value>Remote start (keyless driving)</value></data>
+  <data name="Garage_8ff2e6d40840" xml:space="preserve"><value>Once acknowledged, enter the vehicle and begin driving within 2 minutes. This does not move the vehicle automatically.</value></data>
+  <data name="Garage_fa02ca38a9e8" xml:space="preserve"><value>Climate on</value></data>
+  <data name="Garage_5539223cc283" xml:space="preserve"><value>Climate off</value></data>
+  <data name="Garage_bfd9e27743f9" xml:space="preserve"><value>Climate status unavailable</value></data>
+  <data name="Garage_2ac4797284c3" xml:space="preserve"><value>Turn climate off</value></data>
+  <data name="Garage_8b9aa58e4f22" xml:space="preserve"><value>Turn climate on</value></data>
+  <data name="Garage_5e9825bd991d" xml:space="preserve"><value>Vehicle controls are disabled during the driving simulation.</value></data>
+  <data name="Garage_ac627de6c995" xml:space="preserve"><value>Demo mode: simulated keyless driving acknowledgement; no vehicle command sent.</value></data>
+  <data name="Garage_4375fdbe855b" xml:space="preserve"><value>Vehicle acknowledged keyless driving. Enter and begin driving within 2 minutes.</value></data>
+  <data name="GarageElement210.Text" xml:space="preserve"><value>Interior controls</value></data>
+  <data name="GarageElement211.Text" xml:space="preserve"><value>Climate</value></data>
+  <data name="GarageElement213.Text" xml:space="preserve"><value>Inside temperature</value></data>
+  <data name="GarageElement215.Text" xml:space="preserve"><value>Outside temperature</value></data>
+  <data name="GarageElement218.Text" xml:space="preserve"><value>Keyless driving</value></data>
+  <data name="GarageElement220.Text" xml:space="preserve"><value>Remote start (keyless driving)</value></data>
+  <data name="GarageElement221.Text" xml:space="preserve"><value>Once acknowledged, enter the vehicle and begin driving within 2 minutes. This does not move the vehicle automatically.</value></data>
+  <data name="Garage_800b1fd4985c" xml:space="preserve"><value>Temperature readings have not been returned. Check that the vehicle is online and refresh. Climate command acknowledgement is independent of temperature readings.</value></data>
+  <data name="GarageElement228.Text" xml:space="preserve"><value>Temperature readings have not been returned. Check that the vehicle is online and refresh. Climate command acknowledgement is independent of temperature readings.</value></data>
+  <data name="GarageElement230.Content" xml:space="preserve"><value>Refresh status</value></data>
+  <data name="Garage_8e9eb672deb9" xml:space="preserve"><value>Left indicator</value></data>
+  <data name="Garage_73182d66cefc" xml:space="preserve"><value>Right indicator</value></data>
+  <data name="Garage_75448ed8a732" xml:space="preserve"><value>Brake</value></data>
+  <data name="Garage_7e4bbcb7c322" xml:space="preserve"><value>Release brake</value></data>
+  <data name="Garage_0f12e60eb76a" xml:space="preserve"><value>Change left</value></data>
+  <data name="Garage_446e3d65fe80" xml:space="preserve"><value>Change right</value></data>
+  <data name="Garage_ea0947e7f18e" xml:space="preserve"><value>Left lane</value></data>
+  <data name="Garage_50860668eff0" xml:space="preserve"><value>Right lane</value></data>
+  <data name="Garage_e47c58a98d4f" xml:space="preserve"><value>Changing lane…</value></data>
+  <data name="Garage_c84f93b86515" xml:space="preserve"><value>Left indicator on</value></data>
+  <data name="Garage_6a9f1bc13602" xml:space="preserve"><value>Right indicator on</value></data>
+  <data name="Garage_c9c7e6362dae" xml:space="preserve"><value>Indicator on. Changing lane.</value></data>
+  <data name="Garage_352fe2862dc3" xml:space="preserve"><value>The adjacent lane is occupied or a lane change is unavailable. Try again later.</value></data>
+  <data name="GarageElement276.Text" xml:space="preserve"><value>Left indicator</value></data>
+  <data name="GarageElement278.Text" xml:space="preserve"><value>Brake</value></data>
+  <data name="GarageElement280.Text" xml:space="preserve"><value>Right indicator</value></data>
+  <data name="GarageElement282.Text" xml:space="preserve"><value>Change left</value></data>
+  <data name="GarageElement285.Text" xml:space="preserve"><value>Change right</value></data>
+  <data name="Garage_a44c7ba21132" xml:space="preserve"><value>Road</value></data>
+  <data name="Garage_4d947325473f" xml:space="preserve"><value>Weather</value></data>
+  <data name="Garage_7f5e584b3e23" xml:space="preserve"><value>Highway</value></data>
+  <data name="Garage_ed84a1665f79" xml:space="preserve"><value>City</value></data>
+  <data name="Garage_78d6a8556481" xml:space="preserve"><value>Curved highway</value></data>
+  <data name="Garage_55d2d31f2a0a" xml:space="preserve"><value>Tunnel</value></data>
+  <data name="Garage_3efc6babe619" xml:space="preserve"><value>Clear</value></data>
+  <data name="Garage_11e4f0086711" xml:space="preserve"><value>Rain</value></data>
+  <data name="GarageElement330.Header" xml:space="preserve"><value>Road</value></data>
+  <data name="GarageElement331.Content" xml:space="preserve"><value>Highway</value></data>
+  <data name="GarageElement332.Content" xml:space="preserve"><value>City</value></data>
+  <data name="GarageElement333.Content" xml:space="preserve"><value>Curved highway</value></data>
+  <data name="GarageElement334.Content" xml:space="preserve"><value>Tunnel</value></data>
+  <data name="GarageElement335.Header" xml:space="preserve"><value>Weather</value></data>
+  <data name="GarageElement336.Content" xml:space="preserve"><value>Clear</value></data>
+  <data name="GarageElement337.Content" xml:space="preserve"><value>Rain</value></data>
+  <data name="Garage_92799cc37771" xml:space="preserve"><value>Driving settings</value></data>
+  <data name="GarageElement386.Text" xml:space="preserve"><value>Driving settings</value></data>
+  <data name="GarageElement387.Content" xml:space="preserve"><value>Interior</value></data>
+  <data name="GarageElement388.Content" xml:space="preserve"><value>Reset view</value></data>
+  <data name="MapLoading" xml:space="preserve"><value>Loading map…</value></data>
+  <data name="MapUnavailable" xml:space="preserve"><value>Map unavailable. Check your network and retry.</value></data>
+  <data name="MapRetry" xml:space="preserve"><value>Retry</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Vehicle and charging sites</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Zoom in</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Zoom out</value></data>
+  <data name="MapResetBearing" xml:space="preserve"><value>Reset bearing</value></data>
+  <data name="MapYourVehicle" xml:space="preserve"><value>Your vehicle</value></data>
+  <data name="MapCenterVehicle" xml:space="preserve"><value>Return to vehicle</value></data>
+  <data name="MapRefreshChargingSites" xml:space="preserve"><value>Refresh nearby charging sites</value></data>
+  <data name="MapChargerPicker.PlaceholderText" xml:space="preserve"><value>Nearby charging sites</value></data>
+  <data name="MapAmapRouteLabel.Text" xml:space="preserve"><value>View route in Amap</value></data>
+  <data name="MapAmapRouteHint" xml:space="preserve"><value>Opens your default browser. The route starts at your vehicle.</value></data>
+  <data name="MapAmapNeedsVehicle" xml:space="preserve"><value>Refresh the map to get your vehicle location first.</value></data>
+  <data name="MapAmapOpenFailed" xml:space="preserve"><value>Unable to open the route. Check your default browser and try again.</value></data>
+</root>

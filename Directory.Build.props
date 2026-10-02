@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Set false for a public build that excludes all machine-local configuration. -->
+    <UseLocalConfiguration Condition="'$(UseLocalConfiguration)' == ''">true</UseLocalConfiguration>
+  </PropertyGroup>
+</Project>

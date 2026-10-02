@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://tiles.openfreemap.org; img-src 'self' data: blob: https://tiles.openfreemap.org; worker-src 'self' blob:; child-src blob:; font-src 'self' data:; object-src 'none'; base-uri 'none'">
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <style>
+    :root { color-scheme: light; --surface: #fff; --text: #1d2530; --border: #d8e0e9; }
+    :root.dark { color-scheme: dark; --surface: #202933; --text: #edf2f7; --border: #405064; }
+    html, body, #map { width: 100%; height: 100%; margin: 0; background: var(--surface); }
+    body { font: 13px 'Segoe UI', 'Microsoft YaHei UI', sans-serif; color: var(--text); }
+    #status { position: absolute; left: 12px; right: 64px; bottom: 44px; z-index: 20; width: fit-content;
+      max-width: calc(100% - 100px); padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+      background: var(--surface); box-shadow: 0 3px 14px #0002; }
+    #status[hidden], #retry[hidden] { display: none; }
+    #retry { margin-left: 10px; padding: 5px 12px; color: var(--text); background: var(--surface);
+      border: 1px solid var(--border); border-radius: 5px; cursor: pointer; }
+    .pin { width: 30px; height: 30px; display: grid; place-items: center; border: 2px solid white;
+      border-radius: 50%; background: #2375c9; color: white; box-shadow: 0 2px 8px #0005; cursor: pointer; }
+    .pin.supercharger { background: #cf3543; }
+    .pin.vehicle { width: 36px; height: 36px; background: #1167c6; }
+    .pin svg { width: 20px; height: 20px; pointer-events: none; }
+    .maplibregl-popup-content { background: var(--surface); color: var(--text); border-radius: 8px;
+      padding: 10px 26px 10px 12px; font: 13px 'Segoe UI', 'Microsoft YaHei UI', sans-serif; }
+    .maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: var(--surface); }
+    .maplibregl-ctrl-group { background: var(--surface); }
+    .dark .maplibregl-ctrl-icon { filter: invert(1); }
+    .maplibregl-ctrl-attrib { background: var(--surface); color: var(--text); font-size: 10px; }
+    .maplibregl-ctrl-attrib a { color: inherit; }
+  </style>
+</head>
+<body>
+  <div id="map" aria-label="Vehicle and charging sites"></div>
+  <div id="status" role="status"><span id="statusText">Loading map…</span><button id="retry" hidden>Retry</button></div>
+  <script src="vendor/maplibre-gl.js"></script>
+  <script>
+    'use strict';
+    const styles = {
+      light: 'https://tiles.openfreemap.org/styles/liberty',
+      dark: 'https://tiles.openfreemap.org/styles/dark'
+    };
+    const statusPanel = document.getElementById('status');
+    const statusText = document.getElementById('statusText');
+    const retryButton = document.getElementById('retry');
+    let strings = { loading: 'Loading map…', unavailable: 'Map unavailable. Check your network and retry.',
+      retry: 'Retry', mapLabel: 'Vehicle and charging sites', zoomIn: 'Zoom in', zoomOut: 'Zoom out', resetBearing: 'Reset bearing' };
+    let map, currentStyle, cameraRevision = -1, markerSignature = '', markers = [], loadTimer;
+    let latestState, failed = false;
+
+    function showStatus(error) {
+      failed = error;
+      statusPanel.hidden = false;
+      statusText.textContent = error ? strings.unavailable : strings.loading;
+      retryButton.textContent = strings.retry;
+      retryButton.hidden = !error;
+    }
+
+    function loadStyle(dark, force = false) {
+      const target = dark ? styles.dark : styles.light;
+      if (!force && target === currentStyle) return;
+      currentStyle = target;
+      clearTimeout(loadTimer);
+      showStatus(false);
+      map.setStyle(target, { diff: false });
+      loadTimer = setTimeout(() => showStatus(true), 15000);
+    }
+
+    function applyStrings(newStrings) {
+      strings = { ...strings, ...newStrings };
+      document.getElementById('map').setAttribute('aria-label', strings.mapLabel);
+      const canvas = map?.getCanvas();
+      if (canvas) canvas.setAttribute('aria-label', strings.mapLabel);
+      for (const [selector, text] of [
+        ['.maplibregl-ctrl-zoom-in', strings.zoomIn], ['.maplibregl-ctrl-zoom-out', strings.zoomOut],
+        ['.maplibregl-ctrl-compass', strings.resetBearing]
+      ]) {
+        const button = document.querySelector(selector);
+        if (button) { button.title = text; button.setAttribute('aria-label', text); }
+      }
+      statusText.textContent = failed ? strings.unavailable : strings.loading;
+      retryButton.textContent = strings.retry;
+    }
+
+    function validPosition(position) {
+      return Array.isArray(position) && position.length === 2 && position.every(Number.isFinite)
+        && Math.abs(position[0]) <= 180 && Math.abs(position[1]) <= 90;
+    }
+
+    function updatePins(pins) {
+      const signature = JSON.stringify(pins);
+      if (signature === markerSignature) return;
+      markerSignature = signature;
+      for (const marker of markers) marker.remove();
+      markers = [];
+      for (const pin of pins) {
+        if (!validPosition(pin.position)) continue;
+        const vehicle = pin.kind === 'vehicle';
+        const element = document.createElement('button');
+        element.type = 'button';
+        element.className = 'pin ' + (vehicle ? 'vehicle' : pin.kind === 'supercharger' ? 'supercharger' : 'charger');
+        element.title = pin.title || '';
+        element.setAttribute('aria-label', pin.title || strings.mapLabel);
+        element.style.zIndex = String(pin.zIndex || 0);
+        // SVG markup is fixed; API-provided station names are always inserted as text.
+        element.innerHTML = vehicle
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 10l2-5h10l2 5M4 10h16v8H4zM7 18v2m10-2v2M7 14h2m6 0h2"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3v6m6-6v6M7 9h10v3a5 5 0 01-5 5v4m-5-12h10"/></svg>';
+        const marker = new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(pin.position)
+          .setPopup(new maplibregl.Popup({ offset: vehicle ? 22 : 19 }).setText(pin.title || '')).addTo(map);
+        markers.push(marker);
+      }
+    }
+
+    window.updateMap = function (state) {
+      latestState = state;
+      document.documentElement.classList.toggle('dark', !!state.dark);
+      applyStrings(state.strings);
+      if (!map) { showStatus(true); return; }
+      // Theme and pin refreshes preserve any zoom/pan made by the user.
+      if (state.cameraRevision !== cameraRevision) {
+        cameraRevision = state.cameraRevision;
+        const camera = { zoom: Math.max(2, Math.min(19, Number(state.zoom) || 13)) };
+        if (validPosition(state.center)) camera.center = state.center;
+        map.jumpTo(camera);
+      }
+      updatePins(state.pins || []);
+      loadStyle(state.dark);
+    };
+
+    retryButton.addEventListener('click', () => {
+      if (map) loadStyle(!!latestState?.dark, true);
+      else location.reload();
+    });
+
+    try {
+      map = new maplibregl.Map({ container: 'map', center: [116.4, 39.9], zoom: 10,
+        minZoom: 2, maxZoom: 19, attributionControl: false, dragRotate: false, pitchWithRotate: false,
+        style: { version: 8, sources: {}, layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#eef1f5' } }] },
+        localIdeographFontFamily: 'Microsoft YaHei, SimHei, sans-serif' });
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+      map.addControl(new maplibregl.AttributionControl({ compact: false, customAttribution:
+        '<a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre</a>' }), 'bottom-left');
+      map.on('style.load', () => {
+        if (currentStyle !== styles.dark) return;
+        // Lift the stock dark palette so roads and labels remain readable beside WinUI controls.
+        for (const layer of map.getStyle().layers) {
+          const source = layer['source-layer'];
+          if (layer.type === 'background') map.setPaintProperty(layer.id, 'background-color', '#171c24');
+          if (layer.type === 'fill') {
+            const color = source === 'water' ? '#183449' : source === 'building' ? '#232d39'
+              : /park|wood/.test(layer.id) ? '#243d34' : '#1e2833';
+            map.setPaintProperty(layer.id, 'fill-color', color);
+            if (source === 'building') map.setPaintProperty(layer.id, 'fill-outline-color', '#344151');
+          }
+          if (layer.type === 'line') {
+            const color = source === 'waterway' ? '#294d66' : source === 'boundary' ? '#576276'
+              : /casing/.test(layer.id) ? '#263240' : /motorway/.test(layer.id) ? '#879bab'
+              : /major/.test(layer.id) ? '#667d90' : /railway/.test(layer.id) ? '#516574' : '#3c4c5e';
+            map.setPaintProperty(layer.id, 'line-color', color);
+          }
+          if (layer.type === 'symbol' && layer.layout?.['text-field']) {
+            map.setPaintProperty(layer.id, 'text-color', source === 'water_name' ? '#9bc0d9' : source === 'place' ? '#d0dbe8' : '#b2c1d1');
+            map.setPaintProperty(layer.id, 'text-halo-color', '#171c24');
+            map.setPaintProperty(layer.id, 'text-halo-width', 1.2);
+          }
+        }
+      });
+      map.on('error', () => { clearTimeout(loadTimer); showStatus(true); });
+      map.on('idle', () => {
+        if (currentStyle && map.isStyleLoaded() && map.areTilesLoaded()) {
+          clearTimeout(loadTimer); statusPanel.hidden = true; failed = false;
+        }
+      });
+      new ResizeObserver(() => map.resize()).observe(document.getElementById('map'));
+    } catch { showStatus(true); }
+
+    // WebView2 supplies pins, theme and localized strings; ordinary browsers use a preview.
+    if (window.chrome?.webview) window.chrome.webview.postMessage('ready');
+    else window.updateMap({ center: [116.4, 39.9], zoom: 10, cameraRevision: 0, dark: false, pins: [] });
+  </script>
+</body>
+</html>

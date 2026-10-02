@@ -1,0 +1,8 @@
+{
+  "response": {
+    "email": "demo@example.com",
+    "full_name": "Demo User",
+    "profile_image_url": "",
+    "vault_uuid": "00000000-0000-4000-8000-000000000001"
+  }
+}

@@ -363,3 +363,40 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Local credentials must never be committed
+**/TeslaCredentials.local.json
+**/Package.local.appxmanifest
+
+# Local build and 3D preview tools
+.build/
+
+# Private settings, signing material and saved API snapshots
+.local/
+**/*.local.json
+**/*.local.props
+**/*.local.appxmanifest
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.snk
+*.p12
+*.p7b
+*.p7c
+*.cer
+*.pubxml.user
+*.msix
+*.msixbundle
+*.msixupload
+*.appinstaller
+
+# One-off migration/debug reports may contain local paths or API responses
+/summary.json
+/migration-*.txt
+
+# These checked-in profiles contain only portable build settings and are required by WAP.
+!/Tesla for WinUI/Tesla for WinUI/Properties/PublishProfiles/win-x64.pubxml
+!/Tesla for WinUI/Tesla for WinUI/Properties/PublishProfiles/win-x86.pubxml
+!/Tesla for WinUI/Tesla for WinUI/Properties/PublishProfiles/win-arm64.pubxml

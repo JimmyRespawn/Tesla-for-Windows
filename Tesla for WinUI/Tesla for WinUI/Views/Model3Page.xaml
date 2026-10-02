@@ -1,0 +1,15 @@
+<Page
+    x:Class="TeslaMurphy.Views.Model3Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="#22262E">
+    <Grid>
+        <Border Background="#22262E">
+            <Grid>
+                <WebView2 x:Name="ModelWebView" Loaded="ModelWebView_Loaded" />
+                <InfoBar x:Name="ErrorInfo" IsOpen="False" IsClosable="False" Severity="Error"
+                         Title="模型加载失败" VerticalAlignment="Top" Margin="16" />
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

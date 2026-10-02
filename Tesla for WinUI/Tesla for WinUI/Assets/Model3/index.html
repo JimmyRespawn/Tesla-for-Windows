@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob:">
+  <title>Model 3 · 交互车库</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { color-scheme:dark; --muted:#95a3b6; --line:#ffffff12; }
+    * { box-sizing:border-box; }
+    html,body { width:100%;height:100%;margin:0;overflow:hidden;background:#22262e;color:#e9eef7;font-family:'Segoe UI','Microsoft YaHei',sans-serif; }
+    button { font:inherit; }
+    button:focus-visible,canvas:focus-visible { outline:2px solid #a9cbff;outline-offset:4px; }
+    button:disabled { cursor:default;opacity:.38; }
+    .icons { position:absolute;width:0;height:0;overflow:hidden; }
+    .icon { width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;flex:none; }
+    .garage { position:relative;isolation:isolate;height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto; }
+    .header { position:relative;z-index:1;grid-row:1;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 30px 16px;pointer-events:none;background:linear-gradient(180deg,#11151dc9,transparent);text-shadow:0 1px 8px #0008; }
+    .identity { min-width:0; }
+    .eyebrow { color:#8d9aad;font-size:10px;letter-spacing:2.8px; }
+    h1 { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:5px 0 0;font-size:25px;font-weight:400;letter-spacing:2px; }
+    .subtitle { margin:6px 0 0;color:var(--muted);font-size:11px; }
+    .vehicle-status { display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:0; }
+    .connection { display:flex;align-items:center;justify-content:flex-end;gap:8px;font-size:11px;color:var(--muted); }
+    .connection strong { font-weight:500;color:#c3cedd;white-space:nowrap; }
+    .connection.live strong { color:#8bd7bd; }
+    .connection.demo strong { color:#dec18b; }
+    .connection .dot { background:#718196; }
+    .connection.live .dot { background:#6bd8b0;box-shadow:0 0 8px #6bd8b050; }
+    .connection.demo .dot { background:#ddbd7c; }
+    .connection-detail { max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+    .statuses { display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap; }
+    .pill { padding:7px 11px;border:1px solid #ffffff16;border-radius:30px;background:#18212b9c;font-size:11px;display:flex;gap:7px;align-items:center;white-space:nowrap; }
+    .dot { width:6px;height:6px;border-radius:50%;background:#7f91aa;flex:none; }
+    .pill.active .dot { background:#5cceaa;box-shadow:0 0 10px #5cceaa65; }
+    .pill.unknown { color:#8e9bb0; }
+    .viewport { position:absolute;inset:0;z-index:0;overflow:hidden; }
+    .viewport::after { content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 43%,transparent 30%,#070b1322 85%,#070b1340); }
+    .scene-space { position:relative;grid-row:2;z-index:1;min-height:0;pointer-events:none; }
+    canvas { display:block;width:100%;height:100%;outline:none;touch-action:none; }
+    .scene-hint { position:absolute;bottom:12px;left:30px;font-size:10px;color:#a1aab9;pointer-events:none;letter-spacing:.5px;text-shadow:0 1px 5px #000; }
+    .console { position:relative;z-index:1;grid-row:3;padding:0 24px 14px;background:transparent; }
+    .control-panel { border:1px solid #ffffff20;border-radius:16px;padding:14px 16px;background:linear-gradient(135deg,#26303de0,#171e2bd4);box-shadow:0 12px 35px #00000025; }
+    .actions { display:flex;align-items:center;justify-content:space-between;gap:14px; }
+    .vehicle-actions,.view-actions { display:flex;align-items:center;gap:8px; }
+    .control { display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:10px 15px;border-radius:10px;border:1px solid #ffffff1b;color:#e4ecf8;background:#ffffff08;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,opacity .15s; }
+    .control:hover:enabled { background:#ffffff14;border-color:#ffffff40; }
+    .control.primary { border-color:#a5c2ee46;background:#c6ddff;color:#13223b;font-weight:600; }
+    .control.primary:hover:enabled { background:#e0ecff; }
+    .control.subtle { color:#b9c7d9;background:transparent;border-color:transparent;font-size:12px;padding:10px 11px; }
+    .control.subtle:hover:enabled { background:#ffffff0c;border-color:#ffffff14; }
+    .control.pending .icon { opacity:.35; }
+    .feedback { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line);font-size:11px;color:var(--muted); }
+    .status-message { display:flex;align-items:center;gap:7px;min-width:0; }
+    #operation-status { overflow-wrap:anywhere; }
+    .spinner { display:none;width:11px;height:11px;border:1.5px solid #8191a640;border-top-color:#c6ddff;border-radius:50%;animation:spin .9s linear infinite;flex:none; }
+    .busy .spinner { display:block; }
+    #mode-note { color:#8492a6;text-align:right; }
+    .error { margin-top:10px;color:#ffc6bf;background:#ae433021;border:1px solid #e8776630;padding:9px 11px;border-radius:8px;font-size:12px;overflow-wrap:anywhere; }
+    .footnote { display:flex;justify-content:space-between;gap:12px;margin:9px 6px 0;font-size:9px;color:#99a4b5;text-shadow:0 1px 5px #000; }
+    .footnote span:last-child { text-align:right; }
+    #loading { position:absolute;inset:0;display:grid;place-content:center;text-align:center;background:#10151e;z-index:10;color:#b6c3d5;font-size:13px; }
+    .loader { width:32px;height:32px;border:2px solid #263248;border-top-color:#c1d6f5;border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 14px; }
+    @keyframes spin { to { transform:rotate(360deg) } }
+    #loading.hidden,[hidden] { display:none!important; }
+    @media(max-width:880px) {
+      .header { padding:19px 22px 14px; }
+      .connection-detail { max-width:160px; }
+      .console { padding:0 16px 12px; }
+      .control-panel { padding:12px; }
+      .actions { align-items:stretch;flex-direction:column;gap:8px; }
+      .vehicle-actions { justify-content:center; }
+      .view-actions { justify-content:center; }
+      .control { flex:1; }
+      .control.subtle { flex:0 1 auto;min-height:33px;padding:7px 11px; }
+      .feedback { margin-top:8px;padding-top:8px; }
+    }
+    @media(max-width:600px) {
+      .header { align-items:flex-start;padding:16px 18px 12px;gap:10px; }
+      h1 { font-size:21px;letter-spacing:1px;max-width:170px; }
+      .eyebrow { font-size:8px;letter-spacing:2px; }
+      .subtitle { font-size:10px;max-width:180px; }
+      .vehicle-status { gap:8px; }
+      .connection-detail { display:none; }
+      .statuses { gap:5px;flex-direction:column; }
+      .pill { font-size:10px;padding:5px 9px; }
+      .scene-hint { left:18px;bottom:10px;font-size:9px; }
+      .console { padding:0 10px 10px; }
+      .control-panel { border-radius:13px;padding:10px; }
+      .vehicle-actions { gap:6px; }
+      .control { padding:10px 9px;gap:6px;font-size:12px; }
+      .control.subtle { font-size:11px;padding:7px 8px; }
+      .view-actions { gap:3px; }
+      .icon { width:16px;height:16px; }
+      .feedback { align-items:flex-start;flex-direction:column;gap:5px;font-size:10px; }
+      #mode-note { text-align:left; }
+      .footnote { font-size:8px;margin-top:7px; }
+      .footnote span:first-child { display:none; }
+      .footnote span:last-child { width:100%;text-align:center; }
+    }
+    @media(max-height:540px) {
+      .header { padding-top:10px;padding-bottom:10px; }
+      .subtitle { display:none; }
+      h1 { font-size:21px; }
+      .console { padding-bottom:7px; }
+      .control-panel { padding:9px 12px; }
+      .feedback { margin-top:7px;padding-top:7px; }
+      .footnote { margin-top:5px; }
+    }
+    @media(prefers-reduced-motion:reduce) { .control { transition:none; } }
+  </style>
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+  <svg class="icons" aria-hidden="true"><defs>
+    <symbol id="icon-port" viewBox="0 0 24 24"><path d="M8 3v5m8-5v5M6 8h12v4a6 6 0 0 1-12 0V8Zm6 10v3"/><path d="m13 10-3 4h4l-3 4"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+    <symbol id="icon-unlock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 7.5-2m-3.5 10v2"/></symbol>
+    <symbol id="icon-focus" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><circle cx="12" cy="12" r="4"/></symbol>
+    <symbol id="icon-view" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></symbol>
+    <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 7a8 8 0 0 0-13-2L4 8m0-5v5h5m-5 9a8 8 0 0 0 13 2l3-3m0 5v-5h-5"/></symbol>
+  </defs></svg>
+  <main class="garage" aria-label="Model 3 交互车库">
+    <header class="header">
+      <div class="identity"><div class="eyebrow">INTERACTIVE GARAGE</div><h1 id="vehicle-name">MODEL 3</h1><p class="subtitle">2018 · 珍珠白 · 全景玻璃车顶</p></div>
+      <div class="vehicle-status">
+        <div class="connection" id="connection"><span class="dot"></span><strong id="connection-label">未连接车辆</strong><span class="connection-detail" id="last-updated">等待车辆状态</span></div>
+        <div class="statuses" aria-live="polite" aria-atomic="true"><div class="pill unknown" id="lock-pill"><span class="dot"></span><span id="lock-label">锁车状态未知</span></div><div class="pill unknown" id="port-pill"><span class="dot"></span><span id="port-label">充电口状态未知</span></div></div>
+      </div>
+    </header>
+    <section class="viewport" aria-label="车辆三维视图">
+      <canvas id="scene" aria-label="Model 3 三维模型，可拖动旋转和滚轮缩放" tabindex="0"></canvas>
+      <div id="loading" role="status"><div class="loader"></div><div id="loading-text">正在加载 Model 3…</div></div>
+    </section>
+    <div class="scene-space"><div class="scene-hint">拖动旋转 · 滚轮缩放 · 右键平移</div></div>
+    <footer class="console">
+      <div class="control-panel" id="control-panel">
+        <div class="actions">
+          <div class="vehicle-actions" aria-label="车辆操作">
+            <button class="control primary" id="port-button" data-action="openPort" disabled><svg class="icon" aria-hidden="true"><use href="#icon-port"/></svg><span id="port-button-label">打开充电口</span></button>
+            <button class="control" id="unlock-button" data-action="unlock" disabled><svg class="icon" aria-hidden="true"><use href="#icon-unlock"/></svg><span>解锁</span></button>
+            <button class="control" id="lock-button" data-action="lock" disabled><svg class="icon" aria-hidden="true"><use href="#icon-lock"/></svg><span>上锁</span></button>
+          </div>
+          <div class="view-actions" aria-label="视角与刷新">
+            <button class="control subtle" id="port-view-button" data-action="portView" disabled><svg class="icon" aria-hidden="true"><use href="#icon-focus"/></svg><span>查看充电口</span></button>
+            <button class="control subtle" id="reset-view-button" data-action="resetView" disabled><svg class="icon" aria-hidden="true"><use href="#icon-view"/></svg><span>复位视角</span></button>
+            <button class="control subtle" id="refresh-button" data-action="refresh" disabled><svg class="icon" aria-hidden="true"><use href="#icon-refresh"/></svg><span>刷新状态</span></button>
+          </div>
+        </div>
+        <div class="feedback"><div class="status-message" role="status" aria-live="polite" aria-atomic="true"><span class="spinner" aria-hidden="true"></span><span id="operation-status">正在连接车辆…</span></div><span id="mode-note">登录并选择车辆后，可在这里进行操作。</span></div>
+        <div class="error" id="operation-error" role="alert" hidden></div>
+      </div>
+      <div class="footnote"><span>MODEL 3 · 3D 交互车库</span><span>3D: Ameer Studio · CC BY 4.0 · 已调整材质与交互</span></div>
+    </footer>
+  </main>
+  <script type="module" src="./scene.js"></script>
+</body>
+</html>
