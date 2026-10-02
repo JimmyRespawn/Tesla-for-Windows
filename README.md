@@ -1,9 +1,14 @@
-# Tesla for WinUI
+# Tesla for Windows
 
-A WinUI 3 desktop client migrated from UWP, built with .NET 8, Windows App SDK,
-and HelixToolkit. The project retains the original page and folder structure
-and adds a native 3D view for vehicle status, real vehicle controls, and local
-driving simulation.
+A WinUI 3 desktop client built with .NET 8, Windows App SDK, and HelixToolkit.
+
+This app is used for overviewing your Tesla car's information like battery percentage, charge state, fan state, nearby charging station, climate info, schedule info, driver's info and latest release notes for your car. It retains the original page and folder structure and adds a native 3D view for vehicle status, real vehicle controls, and local driving simulation.
+
+Vehicles requiring signed commands need a configured Tesla Vehicle Command Proxy and a paired virtual key.
+
+## Screenshots
+<img width="1919" alt="4" src="https://github.com/user-attachments/assets/c7c316dd-1dbf-4aea-8bf8-9fb4c0164919" />
+<img width="1919" alt="3" src="https://github.com/user-attachments/assets/6db9e534-c2e8-413e-879f-9a926f0014af" />
 
 ## Features
 
@@ -21,7 +26,42 @@ Local simulation controls only animate the model. Real vehicle controls require 
 configured Tesla login and, where applicable, a vehicle command proxy. See
 [MODEL3-3D.md](MODEL3-3D.md) for supported actions, API limitations, and validation notes.
 
-## Local setup
+## Lock, climate and schedule control
+
+The climate toolbar button starts (`auto_conditioning_start`) or stops
+(`auto_conditioning_stop`) climate preconditioning using the selected vehicle VIN.
+Only a response with `response.result: true` is treated as success. An expired
+access token triggers one refresh and retry. Failed requests restore the button
+state, and demo mode never sends commands.
+
+For vehicles requiring signed commands, deploy the official
+[Tesla Vehicle Command Proxy](https://github.com/teslamotors/vehicle-command#http-proxy)
+with your application's private key and pair the corresponding virtual key with
+the vehicle. Add `"CommandBaseUrl": "https://your-command-proxy.example"` alongside
+`ClientId` and `ClientSecret` in the appropriate region of
+`TeslaCredentials.local.json`, then rebuild. Configure the proxy for that Tesla
+region. Use a trusted HTTPS certificate; the app does not bypass TLS validation.
+Only use a proxy you control: vehicle command requests send it the access token.
+Keep the signing private key on the proxy server, not in the UWP package.
+
+An omitted or empty `CommandBaseUrl` sends commands directly to Fleet API, for
+vehicles that support unsigned commands. Reading vehicle data, waking the vehicle
+and OAuth token requests continue using the regional Fleet API/auth endpoints.
+This setting does not deploy a proxy or pair a virtual key automatically. The
+vehicle must be online; if it is asleep, wake it and retry. See Tesla's
+[command requirements](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-commands).
+
+## What you need to prepare to get car online service work
+
+### Step 1
+
+Go to https://developer.tesla.com/docs/fleet-api to create Tesla account
+
+### Step 2
+
+Apply for API key and register/activate your partner account one time. There is code in the project, but there is no button to call it. Do your own magic to activate it.
+
+### Step 3
 
 Open `Tesla for WinUI.slnx` in Visual Studio, select **x64 / Debug**, and set
 **Tesla for WinUI (Package)** as the startup project.
@@ -143,3 +183,9 @@ source or converting coordinates twice.
 
 See [map credits](Tesla%20for%20WinUI/Tesla%20for%20WinUI/Assets/Maps/CREDITS.md)
 for library versions, licenses, data attribution, and network sources.
+
+## More 3D model
+
+Check this project to extract your personalized car model instead M.3 by default.
+
+https://github.com/koenhendriks/tesla-model-extractor
