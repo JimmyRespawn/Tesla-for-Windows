@@ -16,11 +16,12 @@
     #status[hidden], #retry[hidden] { display: none; }
     #retry { margin-left: 10px; padding: 5px 12px; color: var(--text); background: var(--surface);
       border: 1px solid var(--border); border-radius: 5px; cursor: pointer; }
-    .pin { width: 30px; height: 30px; display: grid; place-items: center; border: 2px solid white;
+    .pin { width: 30px; height: 30px; display: grid; place-items: center; padding: 0; box-sizing: border-box;
+      appearance: none; line-height: 1; border: 2px solid white;
       border-radius: 50%; background: #2375c9; color: white; box-shadow: 0 2px 8px #0005; cursor: pointer; }
     .pin.supercharger { background: #cf3543; }
     .pin.vehicle { width: 36px; height: 36px; background: #1167c6; }
-    .pin svg { width: 20px; height: 20px; pointer-events: none; }
+    .pin svg { display: block; width: 20px; height: 20px; pointer-events: none; }
     .maplibregl-popup-content { background: var(--surface); color: var(--text); border-radius: 8px;
       padding: 10px 26px 10px 12px; font: 13px 'Segoe UI', 'Microsoft YaHei UI', sans-serif; }
     .maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: var(--surface); }
@@ -105,7 +106,7 @@
         // SVG markup is fixed; API-provided station names are always inserted as text.
         element.innerHTML = vehicle
           ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 10l2-5h10l2 5M4 10h16v8H4zM7 18v2m10-2v2M7 14h2m6 0h2"/></svg>'
-          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3v6m6-6v6M7 9h10v3a5 5 0 01-5 5v4m-5-12h10"/></svg>';
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v6m6-6v6M7 9h10v3a5 5 0 0 1-10 0V9Zm5 8v4"/></svg>';
         const marker = new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(pin.position)
           .setPopup(new maplibregl.Popup({ offset: vehicle ? 22 : 19 }).setText(pin.title || '')).addTo(map);
         markers.push(marker);
